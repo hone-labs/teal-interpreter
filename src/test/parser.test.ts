@@ -12,15 +12,10 @@ describe("teal parser", () => {
 
         const result = parse("return");
         expect(result.instructions).toEqual([
-            `return`,
-        ]);
-    });
-
-    it("can parse opcode with no operand", ()  => {
-
-        const result = parse("return");
-        expect(result.instructions).toEqual([
-            `return`,
+            {
+                opcode: `return`,
+                operands: [],
+            },
         ]);
     });
 
@@ -28,9 +23,13 @@ describe("teal parser", () => {
 
         const result = parse("txna Accounts 2");
         expect(result.instructions).toEqual([
-            `txna`,
-            `Accounts`,
-            `2`,
+            {
+                opcode: `txna`,
+                operands: [ 
+		            `Accounts`,
+		            `2`,
+                ],
+            },
         ]);
     });
     

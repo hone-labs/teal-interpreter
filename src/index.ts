@@ -1,4 +1,17 @@
+//
+// Represents a parsed instruction.
+//
 export interface IInstruction {
+
+    //
+    // The opcode for the instruction.
+    //
+    opcode: string;
+
+    //
+    // Operands for the instruction.
+    //
+    operands: string[]
 
 }
 
@@ -16,9 +29,24 @@ export interface IParseResult {
 // Parses TEAL code and returns an intermediate format.
 //
 export function parse(tealCode: string): IParseResult {
+    const parts = tealCode.split(" ")
+        .filter(part => part.length > 0);
+    if (parts.length === 0) {
     return {
-        instructions: tealCode.split(" ")
-            .filter(part => part.length > 0),
+            instructions: [],
+        };
+    }
+    
+    const opcode = parts.shift()!;
+    const instruction: IInstruction = {
+        opcode: opcode,
+        operands: parts,
+    };
+
+    return {
+        instructions: [
+            instruction
+        ],
     };
 }
 
@@ -41,6 +69,7 @@ export interface IExecuteResult {
 // Executes TEAL code and returns a result.
 //
 export function execute(tealCode: string): IExecuteResult {
+    
     return {
         stack: [],
     };
