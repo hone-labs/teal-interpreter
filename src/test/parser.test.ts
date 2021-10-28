@@ -44,5 +44,15 @@ describe("teal parser", () => {
         expect(result.instructions.length).toEqual(2);
     });
     
+    it("can handle blank lines", () => {
+
+        const result = parse(dedent(`
+            return
+            
+            pop
+        `));
+
+        expect(result.instructions.length).toEqual(2);
+    });
 
 });
