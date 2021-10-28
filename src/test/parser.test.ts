@@ -16,4 +16,23 @@ describe("teal parser", () => {
         ]);
     });
 
+    it("can parse opcode with no operand", ()  => {
+
+        const result = parse("return");
+        expect(result.instructions).toEqual([
+            `return`,
+        ]);
+    });
+
+    it("can parse opcode with operands", ()  => {
+
+        const result = parse("txna Accounts 2");
+        expect(result.instructions).toEqual([
+            `txna`,
+            `Accounts`,
+            `2`,
+        ]);
+    });
+    
+
 });

@@ -17,7 +17,8 @@ export interface IParseResult {
 //
 export function parse(tealCode: string): IParseResult {
     return {
-        instructions: tealCode && [ tealCode ] || [],
+        instructions: tealCode.split(" ")
+            .filter(part => part.length > 0),
     };
 }
 
