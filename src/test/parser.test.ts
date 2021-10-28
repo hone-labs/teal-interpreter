@@ -74,4 +74,13 @@ describe("teal parser", () => {
         expect(result.instructions.length).toEqual(1);
         expect(result.instructions[0].operands.length).toEqual(2);
     });
+
+    it("can strip comments", () => {
+        const result = parse(dedent(`
+            int 5 # Push an int on the stack.
+        `));
+
+        expect(result.instructions.length).toEqual(1);
+        expect(result.instructions[0].operands.length).toEqual(1);
+    });
 });
