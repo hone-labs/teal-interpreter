@@ -8,4 +8,12 @@ describe("teal parser", () => {
         expect(result.instructions).toEqual([]);
     });
 
+    it("can parse opcode with no operands", ()  => {
+
+        const result = parse("return");
+        expect(result.instructions).toEqual([
+            `return`,
+        ]);
+    });
+
 });

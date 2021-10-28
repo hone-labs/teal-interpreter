@@ -17,7 +17,7 @@ export interface IParseResult {
 //
 export function parse(tealCode: string): IParseResult {
     return {
-        instructions: [],
+        instructions: tealCode && [ tealCode ] || [],
     };
 }
 
