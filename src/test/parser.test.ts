@@ -1,4 +1,5 @@
 import { parse } from "..";
+import * as dedent from "dedent";
 
 describe("teal parser", () => {
 
@@ -31,6 +32,16 @@ describe("teal parser", () => {
                 ],
             },
         ]);
+    });
+
+    it("can parse multiple lines", () => {
+
+        const result = parse(dedent(`
+            return
+            pop
+        `));
+
+        expect(result.instructions.length).toEqual(2);
     });
     
 

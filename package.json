@@ -37,8 +37,10 @@
     "homepage": "https://github.com/sovereign-labs/teal-interpreter#readme",
     "dependencies": {},
     "devDependencies": {
+        "@types/dedent": "^0.7.0",
         "@types/jest": "^26.0.24",
         "@types/node": "^14.17.14",
+        "dedent": "^0.7.0",
         "jest": "^26.6.3",
         "nodemon": "^2.0.12",
         "source-map-support": "0.5.19",

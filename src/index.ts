@@ -29,24 +29,23 @@ export interface IParseResult {
 // Parses TEAL code and returns an intermediate format.
 //
 export function parse(tealCode: string): IParseResult {
-    const parts = tealCode.split(" ")
+
+    const lines = tealCode.split("\n")
+        .map(line => line.trim())
+        .filter(line => line.length > 0)
+    const instructions = lines.map(line => {
+            const parts = line.split(" ")
         .filter(part => part.length > 0);
-    if (parts.length === 0) {
-    return {
-            instructions: [],
-        };
-    }
-    
     const opcode = parts.shift()!;
     const instruction: IInstruction = {
         opcode: opcode,
         operands: parts,
     };
+            return instruction;
+        });
 
     return {
-        instructions: [
-            instruction
-        ],
+        instructions: instructions,
     };
 }
 
