@@ -15,4 +15,9 @@ describe("teal interpreter", () => {
         expect(Number(result.stack[0])).toEqual(1);
     });
 
+    it("unrecognised opcode throws", () => {
+
+        expect(() => execute("foobar")).toThrow();
+    });
+
 });

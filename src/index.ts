@@ -83,6 +83,10 @@ export function execute(tealCode: string): IExecuteResult {
                 result.stack.push(BigInt(value));
                 break;
             }
+
+            default: {
+                throw new Error(`Unexpected opcode "${instruction.opcode}`);
+            }
         }
     }
  
