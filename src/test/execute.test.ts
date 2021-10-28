@@ -8,4 +8,11 @@ describe("teal interpreter", () => {
         expect(result.stack).toEqual([ ]);
     });
 
+    it("can push 1 on stack", ()  => {
+
+        const result = execute("int 1");
+        expect(result.stack.length).toEqual(1);
+        expect(Number(result.stack[0])).toEqual(1);
+    });
+
 });

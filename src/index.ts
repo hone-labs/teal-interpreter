@@ -70,7 +70,22 @@ export interface IExecuteResult {
 //
 export function execute(tealCode: string): IExecuteResult {
     
-    return {
+    const result: IExecuteResult = {
         stack: [],
     };
+
+    const parseResult = parse(tealCode);
+
+    for (const instruction of parseResult.instructions) {
+        switch (instruction.opcode) {
+            case "int": {
+                const value = parseInt(instruction.operands[0]);
+                result.stack.push(BigInt(value));
+                break;
+            }
+        }
+    }
+ 
+
+    return result;
 }
