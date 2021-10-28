@@ -55,4 +55,23 @@ describe("teal parser", () => {
         expect(result.instructions.length).toEqual(2);
     });
 
+    it("can handle multiple whitespace between opcode and operands", () => {
+
+        const result = parse(dedent(`
+            int   1
+        `));
+
+        expect(result.instructions.length).toEqual(1);
+        expect(result.instructions[0].operands.length).toEqual(1);
+    });
+
+    it("can handle multiple whitespace between operands", () => {
+
+        const result = parse(dedent(`
+            txna Accounts    2
+        `));
+
+        expect(result.instructions.length).toEqual(1);
+        expect(result.instructions[0].operands.length).toEqual(2);
+    });
 });
