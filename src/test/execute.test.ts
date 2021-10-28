@@ -34,4 +34,13 @@ describe("teal interpreter", () => {
         expect(Number(result.stack[1])).toEqual(5);
     });
 
+    it("can pop a value from the stack", () => {
+        const result = execute(dedent(`
+            int 10
+            pop
+        `));     
+        expect(result.stack).toEqual([]);       
+    });
+
+   
 });

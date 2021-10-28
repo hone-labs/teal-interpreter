@@ -83,6 +83,11 @@ export function execute(tealCode: string): IExecuteResult {
                 break;
             }
 
+            case "pop": {
+                result.stack.pop();
+                break;
+            }
+
             default: {
                 throw new Error(`Unexpected opcode "${instruction.opcode}`);
             }
