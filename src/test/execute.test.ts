@@ -7,7 +7,7 @@ describe("teal interpreter", () => {
     it("executing empty file results in empty stack", () => {
 
         const result = execute("");
-        expect(result.stack).toEqual([ ]);
+        expect(result.stack).toEqual([]);
     });
 
     it("can push 1 on stack", ()  => {

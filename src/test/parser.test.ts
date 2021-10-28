@@ -27,8 +27,8 @@ describe("teal parser", () => {
             {
                 opcode: `txna`,
                 operands: [ 
-		            `Accounts`,
-		            `2`,
+                    `Accounts`,
+                    `2`,
                 ],
             },
         ]);
@@ -48,7 +48,7 @@ describe("teal parser", () => {
 
         const result = parse(dedent(`
             return
-            
+
             pop
         `));
 

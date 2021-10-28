@@ -5,7 +5,7 @@
     "main": "build/index.js",
     "types": "build/index.d.ts",
     "scripts": {
-        "start": "node ./build/cli.js",
+        "start": "ts-node ./src/cli.ts ./examples/test.teal",
         "start:dev": "nodemon",
         "c": "npm run clean",
         "clean": "rm -rf build/*",
