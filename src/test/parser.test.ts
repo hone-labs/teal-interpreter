@@ -7,4 +7,9 @@ describe("teal parser", () => {
 
         expect(() => parse("foobar")).toThrow();
     });
+
+    it("throws when operands are not valid", () => {
+
+        expect(() => parse("int")).toThrow();
+    });
 });
