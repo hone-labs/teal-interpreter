@@ -1,5 +1,5 @@
 import { IOpcode } from "./opcode";
-import { opcodeConstructors } from "./opcodes";
+import { opcodeDefs } from "./opcodes";
 import { tokenize } from "./tokenize";
 
 //
@@ -19,7 +19,7 @@ export function parse(tealCode: string): IParseResult {
 
     const tokens = tokenize(tealCode);
     const operations = tokens.map(token => {
-        return opcodeConstructors[token.opcode](token);
+        return opcodeDefs[token.opcode].factory(token);
     });
 
     // 
