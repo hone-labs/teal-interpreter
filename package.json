@@ -20,19 +20,19 @@
         "test:watch": "jest --watch"
     },
     "bin": {
-        "teali": "./bin/cli"
+        "teal": "./bin/cli"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/sovereign-labs/teal-interpreter.git"
+        "url": "git+https://github.com/optio-labs/teal-interpreter.git"
     },
     "keywords": [],
     "author": "ashley@codecapers.com.au",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/sovereign-labs/teal-interpreter/issues"
+        "url": "https://github.com/optio-labs/teal-interpreter/issues"
     },
-    "homepage": "https://github.com/sovereign-labs/teal-interpreter#readme",
+    "homepage": "https://github.com/optio-labs/teal-interpreter#readme",
     "dependencies": {
         "minimist": "^1.2.5"
     },
