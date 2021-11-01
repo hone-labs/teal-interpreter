@@ -17,9 +17,11 @@ export function tokenize(tealCode: string): IToken[] {
 // Parses a line of TEAL code.
 //
 function parseLine(line: string)  {
-    const commentStartIndex = line.indexOf("#");
-    if (commentStartIndex !== -1) {
-        line = line.substring(0, commentStartIndex);
+    if (!line.startsWith("#pragma")) {
+        const commentStartIndex = line.indexOf("#");
+        if (commentStartIndex !== -1) {
+            line = line.substring(0, commentStartIndex);
+        }
     }
     const parts = line.split(" ")
         .filter(part => part.length > 0);

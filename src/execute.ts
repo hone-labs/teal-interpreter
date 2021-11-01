@@ -10,6 +10,12 @@ export type StackEntry = bigint | Uint8Array;
 // Results of executing TEAL code.
 //
 export interface IExecuteResult {
+    
+    //
+    // The version of the TEAL executed.
+    //
+    version: number;
+
     //
     // The compute stack remaining when execution has finished.
     //
@@ -22,6 +28,7 @@ export interface IExecuteResult {
 export function execute(tealCode: string): IExecuteResult {
     
     const result: IExecuteResult = {
+        version: 1,
         stack: [],
     };
 

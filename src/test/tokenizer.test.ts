@@ -82,4 +82,20 @@ describe("teal tokenizer", () => {
         expect(instructions.length).toEqual(1);
         expect(instructions[0].operands.length).toEqual(1);
     });
+
+    it("can parse version pragma", () => {
+
+        const tokens = tokenize(dedent(`
+            #pragma version 3
+        `));
+
+        expect(tokens.length).toEqual(1);
+        
+        const token = tokens[0];
+        expect(token.opcode).toEqual("#pragma");
+        
+        expect(token.operands.length).toEqual(2);
+        expect(token.operands[0]).toEqual("version");
+        expect(token.operands[1]).toEqual("3");
+    });
 });

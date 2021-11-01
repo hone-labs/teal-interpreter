@@ -52,5 +52,11 @@ describe("teal interpreter", () => {
         expect(result.stack).toEqual([]);       
     });
 
+    it("can execute version pragma", () => {
+        const result = execute(dedent(`
+            #pragma version 4
+        `));
+        expect(result.version).toEqual(4);
+    });
    
 });
