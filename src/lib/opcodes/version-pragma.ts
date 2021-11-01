@@ -1,6 +1,6 @@
-import { IExecuteResult } from "../..";
 import { IToken } from "../../token";
 import { Opcode } from "../../opcode";
+import { IExecutionContext } from "../../context";
 
 export class VersionPragma extends Opcode {
    
@@ -26,7 +26,7 @@ export class VersionPragma extends Opcode {
         }
     }
     
-    execute(context: IExecuteResult): void {
+    execute(context: IExecutionContext): void {
         context.version = this.versionNo!;
     }
 }

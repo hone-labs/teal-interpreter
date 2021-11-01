@@ -1,4 +1,5 @@
 import { IExecuteResult } from ".";
+import { IExecutionContext } from "./context";
 import { IToken } from "./token";
 
 //
@@ -19,7 +20,7 @@ export interface IOpcode {
     //
     // Executes the opcode.
     //
-    execute(context: IExecuteResult): void;
+    execute(context: IExecutionContext): void;
 }
 
 //
@@ -60,6 +61,6 @@ export abstract class Opcode implements IOpcode {
         }
     }
 
-    abstract execute(context: IExecuteResult): void;
+    abstract execute(context: IExecutionContext): void;
 
 }

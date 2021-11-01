@@ -1,6 +1,6 @@
-import { IExecuteResult } from "../..";
 import { IToken } from "../../token";
 import { Opcode } from "../../opcode";
+import { IExecutionContext } from "../../context";
 
 export class Pop extends Opcode {
 
@@ -8,7 +8,7 @@ export class Pop extends Opcode {
         super(token, 0, 1);
     }
     
-    execute(context: IExecuteResult): void {
+    execute(context: IExecutionContext): void {
         context.stack.pop();
     }
 }
