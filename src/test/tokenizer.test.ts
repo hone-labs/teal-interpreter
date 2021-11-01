@@ -1,4 +1,4 @@
-import { tokenize } from "../tokenize";
+import { tokenize } from "../tokenizer";
 import * as dedent from "dedent";
 
 describe("teal tokenizer", () => {

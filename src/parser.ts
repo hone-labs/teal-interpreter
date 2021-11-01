@@ -1,6 +1,6 @@
 import { IOpcode } from "./opcode";
 import { opcodeDefs } from "./opcodes";
-import { tokenize } from "./tokenize";
+import { tokenize } from "./tokenizer";
 
 //
 // Results of parsing TEAL code.
