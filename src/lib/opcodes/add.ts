@@ -1,6 +1,6 @@
-import { IToken } from "../../token";
-import { Opcode } from "../../opcode";
-import { IExecutionContext } from "../../context";
+import { IToken } from "../token";
+import { Opcode } from "../opcode";
+import { IExecutionContext } from "../context";
 
 
 export class Add extends Opcode {

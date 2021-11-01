@@ -1,5 +1,5 @@
-import { IExecuteResult } from ".";
 import { IExecutionContext } from "./context";
+import { IExecuteResult } from "./execute-result";
 import { IToken } from "./token";
 
 //

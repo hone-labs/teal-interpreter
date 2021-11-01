@@ -1,4 +1,4 @@
-import { execute } from "../execute";
+import { execute } from "../lib/execute";
 import dedent = require("dedent");
 
 describe("teal interpreter", () => {

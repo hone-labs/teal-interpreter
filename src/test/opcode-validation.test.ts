@@ -1,6 +1,6 @@
-import { IExecutionContext } from "../context";
-import { Opcode } from "../opcode";
-import { IToken } from "../token";
+import { IExecutionContext } from "../lib/context";
+import { Opcode } from "../lib/opcode";
+import { IToken } from "../lib/token";
 
 class TestOpcode extends Opcode {
 

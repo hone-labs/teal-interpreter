@@ -1,4 +1,5 @@
-export { parse, IParseResult } from "./parser";
-export { IOpcode } from "./opcode";
-export { execute, IExecuteResult } from "./execute";
-export { StackEntry } from "./context";
+export { parse, IParseResult } from "./lib/parser";
+export { IOpcode } from "./lib/opcode";
+export { execute  } from "./lib/execute";
+export { IExecuteResult } from "./lib/execute-result";
+export { StackEntry } from "./lib/context";

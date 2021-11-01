@@ -1,9 +1,9 @@
 import { IToken } from "./token";
-import { Add } from "./lib/opcodes/add";
-import { Int } from "./lib/opcodes/int";
-import { Pop } from "./lib/opcodes/pop";
+import { Add } from "./opcodes/add";
+import { Int } from "./opcodes/int";
+import { Pop } from "./opcodes/pop";
 import { IOpcode } from "./opcode";
-import { VersionPragma } from "./lib/opcodes/version-pragma";
+import { VersionPragma } from "./opcodes/version-pragma";
 
 //
 // The static definiton of an opcode.
