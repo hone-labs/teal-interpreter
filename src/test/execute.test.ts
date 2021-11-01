@@ -1,6 +1,5 @@
-import { exec } from "child_process";
+import { execute } from "../execute";
 import dedent = require("dedent");
-import { execute } from "..";
 
 describe("teal interpreter", () => {
 

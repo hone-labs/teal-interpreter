@@ -1,4 +1,4 @@
-import { parse } from "..";
+import { parse } from "../parser";
 import * as dedent from "dedent";
 
 describe("teal parser", () => {
