@@ -11,25 +11,23 @@ describe("teal tokenizer", () => {
     it("can parse opcode with no operands", ()  => {
 
         const tokens = tokenize("return");
-        expect(tokens).toEqual([
-            {
-                opcode: `return`,
-                operands: [],
-            },
-        ]);
+        expect(tokens.length).toEqual(1);
+
+        const token = tokens[0];
+        expect(token.opcode).toEqual("return");
+        expect(token.operands).toEqual([]);
     });
 
     it("can parse opcode with operands", ()  => {
 
         const tokens = tokenize("txna Accounts 2");
-        expect(tokens).toEqual([
-            {
-                opcode: `txna`,
-                operands: [ 
-                    `Accounts`,
-                    `2`,
-                ],
-            },
+        expect(tokens.length).toEqual(1);
+
+        const token = tokens[0];
+        expect(token.opcode).toEqual("txna");
+        expect(token.operands).toEqual([ 
+            `Accounts`,
+            `2`,
         ]);
     });
 
@@ -98,4 +96,35 @@ describe("teal tokenizer", () => {
         expect(token.operands[0]).toEqual("version");
         expect(token.operands[1]).toEqual("3");
     });
+
+    it("can preserve line numbers - 1", () => {
+
+        const tokens = tokenize(`int 1`);
+
+        expect(tokens.length).toEqual(1);
+        
+        const token = tokens[0];
+        expect(token.lineNo).toEqual(1);
+    });
+
+    it("can preserve line numbers - 2", () => {
+
+        const tokens = tokenize(`\nint 1\n`);
+
+        expect(tokens.length).toEqual(1);
+        
+        const token = tokens[0];
+        expect(token.lineNo).toEqual(2);
+    });
+    
+    it("can preserve line numbers - 2", () => {
+
+        const tokens = tokenize(`\nint 10\nint 12\n`);
+
+        expect(tokens.length).toEqual(2);
+        
+        const token = tokens[1];
+        expect(token.lineNo).toEqual(3);
+    });
+
 });
