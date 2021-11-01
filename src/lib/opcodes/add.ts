@@ -1,4 +1,3 @@
-
 import { IExecuteResult } from "../..";
 import { IToken } from "../../token";
 import { IOpcode } from "../../opcode";

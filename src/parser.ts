@@ -1,5 +1,3 @@
-
-import { IToken } from "./token";
 import { IOpcode } from "./opcode";
 import { opcodeConstructors } from "./opcodes";
 import { tokenize } from "./tokenize";
