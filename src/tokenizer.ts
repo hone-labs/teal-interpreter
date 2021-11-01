@@ -6,8 +6,6 @@ import { IToken } from "./token";
 //
 export function tokenize(tealCode: string): IToken[] {
 
-    console.log(`Input: ${tealCode}\r\nNum lines: ${tealCode.split("\n").length}`); //fio:
-
     return tealCode.split("\n") // Split line-by-line.
 
         // Remove whitespace.
