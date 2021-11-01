@@ -10,8 +10,8 @@ describe("teal tokenizer", () => {
 
     it("can parse opcode with no operands", ()  => {
 
-        const instructions = tokenize("return");
-        expect(instructions).toEqual([
+        const tokens = tokenize("return");
+        expect(tokens).toEqual([
             {
                 opcode: `return`,
                 operands: [],
@@ -21,8 +21,8 @@ describe("teal tokenizer", () => {
 
     it("can parse opcode with operands", ()  => {
 
-        const instructions = tokenize("txna Accounts 2");
-        expect(instructions).toEqual([
+        const tokens = tokenize("txna Accounts 2");
+        expect(tokens).toEqual([
             {
                 opcode: `txna`,
                 operands: [ 
@@ -35,52 +35,52 @@ describe("teal tokenizer", () => {
 
     it("can parse multiple lines", () => {
 
-        const instructions = tokenize(dedent(`
+        const tokens = tokenize(dedent(`
             return
             pop
         `));
 
-        expect(instructions.length).toEqual(2);
+        expect(tokens.length).toEqual(2);
     });
     
     it("can handle blank lines", () => {
 
-        const instructions = tokenize(dedent(`
+        const tokens = tokenize(dedent(`
             return
 
             pop
         `));
 
-        expect(instructions.length).toEqual(2);
+        expect(tokens.length).toEqual(2);
     });
 
     it("can handle multiple whitespace between opcode and operands", () => {
 
-        const instructions = tokenize(dedent(`
+        const tokens = tokenize(dedent(`
             int 1
         `));
 
-        expect(instructions.length).toEqual(1);
-        expect(instructions[0].operands.length).toEqual(1);
+        expect(tokens.length).toEqual(1);
+        expect(tokens[0].operands.length).toEqual(1);
     });
 
     it("can handle multiple whitespace between operands", () => {
 
-        const instructions = tokenize(dedent(`
+        const tokens = tokenize(dedent(`
             txna Accounts    2
         `));
 
-        expect(instructions.length).toEqual(1);
-        expect(instructions[0].operands.length).toEqual(2);
+        expect(tokens.length).toEqual(1);
+        expect(tokens[0].operands.length).toEqual(2);
     });
 
     it("can strip comments", () => {
-        const instructions = tokenize(dedent(`
+        const tokens = tokenize(dedent(`
             int 5 # Push an int on the stack.
         `));
 
-        expect(instructions.length).toEqual(1);
-        expect(instructions[0].operands.length).toEqual(1);
+        expect(tokens.length).toEqual(1);
+        expect(tokens[0].operands.length).toEqual(1);
     });
 
     it("can parse version pragma", () => {

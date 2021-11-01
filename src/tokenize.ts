@@ -9,8 +9,8 @@ export function tokenize(tealCode: string): IToken[] {
     const lines = tealCode.split("\n")
         .map(line => line.trim())
         .filter(line => line.length > 0)
-    const instructions = lines.map(parseLine);
-    return instructions;
+    const tokens = lines.map(parseLine);
+    return tokens;
 }
 
 //
@@ -26,9 +26,9 @@ function parseLine(line: string)  {
     const parts = line.split(" ")
         .filter(part => part.length > 0);
     const opcode = parts.shift()!;
-    const instruction: IToken = {
+    const token: IToken = {
         opcode: opcode,
         operands: parts,
     };         
-    return instruction;
+    return token;
 }
