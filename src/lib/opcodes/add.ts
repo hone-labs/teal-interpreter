@@ -1,29 +1,12 @@
 import { IExecuteResult } from "../..";
 import { IToken } from "../../token";
-import { IOpcode } from "../../opcode";
+import { Opcode } from "../../opcode";
 
 
-export class Add implements IOpcode {
+export class Add extends Opcode {
     
-    //
-    // The instruction that contains the opcode.
-    //
-    private instruction: IToken;
-
-    constructor(instruction: IToken) {
-        this.instruction = instruction;
-    }
-    
-    validateOperand(): void {
-        if (this.instruction.operands.length !== 0) {
-            throw new Error(`Opcode + expects 0 operands.`);
-        }
-    }
-    
-    validateContext(context: IExecuteResult): void {
-        if (context.stack.length < 2) {
-            throw new Error(`Expect two arguments on the stack, found only ${context.stack.length} values on the stack.`);
-        }
+    constructor(token: IToken) {
+        super(token, 0, 2);
     }
     
     execute(context: IExecuteResult): void {
