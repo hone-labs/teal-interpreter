@@ -1,3 +1,4 @@
+import { opcodeHandlers } from "./opcodes";
 import { parse } from "./parser";
 
 //
@@ -27,29 +28,13 @@ export function execute(tealCode: string): IExecuteResult {
     const parseResult = parse(tealCode);
 
     for (const instruction of parseResult.instructions) {
-        switch (instruction.opcode) {
-            case "int": {
-                const value = parseInt(instruction.operands[0]);
-                result.stack.push(BigInt(value));
-                break;
-            }
 
-            case "pop": {
-                result.stack.pop();
-                break;
-            }
-
-            case "+": {
-                const a = result.stack.pop() as bigint;
-                const b = result.stack.pop() as bigint;
-                result.stack.push(a + b);
-                break;
-            }
-
-            default: {
-                throw new Error(`Unexpected opcode "${instruction.opcode}""`);
-            }
+        const handler = opcodeHandlers[instruction.opcode];
+        if (!handler) {
+            throw new Error(`Unexpected opcode "${instruction.opcode}"`);
         }
+
+        handler.execute(result, instruction);
     }
  
 
