@@ -98,7 +98,7 @@ export function execute(tealCode: string): IExecuteResult {
             }
 
             default: {
-                throw new Error(`Unexpected opcode "${instruction.opcode}`);
+                throw new Error(`Unexpected opcode "${instruction.opcode}"`);
             }
         }
     }
