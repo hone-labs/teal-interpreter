@@ -19,7 +19,11 @@ export function parse(tealCode: string): IParseResult {
 
     const tokens = tokenize(tealCode);
     const operations = tokens.map(token => {
-        return opcodeDefs[token.opcode].factory(token);
+        const opcodeDef = opcodeDefs[token.opcode];
+        if (!opcodeDef) {
+            throw new Error(`Unrecognised opcode ${token.opcode}`);
+        }
+        return opcodeDef.factory(token);
     });
 
     // 
