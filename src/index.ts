@@ -97,6 +97,13 @@ export function execute(tealCode: string): IExecuteResult {
                 break;
             }
 
+            case "+": {
+                const a = result.stack.pop() as bigint;
+                const b = result.stack.pop() as bigint;
+                result.stack.push(a + b);
+                break;
+            }
+
             default: {
                 throw new Error(`Unexpected opcode "${instruction.opcode}"`);
             }

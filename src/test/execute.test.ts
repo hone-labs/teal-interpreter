@@ -17,6 +17,17 @@ describe("teal interpreter", () => {
         expect(Number(result.stack[0])).toEqual(1);
     });
 
+    it("can add numbers", ()  => {
+
+        const result = execute(dedent(`
+            int 2
+            int 3
+            +
+        `));
+        expect(result.stack.length).toEqual(1);
+        expect(Number(result.stack[0])).toEqual(5);
+    });
+
     it("unrecognised opcode throws", () => {
 
         expect(() => execute("foobar")).toThrow();
