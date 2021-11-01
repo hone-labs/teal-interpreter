@@ -4,7 +4,7 @@ describe("sqrt opcode", () => {
 
     it ("can execute", () => {
 
-        const token = {
+        const token: any = {
             opcode: "sqrt",
             operands: [],
         };

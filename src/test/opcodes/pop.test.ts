@@ -4,7 +4,7 @@ describe("pop opcode", () => {
 
     it ("can execute", () => {
 
-        const token = {
+        const token: any = {
             opcode: "pop",
             operands: [],
         };

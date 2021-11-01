@@ -4,7 +4,7 @@ describe("int opcode", () => {
 
     it ("can execute", () => {
 
-        const token = {
+        const token: any = {
             opcode: "int",
             operands: [
                 "12"

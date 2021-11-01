@@ -4,7 +4,7 @@ describe("add opcode", () => {
 
     it ("can execute", () => {
 
-        const token = {
+        const token: any = {
             opcode: "+",
             operands: [],
         };
