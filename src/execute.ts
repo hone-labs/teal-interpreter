@@ -1,4 +1,4 @@
-import { opcodeHandlers } from "./opcodes";
+import { opcodeConstructors } from "./opcodes";
 import { parse } from "./parser";
 
 //
@@ -27,16 +27,10 @@ export function execute(tealCode: string): IExecuteResult {
 
     const parseResult = parse(tealCode);
 
-    for (const instruction of parseResult.instructions) {
-
-        const handler = opcodeHandlers[instruction.opcode];
-        if (!handler) {
-            throw new Error(`Unexpected opcode "${instruction.opcode}"`);
-        }
-
-        handler.execute(result, instruction);
+    for (const operation of parseResult.operations) {
+        operation.validateContext(result);
+        operation.execute(result);
     }
  
-
     return result;
 }

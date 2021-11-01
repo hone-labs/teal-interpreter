@@ -1,45 +1,21 @@
-import { IExecuteResult, IInstruction } from ".";
-//
-// Represents validation and execution for an object.
-//
-export interface IOpcode {
-
-    //
-    // Executes the opcode.
-    //
-    execute(context: IExecuteResult, instruction: IInstruction): void;
-}
+import { IToken } from "./token";
+import { Add } from "./lib/opcodes/add";
+import { Int } from "./lib/opcodes/int";
+import { Pop } from "./lib/opcodes/pop";
+import { IOpcode } from "./opcode";
 
 //
 // A look up table for opcode handlers.
 //
 export interface IOpcodeMap {
-    [index: string]: IOpcode;
+    [index: string]: (instruction: IToken) => IOpcode;
 }
 
 //
-// A look up table for opcode handlers.
+// A look up table for opcode constructors.
 //
-export const opcodeHandlers: IOpcodeMap = {
-    "int": {
-        execute: (context, instruction) => {
-            const value = parseInt(instruction.operands[0]);
-            context.stack.push(BigInt(value));
-        },
-    },
-
-    "pop": {
-        execute: (context, instruction) => {
-            context.stack.pop();
-        },
-    },
-
-    "+": {
-        execute: (context, instruction): void => {
-            const a = context.stack.pop() as bigint;
-            const b = context.stack.pop() as bigint;
-            context.stack.push(a + b);
-        },
-    },
-
+export const opcodeConstructors: IOpcodeMap = {
+    "int": instruction => new Int(instruction),
+    "pop": instruction => new Pop(instruction),
+    "+": instruction => new Add(instruction),
 }
