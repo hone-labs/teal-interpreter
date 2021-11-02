@@ -2,6 +2,28 @@ import { IExecutionContext } from "./context";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
 
+//
+// Specifies initial configuration for TEAL code execution.
+//
+export interface ITealInterpreterConfig {
+
+    //
+    // Global values.
+    //
+    globals?: any;
+    
+    //
+    // The current transaction.
+    //
+    txn?: any;
+
+    //
+    // Array of arguments.
+    //
+    readonly args?: Uint8Array[];
+
+}
+
 export interface ITealInterpreter {
 
     //
@@ -28,7 +50,7 @@ export interface ITealInterpreter {
     //
     // Loads TEAL code into the interpreter.
     //
-    load(tealCode: string): void;
+    load(tealCode: string, config?: ITealInterpreterConfig): void;
 
     //
     // Step to the next instruction.
@@ -98,16 +120,16 @@ export class TealInterpreter implements ITealInterpreter {
     //
     // Loads TEAL code into the interpreter.
     //
-    load(tealCode: string): void {
+    load(tealCode: string, config?: ITealInterpreterConfig): void {
         const parseResult = parse(tealCode);
         this._instructions = parseResult.instructions;
         this._context = {
             version: 1,
             branchTargets: parseResult.branchTargets,
             stack: [],
-            args: [],
-            txn: {},
-            globals: {},
+            args: config?.args || [],
+            txn: config?.txn || {},
+            globals: config?.globals || {},
         };
         this._curInstructionIndex = 0;
     }
