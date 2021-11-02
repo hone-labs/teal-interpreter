@@ -9,7 +9,7 @@ export class Int extends Opcode {
     //
     // The integer literal value parsed from operands.
     //
-    private value?: number;
+    private value!: number;
 
     constructor(token: IToken) {
         super(token, 1, 0);
@@ -19,12 +19,9 @@ export class Int extends Opcode {
         super.validateOperand();
 
         const operand = this.token.operands[0];
-
-        try {
-            this.value = parseInt(operand);
-        }
-        catch {
-            throw new Error(`Failed to parse integer operand to instruction "int" from operand ${operand}`);
+        this.value = parseInt(operand);
+        if (Number.isNaN(this.value)) {
+            throw new Error(`Failed to pass integer operand "${operand}" for opcode "${this.token.opcode}".`);
         }
     }
     

@@ -20,4 +20,18 @@ describe("int opcode", () => {
         expect(context.stack.length).toEqual(1);
         expect(Number(context.stack[0])).toEqual(12);
     });
+
+    it("throws when operand is not an int", () => {
+
+        const token: any = {
+            opcode: "int",
+            operands: [
+                "xxx"
+            ],
+        };
+        const opcode = new Int(token);
+
+        expect(() => opcode.validateOperand()).toThrow();
+    });
+
 });
