@@ -6,6 +6,7 @@ import { IOpcode } from "./opcode";
 import { VersionPragma } from "./opcodes/version-pragma";
 import { Branch } from "./opcodes/branch";
 import { Err } from "./opcodes/Err";
+import { Sha256 } from "./opcodes/sha256";
 
 //
 // The static definiton of an opcode.
@@ -42,6 +43,10 @@ export const opcodeDefs: IOpcodeMap = {
     "err":  {
         version: 1,
         factory: token => new Err(token),
+    },
+    "sha256":  {
+        version: 1,
+        factory: token => new Sha256(token),
     },
     "int":  {
         version: 1,
