@@ -1,4 +1,4 @@
-import { IExecutionContext, StackEntry } from "./context";
+import { IExecutionContext } from "./context";
 import { IExecuteResult } from "./execute-result";
 import { parse } from "./parser";
 
@@ -6,7 +6,7 @@ import { parse } from "./parser";
 // Executes TEAL code and returns a result.
 //
 export function execute(tealCode: string): IExecuteResult {
-    
+
     const parseResult = parse(tealCode);
     const context: IExecutionContext = {
         version: 1,
