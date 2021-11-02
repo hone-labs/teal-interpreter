@@ -12,6 +12,11 @@ export type StackEntry = bigint | Uint8Array;
 export interface IExecutionContext {
     
     //
+    // The current transaction.
+    //
+    txn: any;
+    
+    //
     // The version of the TEAL executed.
     //
     version: number;

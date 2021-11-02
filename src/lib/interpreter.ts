@@ -57,6 +57,7 @@ export class TealInterpreter implements ITealInterpreter {
         branchTargets: {},
         stack: [],
         args: [],
+        txn: {},
     };
 
     //
@@ -104,6 +105,7 @@ export class TealInterpreter implements ITealInterpreter {
             branchTargets: parseResult.branchTargets,
             stack: [],
             args: [],
+            txn: {},
         };
         this._curInstructionIndex = 0;
     }

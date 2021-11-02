@@ -8,6 +8,7 @@ import { Branch } from "./opcodes/branch";
 import { Err } from "./opcodes/Err";
 import { Sha256 } from "./opcodes/sha256";
 import { Arg } from "./opcodes/Arg";
+import { Txn } from "./opcodes/txn";
 
 //
 // The static definiton of an opcode.
@@ -64,6 +65,10 @@ export const opcodeDefs: IOpcodeMap = {
     "arg": {
         version: 1,
         factory: token => new Arg(token),
+    },
+    "txn": {
+        version: 1,
+        factory: token => new Txn(token),
     },
 
     // TEAL 2
