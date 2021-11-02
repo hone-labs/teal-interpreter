@@ -19,13 +19,15 @@ export interface IOpcode {
 
     //
     // Validate the opcode against the current context.
+    // This is invoked right before this particular opcode is executed.
     //    
     validateContext(context: IExecuteResult): void;
 
     //
     // Executes the opcode.
+    // Branches can return the offset of an insturction to jump to.
     //
-    execute(context: IExecutionContext): void;
+    execute(context: IExecutionContext): number | void;
 }
 
 //
@@ -73,6 +75,6 @@ export abstract class Opcode implements IOpcode {
         }
     }
 
-    abstract execute(context: IExecutionContext): void;
+    abstract execute(context: IExecutionContext): number | void;
 
 }

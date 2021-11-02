@@ -7,17 +7,28 @@ import { parse } from "./parser";
 //
 export function execute(tealCode: string): IExecuteResult {
     
-    const result: IExecutionContext = {
+    const parseResult = parse(tealCode);
+    const context: IExecutionContext = {
         version: 1,
+        branchTargets: parseResult.branchTargets,
         stack: [],
     };
 
-    const parseResult = parse(tealCode);
 
-    for (const operation of parseResult.instructions) {
-        operation.validateContext(result);
-        operation.execute(result);
+    let curInstructionIndex = 0;
+    while (curInstructionIndex < parseResult.instructions.length) {
+        const instruction = parseResult.instructions[curInstructionIndex];
+        instruction.validateContext(context);
+        const nextInstructionIndex = instruction.execute(context);
+        if (nextInstructionIndex !== undefined) {
+            // Branch to target instruction.
+            curInstructionIndex = nextInstructionIndex;
+        }
+        else {
+            // Move to next instruction.
+            curInstructionIndex += 1;
+        }
     }
  
-    return result;
+    return context;
 }

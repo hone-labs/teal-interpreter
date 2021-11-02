@@ -60,6 +60,7 @@ export class TealInterpreter implements ITealInterpreter {
     //
     private _context: IExecutionContext = {
         version: 1,
+        branchTargets: {},
         stack: [],
     };
 
@@ -101,9 +102,11 @@ export class TealInterpreter implements ITealInterpreter {
     // Loads TEAL code into the interpreter.
     //
     load(tealCode: string): void {
-        this._instructions = parse(tealCode).instructions;
+        const parseResult = parse(tealCode);
+        this._instructions = parseResult.instructions;
         this._context = {
             version: 1,
+            branchTargets: parseResult.branchTargets,
             stack: [],
         };
         this._curInstructionIndex = 0;
@@ -122,8 +125,16 @@ export class TealInterpreter implements ITealInterpreter {
         }
 
         const instruction = this.instructions[this.curInstructionIndex];
-        instruction.execute(this.context);
-        this._curInstructionIndex += 1;
+        instruction.validateContext(this.context);
+        const nextInstructionIndex = instruction.execute(this.context);
+        if (nextInstructionIndex !== undefined) {
+            // Branch to target instruction.
+            this._curInstructionIndex = nextInstructionIndex;
+        }
+        else {
+            // Move to next instruction.
+            this._curInstructionIndex += 1;
+        }
         return true;
 
     }
