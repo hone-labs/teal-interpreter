@@ -58,6 +58,7 @@ export class TealInterpreter implements ITealInterpreter {
         stack: [],
         args: [],
         txn: {},
+        globals: {},
     };
 
     //
@@ -106,6 +107,7 @@ export class TealInterpreter implements ITealInterpreter {
             stack: [],
             args: [],
             txn: {},
+            globals: {},
         };
         this._curInstructionIndex = 0;
     }
