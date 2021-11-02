@@ -25,4 +25,9 @@ export interface IExecutionContext {
     // The compute stack used for execution.
     //
     readonly stack: StackEntry[];
+
+    //
+    // Array of arguments.
+    //
+    readonly args: Uint8Array[];
 }
