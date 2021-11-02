@@ -10,6 +10,11 @@ export type StackEntry = bigint | Uint8Array;
 // Context for executions of TEAL opcodes.
 //
 export interface IExecutionContext {
+    
+    //
+    // Scratch space.
+    //
+    scratch: StackEntry[];
 
     //
     // Global values.

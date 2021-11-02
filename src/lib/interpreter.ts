@@ -1,4 +1,4 @@
-import { IExecutionContext } from "./context";
+import { IExecutionContext, StackEntry } from "./context";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
 
@@ -81,6 +81,7 @@ export class TealInterpreter implements ITealInterpreter {
         args: [],
         txn: {},
         globals: {},
+        scratch: [],
     };
 
     //
@@ -130,6 +131,7 @@ export class TealInterpreter implements ITealInterpreter {
             args: config?.args || [],
             txn: config?.txn || {},
             globals: config?.globals || {},
+            scratch: new Array<StackEntry>(255).fill(BigInt(0)),
         };
         this._curInstructionIndex = 0;
     }

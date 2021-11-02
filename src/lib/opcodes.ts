@@ -10,6 +10,7 @@ import { Sha256 } from "./opcodes/sha256";
 import { Arg } from "./opcodes/Arg";
 import { Txn } from "./opcodes/txn";
 import { Global } from "./opcodes/global";
+import { Load } from "./opcodes/load";
 
 //
 // The static definiton of an opcode.
@@ -74,6 +75,10 @@ export const opcodeDefs: IOpcodeMap = {
     "global": {
         version: 1,
         factory: token => new Global(token),
+    },
+    "load": {
+        version: 1,
+        factory: token => new Load(token),
     },
 
     // TEAL 2
