@@ -1,5 +1,4 @@
 import { parse } from "../lib/parser";
-import * as dedent from "dedent";
 
 describe("teal parser", () => {
 

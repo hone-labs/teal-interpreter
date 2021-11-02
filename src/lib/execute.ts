@@ -1,34 +1,17 @@
-import { IExecutionContext } from "./context";
+import { TealInterpreter } from "..";
 import { IExecuteResult } from "./execute-result";
-import { parse } from "./parser";
 
 //
 // Executes TEAL code and returns a result.
 //
 export function execute(tealCode: string): IExecuteResult {
 
-    const parseResult = parse(tealCode);
-    const context: IExecutionContext = {
-        version: 1,
-        branchTargets: parseResult.branchTargets,
-        stack: [],
-    };
+    const interpreter = new TealInterpreter();
+    interpreter.load(tealCode);
 
-
-    let curInstructionIndex = 0;
-    while (curInstructionIndex < parseResult.instructions.length) {
-        const instruction = parseResult.instructions[curInstructionIndex];
-        instruction.validateContext(context);
-        const nextInstructionIndex = instruction.execute(context);
-        if (nextInstructionIndex !== undefined) {
-            // Branch to target instruction.
-            curInstructionIndex = nextInstructionIndex;
-        }
-        else {
-            // Move to next instruction.
-            curInstructionIndex += 1;
-        }
+    while (interpreter.step()) {
+        // Step until done.
     }
- 
-    return context;
+
+    return interpreter.context;
 }
