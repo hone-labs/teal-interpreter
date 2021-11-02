@@ -8,6 +8,11 @@ import { IToken } from "./token";
 export interface IOpcode {
 
     //
+    // Gets the line number of the TEAL code where the opcode was loaded.
+    //
+    getLineNo(): number;
+
+    //
     // Validates the operands for the opcode.
     //
     validateOperand(): void;
@@ -47,6 +52,13 @@ export abstract class Opcode implements IOpcode {
         this.token = token;
         this.numOperands = numOperands;
         this.numStackArgs = numStackArgs;
+    }
+
+    //
+    // Gets the line number of the TEAL code where the opcode was loaded.
+    //
+    getLineNo(): number {
+        return this.token.lineNo;
     }
 
     validateOperand(): void {

@@ -9,7 +9,7 @@ export interface IParseResult {
     //
     // Parsed instructions.
     //
-    readonly operations: IOpcode[];
+    readonly instructions: IOpcode[];
 }
 
 //
@@ -34,6 +34,6 @@ export function parse(tealCode: string): IParseResult {
     }
         
     return {
-        operations: operations,
+        instructions: operations,
     };
 }

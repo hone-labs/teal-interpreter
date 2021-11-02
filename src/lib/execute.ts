@@ -14,7 +14,7 @@ export function execute(tealCode: string): IExecuteResult {
 
     const parseResult = parse(tealCode);
 
-    for (const operation of parseResult.operations) {
+    for (const operation of parseResult.instructions) {
         operation.validateContext(result);
         operation.execute(result);
     }

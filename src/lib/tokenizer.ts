@@ -28,13 +28,25 @@ export function tokenize(tealCode: string): IToken[] {
 // Parses a line of TEAL code.
 //
 function parseLine(line: string, lineNo: number): IToken | undefined  {
+
+    const commentStartIndex = line.indexOf("//");
+    if (commentStartIndex !== -1) {
+        // Remove the comment (leaving the first part of the line intact).
+        line = line.substring(0, commentStartIndex).trim();
+
+        if (line.length === 0) {
+            return undefined; // Nothing else on the line.
+        }
+    }
+
     if (!line.startsWith("#pragma")) {
         const commentStartIndex = line.indexOf("#");
         if (commentStartIndex !== -1) {
+            // Remove the comment (leaving the first part of the line intact).
             line = line.substring(0, commentStartIndex).trim();
 
             if (line.length === 0) {
-                return undefined;
+                return undefined; // Nothing else on the line.
             }
         }
     }
