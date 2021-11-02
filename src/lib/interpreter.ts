@@ -129,7 +129,7 @@ export class TealInterpreter implements ITealInterpreter {
             // Move to next instruction.
             this._curInstructionIndex += 1;
         }
-        return true;
 
+        return true;
     }
 }
