@@ -5,6 +5,7 @@ import { Pop } from "./opcodes/pop";
 import { IOpcode } from "./opcode";
 import { VersionPragma } from "./opcodes/version-pragma";
 import { Branch } from "./opcodes/branch";
+import { Err } from "./opcodes/Err";
 
 //
 // The static definiton of an opcode.
@@ -37,6 +38,10 @@ export const opcodeDefs: IOpcodeMap = {
     "#pragma": {
         version: 1,
         factory: token => new VersionPragma(token),
+    },
+    "err":  {
+        version: 1,
+        factory: token => new Err(token),
     },
     "int":  {
         version: 1,
