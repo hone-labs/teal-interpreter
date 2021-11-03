@@ -18,13 +18,10 @@ export class Int extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        const operand = this.token.operands[0];
-        this.value = parseInt(operand);
-        if (Number.isNaN(this.value)) {
-            throw new Error(`Failed to pass integer operand "${operand}" for opcode "${this.token.opcode}".`);
-        }
+        this.value = this.parseIntOperand(0);
     }
     
+
     execute(context: IExecutionContext): void {
         context.stack.push(BigInt(this.value!));        
     }

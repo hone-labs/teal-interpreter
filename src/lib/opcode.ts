@@ -77,4 +77,15 @@ export abstract class Opcode implements IOpcode {
 
     abstract execute(context: IExecutionContext): number | void;
 
+    //
+    // Parses a number from an operand.
+    //
+    protected parseIntOperand(operandIndex: number): number {
+        const operand = this.token.operands[operandIndex];
+        const value = parseInt(operand);
+        if (Number.isNaN(value)) {
+            throw new Error(`Failed to pass integer "${operand}" from operand ${operandIndex} for opcode "${this.token.opcode}".`);
+        }
+        return value;
+    }
 }

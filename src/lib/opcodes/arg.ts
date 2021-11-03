@@ -17,11 +17,7 @@ export class Arg extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        const operand = this.token.operands[0];
-        this.argIndex = parseInt(operand);
-        if (Number.isNaN(this.argIndex)) {
-            throw new Error(`Failed to pass integer operand "${operand}" for opcode "${this.token.opcode}".`);
-        }
+        this.argIndex = this.parseIntOperand(0);
     }
     
     execute(context: IExecutionContext): void {

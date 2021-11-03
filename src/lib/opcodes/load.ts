@@ -17,12 +17,7 @@ export class Load extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        const operand = this.token.operands[0];
-        this.position = parseInt(operand);
-        if (Number.isNaN(this.position)) {
-            throw new Error(`Failed to pass integer operand "${operand}" for opcode "${this.token.opcode}".`);
-        }
-
+        this.position = this.parseIntOperand(0);
         if (this.position < 0 || this.position >= 255) {
             throw new Error(`Invalid position ${this.position} in scratch spaced was requested, this value should be 0 or greater and less than 255.`);
         }
