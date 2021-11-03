@@ -27,6 +27,7 @@ import { Lt } from "./opcodes/lt";
 import { Gt } from "./opcodes/gt";
 import { Lte } from "./opcodes/lte";
 import { Gte } from "./opcodes/gte";
+import { And } from "./opcodes/and";
 
 //
 // The static definiton of an opcode.
@@ -115,6 +116,10 @@ export const opcodeDefs: IOpcodeMap = {
     ">=": {
         version: 1,
         factory: token => new Gte(token),
+    },    
+    "&&": {
+        version: 1,
+        factory: token => new And(token),
     },    
     "len": {
         version: 1,
