@@ -19,6 +19,7 @@ import { Sha512_256 } from "./opcodes/sha512_256";
 import { Ed25519verify } from "./opcodes/ed25519verify";
 import { Byte } from "./opcodes/byte";
 import { Addr } from "./opcodes/addr";
+import { Ecdsa_verify } from "./opcodes/ecdsa_verify";
 
 //
 // The static definiton of an opcode.
@@ -135,4 +136,11 @@ export const opcodeDefs: IOpcodeMap = {
         version: 4,
         factory: token => new Add(token),
     },
+
+    // TEAL 5
+    "ecdsa_verify":  {
+        version: 5,
+        factory: token => new Ecdsa_verify(token),
+    },
+
 }
