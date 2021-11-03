@@ -1,3 +1,4 @@
+import { isArray } from "util";
 import { IExecutionContext } from "./context";
 import { IExecuteResult } from "./execute-result";
 import { IToken } from "./token";
@@ -43,14 +44,14 @@ export abstract class Opcode implements IOpcode {
     //
     // The number of operands expected by the opcode.
     //
-    private numOperands: number;
+    private numOperands: number | number[];
 
     //
     // The number of stack based arguments expected by this opcode.
     //
     private numStackArgs: number;
 
-    constructor(token: IToken, numOperands: number, numStackArgs: number) {
+    constructor(token: IToken, numOperands: number | number[], numStackArgs: number) {
         this.token = token;
         this.numOperands = numOperands;
         this.numStackArgs = numStackArgs;
@@ -64,8 +65,21 @@ export abstract class Opcode implements IOpcode {
     }
 
     validateOperand(): void {
-        if (this.token.operands.length !== this.numOperands) {
-            throw new Error(`Opcode ${this.token.opcode} expects ${this.numOperands} operands, instead found ${this.token.operands.length} operands.`);
+
+        if (Array.isArray(this.numOperands)) {
+            for (const numOperands of this.numOperands) {
+                if (this.token.operands.length === numOperands) {
+                    // Ok, meets one of the expected number of operands.
+                    return;
+                }
+            }
+
+            throw new Error(`Opcode ${this.token.opcode} expects a number of operands equal to one of ${this.numOperands.join(", ")}, instead found ${this.token.operands.length} operands.`);
+        }
+        else {
+            if (this.token.operands.length !== this.numOperands) {
+                throw new Error(`Opcode ${this.token.opcode} expects ${this.numOperands} operands, instead found ${this.token.operands.length} operands.`);
+            }
         }
     }
 

@@ -4,7 +4,7 @@ import { IToken } from "../lib/token";
 
 class TestOpcode extends Opcode {
 
-    constructor(token: IToken, numOperands: number, numStackArgs: number) {
+    constructor(token: IToken, numOperands: number | number[], numStackArgs: number) {
         super(token, numOperands, numStackArgs);
     }
 
@@ -33,6 +33,26 @@ describe("opcode validation failures", () => {
             operands: [ "a", "b" ],
         };
         const opcode = new TestOpcode(token, 2, 0);
+        opcode.validateOperand();
+    });
+
+    it("can fail for opcode with invalid number of operands against a multi-operand", () => {
+        
+        const token: any = {
+            opcode: "something",
+            operands: [ "a", "b" ],
+        };
+        const opcode = new TestOpcode(token, [1, 3], 0);
+        expect(() => opcode.validateOperand()).toThrow();
+    });
+
+    it("can validate opcode with correct number of operands against a multi-operand", () => {
+        
+        const token: any = {
+            opcode: "something",
+            operands: [ "a", "b" ],
+        };
+        const opcode = new TestOpcode(token, [1, 2], 0);
         opcode.validateOperand();
     });
 
