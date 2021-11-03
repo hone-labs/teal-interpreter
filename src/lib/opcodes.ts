@@ -31,6 +31,7 @@ import { And } from "./opcodes/and";
 import { Or } from "./opcodes/or";
 import { Eq } from "./opcodes/eq";
 import { Ne } from "./opcodes/ne";
+import { Not } from "./opcodes/not";
 
 //
 // The static definiton of an opcode.
@@ -135,6 +136,10 @@ export const opcodeDefs: IOpcodeMap = {
     "!=": {
         version: 1,
         factory: token => new Ne(token),
+    },    
+    "!": {
+        version: 1,
+        factory: token => new Not(token),
     },    
     "len": {
         version: 1,
