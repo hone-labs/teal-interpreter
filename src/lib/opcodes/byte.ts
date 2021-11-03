@@ -1,6 +1,7 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
+import { stringToBytes } from "../convert";
 
 
 export class Byte extends Opcode {
@@ -32,6 +33,6 @@ export class Byte extends Opcode {
     }    
 
     execute(context: IExecutionContext): void {
-        context.stack.push(Buffer.from(this.value, 'base64')); //TODO: Support other encoding types.
+        context.stack.push(stringToBytes(this.value)); //TODO: Support other encoding types.
     }
 }

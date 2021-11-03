@@ -1,7 +1,7 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
-import { decodeAddress } from "algosdk";
+import { addressToBytes } from "../convert";
 
 export class Addr extends Opcode {
    
@@ -21,6 +21,6 @@ export class Addr extends Opcode {
     }    
 
     execute(context: IExecutionContext): void {
-        context.stack.push(decodeAddress(this.value).publicKey);
+        context.stack.push(addressToBytes(this.value));
     }
 }
