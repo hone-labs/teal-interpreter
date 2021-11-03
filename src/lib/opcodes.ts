@@ -29,6 +29,7 @@ import { Lte } from "./opcodes/lte";
 import { Gte } from "./opcodes/gte";
 import { And } from "./opcodes/and";
 import { Or } from "./opcodes/or";
+import { Eq } from "./opcodes/eq";
 
 //
 // The static definiton of an opcode.
@@ -125,6 +126,10 @@ export const opcodeDefs: IOpcodeMap = {
     "||": {
         version: 1,
         factory: token => new Or(token),
+    },    
+    "==": {
+        version: 1,
+        factory: token => new Eq(token),
     },    
     "len": {
         version: 1,
