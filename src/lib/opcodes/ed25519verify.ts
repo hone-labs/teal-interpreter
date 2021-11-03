@@ -10,9 +10,9 @@ export class Ed25519verify extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const pubkey = context.stack.pop() as Uint8Array;
-        const signature = context.stack.pop() as Uint8Array;
         const data = context.stack.pop() as Uint8Array;
+        const signature = context.stack.pop() as Uint8Array;
+        const pubkey = context.stack.pop() as Uint8Array;
         
         const addr = encodeAddress(pubkey);
         const isValid = verifyBytes(data, signature, addr);

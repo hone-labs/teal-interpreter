@@ -10,8 +10,8 @@ export class Add extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const a = context.stack.pop() as bigint;
         const b = context.stack.pop() as bigint;
+        const a = context.stack.pop() as bigint;
         context.stack.push(a + b);
     }
 }
