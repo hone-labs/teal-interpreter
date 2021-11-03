@@ -23,6 +23,7 @@ import { Ecdsa_verify } from "./opcodes/ecdsa_verify";
 import { Minus } from "./opcodes/minus";
 import { Div } from "./opcodes/div";
 import { Mul } from "./opcodes/mul";
+import { Lt } from "./opcodes/lt";
 
 //
 // The static definiton of an opcode.
@@ -95,6 +96,10 @@ export const opcodeDefs: IOpcodeMap = {
     "*": {
         version: 1,
         factory: token => new Mul(token),
+    },    
+    "<": {
+        version: 1,
+        factory: token => new Lt(token),
     },    
     "len": {
         version: 1,
