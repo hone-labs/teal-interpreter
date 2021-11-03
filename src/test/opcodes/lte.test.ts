@@ -1,11 +1,11 @@
-import { Lt } from "../../lib/opcodes/lt";
+import { Lte } from "../../lib/opcodes/lte";
 
-describe("lt opcode", () => {
+describe("lte opcode", () => {
 
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "<",
+            opcode: "<=",
             operands: [],            
         };
         const context: any = {
@@ -14,7 +14,7 @@ describe("lt opcode", () => {
                 BigInt(10), 
             ],
         };
-        const opcode = new Lt(token);
+        const opcode = new Lte(token);
         opcode.validateContext(context);
         opcode.execute(context);
 

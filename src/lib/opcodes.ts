@@ -25,6 +25,7 @@ import { Div } from "./opcodes/div";
 import { Mul } from "./opcodes/mul";
 import { Lt } from "./opcodes/lt";
 import { Gt } from "./opcodes/gt";
+import { Lte } from "./opcodes/lte";
 
 //
 // The static definiton of an opcode.
@@ -105,6 +106,10 @@ export const opcodeDefs: IOpcodeMap = {
     ">": {
         version: 1,
         factory: token => new Gt(token),
+    },    
+    "<=": {
+        version: 1,
+        factory: token => new Lte(token),
     },    
     "len": {
         version: 1,
