@@ -30,6 +30,7 @@ import { Gte } from "./opcodes/gte";
 import { And } from "./opcodes/and";
 import { Or } from "./opcodes/or";
 import { Eq } from "./opcodes/eq";
+import { Ne } from "./opcodes/ne";
 
 //
 // The static definiton of an opcode.
@@ -130,6 +131,10 @@ export const opcodeDefs: IOpcodeMap = {
     "==": {
         version: 1,
         factory: token => new Eq(token),
+    },    
+    "!=": {
+        version: 1,
+        factory: token => new Ne(token),
     },    
     "len": {
         version: 1,
