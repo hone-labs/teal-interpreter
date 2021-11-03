@@ -15,6 +15,7 @@ import { Store } from "./opcodes/store";
 import { Len } from "./opcodes/len";
 import { Gtxn } from "./opcodes/gtxn";
 import { Keccak256 } from "./opcodes/keccak256";
+import { Sha512_256 } from "./opcodes/sha512_256";
 
 //
 // The static definiton of an opcode.
@@ -59,6 +60,10 @@ export const opcodeDefs: IOpcodeMap = {
     "keccak256":  {
         version: 1,
         factory: token => new Keccak256(token),
+    },
+    "sha512_256":  {
+        version: 1,
+        factory: token => new Sha512_256(token),
     },
     "int":  {
         version: 1,
