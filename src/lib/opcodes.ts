@@ -21,6 +21,7 @@ import { Byte } from "./opcodes/byte";
 import { Addr } from "./opcodes/addr";
 import { Ecdsa_verify } from "./opcodes/ecdsa_verify";
 import { Minus } from "./opcodes/minus";
+import { Div } from "./opcodes/div";
 
 //
 // The static definiton of an opcode.
@@ -85,6 +86,10 @@ export const opcodeDefs: IOpcodeMap = {
     "-": {
         version: 1,
         factory: token => new Minus(token),
+    },
+    "/": {
+        version: 1,
+        factory: token => new Div(token),
     },
     "len": {
         version: 1,
