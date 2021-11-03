@@ -4,7 +4,6 @@ import { IExecutionContext } from "../context";
 
 export class Int extends Opcode {
    
-
     //
     // The integer literal value parsed from operands.
     //
