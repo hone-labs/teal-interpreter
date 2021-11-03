@@ -28,7 +28,7 @@ describe("txn opcode", () => {
     it("throws when field does not exist in current transaction", () => {
 
         const token: any = {
-            opcode: "int",
+            opcode: "txn",
             operands: [
                 "xxx"
             ],

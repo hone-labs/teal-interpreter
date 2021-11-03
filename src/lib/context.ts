@@ -25,6 +25,11 @@ export interface IExecutionContext {
     // The current transaction.
     //
     txn: any;
+
+    //
+    // The current transaction group.
+    //
+    txns: any[];
     
     //
     // The version of the TEAL executed.

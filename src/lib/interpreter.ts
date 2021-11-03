@@ -18,6 +18,11 @@ export interface ITealInterpreterConfig {
     txn?: any;
 
     //
+    // The current transaction group.
+    //
+    txns?: any[];
+
+    //
     // Array of arguments.
     //
     readonly args?: Uint8Array[];
@@ -80,6 +85,7 @@ export class TealInterpreter implements ITealInterpreter {
         stack: [],
         args: [],
         txn: {},
+        txns: [],
         globals: {},
         scratch: [],
     };
@@ -130,6 +136,7 @@ export class TealInterpreter implements ITealInterpreter {
             stack: [],
             args: config?.args || [],
             txn: config?.txn || {},
+            txns: config?.txns || [],
             globals: config?.globals || {},
             scratch: new Array<StackEntry>(255).fill(BigInt(0)),
         };

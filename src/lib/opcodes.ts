@@ -13,6 +13,7 @@ import { Global } from "./opcodes/global";
 import { Load } from "./opcodes/load";
 import { Store } from "./opcodes/store";
 import { Len } from "./opcodes/len";
+import { Gtxn } from "./opcodes/gtxn";
 
 //
 // The static definiton of an opcode.
@@ -81,6 +82,10 @@ export const opcodeDefs: IOpcodeMap = {
     "global": {
         version: 1,
         factory: token => new Global(token),
+    },
+    "gtxn": {
+        version: 1,
+        factory: token => new Gtxn(token),
     },
     "load": {
         version: 1,
