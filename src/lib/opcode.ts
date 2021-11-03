@@ -102,4 +102,11 @@ export abstract class Opcode implements IOpcode {
         }
         return value;
     }
+
+    //
+    // Pops an integer argument from the stack.
+    //
+    protected popInt(context: IExecutionContext): bigint {
+        return context.stack.pop() as bigint;
+    }
 }

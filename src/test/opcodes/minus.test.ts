@@ -15,6 +15,7 @@ describe("minus opcode", () => {
             ],
         };
         const opcode = new Minus(token);
+        opcode.validateContext(context);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);

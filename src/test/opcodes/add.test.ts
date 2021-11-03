@@ -7,6 +7,7 @@ describe("add opcode", () => {
         const token: any = {
             opcode: "+",
             operands: [],
+            
         };
         const context: any = {
             stack: [
@@ -15,6 +16,7 @@ describe("add opcode", () => {
             ],
         };
         const opcode = new Add(token);
+        opcode.validateContext(context);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
