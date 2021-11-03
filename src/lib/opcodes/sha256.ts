@@ -3,7 +3,6 @@ import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 import { sha256 } from "js-sha256";
 
-
 export class Sha256 extends Opcode {
     
     constructor(token: IToken) {

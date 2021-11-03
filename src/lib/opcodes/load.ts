@@ -4,7 +4,6 @@ import { IExecutionContext } from "../context";
 
 export class Load extends Opcode {
    
-
     //
     // The scratch position parsed from operands.
     //
