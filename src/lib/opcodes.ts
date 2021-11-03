@@ -18,6 +18,7 @@ import { Keccak256 } from "./opcodes/keccak256";
 import { Sha512_256 } from "./opcodes/sha512_256";
 import { Ed25519verify } from "./opcodes/ed25519verify";
 import { Byte } from "./opcodes/byte";
+import { Addr } from "./opcodes/addr";
 
 //
 // The static definiton of an opcode.
@@ -117,7 +118,11 @@ export const opcodeDefs: IOpcodeMap = {
         version: 1,
         factory: token => new Byte(token),
     },
-
+    "addr":  {
+        version: 1,
+        factory: token => new Addr(token),
+    },
+    
     // TEAL 2
     "b": {
         version: 2,
