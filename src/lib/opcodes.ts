@@ -20,6 +20,7 @@ import { Ed25519verify } from "./opcodes/ed25519verify";
 import { Byte } from "./opcodes/byte";
 import { Addr } from "./opcodes/addr";
 import { Ecdsa_verify } from "./opcodes/ecdsa_verify";
+import { Minus } from "./opcodes/minus";
 
 //
 // The static definiton of an opcode.
@@ -80,6 +81,10 @@ export const opcodeDefs: IOpcodeMap = {
     "+": {
         version: 1,
         factory: token => new Add(token),
+    },
+    "-": {
+        version: 1,
+        factory: token => new Minus(token),
     },
     "len": {
         version: 1,
