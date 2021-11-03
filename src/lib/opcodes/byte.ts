@@ -9,7 +9,7 @@ export class Byte extends Opcode {
     //
     // The type of encoding.
     //
-    private encoding?: string;
+    private encoding!: string;
 
     // 
     // The value to be pushed on the stack.
@@ -24,15 +24,16 @@ export class Byte extends Opcode {
         super.validateOperand();
 
         if (this.token.operands.length === 1) {
+            this.encoding = "base64";
             this.value = this.token.operands[0];
         }
         else {
-            this.encoding = this.token.operands[0];
-            this.value = this.token.operands[1]; //TODO: parse the operand based on the encoding.
+            this.encoding = this.token.operands[0]; //TODO: Throw error if not a valid encoding type.
+            this.value = this.token.operands[1];
         }
     }    
 
     execute(context: IExecutionContext): void {
-        context.stack.push(stringToBytes(this.value)); //TODO: Support other encoding types.
+        context.stack.push(stringToBytes(this.value, this.encoding as BufferEncoding));
     }
 }
