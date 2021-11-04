@@ -1,8 +1,7 @@
+import { ValueType } from "..";
+
 //
 // Results of executing TEAL code.
-
-import { StackEntry } from "..";
-
 //
 export interface IExecuteResult {
     
@@ -14,5 +13,5 @@ export interface IExecuteResult {
     //
     // The compute stack remaining when execution has finished.
     //
-    readonly stack: StackEntry[];
+    readonly stack: ValueType[];
 }

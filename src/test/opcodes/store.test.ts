@@ -1,4 +1,4 @@
-import { StackEntry } from "../..";
+import { ValueType } from "../..";
 import { Store } from "../../lib/opcodes/store";
 
 describe("load opcode", () => {
@@ -18,7 +18,7 @@ describe("load opcode", () => {
             stack: [
                 BigInt(12),
             ],
-            scratch: new Array<StackEntry>(1).fill(BigInt(0)),
+            scratch: new Array<ValueType>(1).fill(BigInt(0)),
         };
         opcode.execute(context);
 
@@ -40,7 +40,7 @@ describe("load opcode", () => {
             stack: [
                 BigInt(3),
             ],
-            scratch: new Array<StackEntry>(2).fill(BigInt(0)),
+            scratch: new Array<ValueType>(2).fill(BigInt(0)),
         };
         opcode.execute(context);
 

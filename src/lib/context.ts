@@ -2,9 +2,9 @@
 import { IBranchTargetMap } from "./parser";
 
 //
-// An entry in the AVM compute stack.
+// Represents a value in the Algorand virtual machine.
 //
-export type StackEntry = bigint | Uint8Array;
+export type ValueType = bigint | Uint8Array;
 
 //
 // Context for executions of TEAL opcodes.
@@ -24,7 +24,7 @@ export interface IExecutionContext {
     //
     // Scratch space.
     //
-    scratch: StackEntry[];
+    scratch: ValueType[];
 
     //
     // Global values.
@@ -54,7 +54,7 @@ export interface IExecutionContext {
     //
     // The compute stack used for execution.
     //
-    readonly stack: StackEntry[];
+    readonly stack: ValueType[];
 
     //
     // Array of arguments.
