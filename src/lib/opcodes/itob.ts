@@ -1,9 +1,26 @@
+import { encodeUint64 } from "algosdk";
 import { IExecutionContext } from "../context";
-import { Binary } from "./binary-operator";
+import { Opcode } from "../opcode";
+import { IToken } from "../token";
 
-export class Itob extends Binary {
+export class Itob extends Opcode {
+    
+    //
+    // The value to be converted.
+    //
+    private value!: bigint;
+
+    constructor(token: IToken) {
+        super(token, 0, 1);
+    }
+
+    validateContext(context: IExecutionContext) {
+        super.validateOperand();
+
+        this.value = this.popInt(context);
+    }
     
     execute(context: IExecutionContext): void {
-        context.stack.push((this.a != this.b) ? BigInt(1) : BigInt(0));
+        context.stack.push(encodeUint64(this.value));
     }
 }

@@ -1,11 +1,11 @@
-import { Not } from "../../lib/opcodes/not";
+import { Itob } from "../../lib/opcodes/itob";
 
-describe("not opcode", () => {
+describe("itob opcode", () => {
 
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "!",
+            opcode: "itob",
             operands: [],
         };
         const context: any = {
@@ -13,10 +13,16 @@ describe("not opcode", () => {
                 BigInt(3) 
             ],
         };
-        const opcode = new Not(token);
+        const opcode = new Itob(token);
+        opcode.validateContext(context);
         opcode.execute(context);
 
+        console.log(Array.from(context.stack[0]));
+
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(0);
+        expect(Array.from(context.stack[0])).toEqual([
+            0, 0, 0, 0,
+            0, 0, 0, 3
+        ]);
     });
 });
