@@ -66,7 +66,7 @@ export interface ITealInterpreter {
 
 export class TealInterpreter implements ITealInterpreter {
 
-     //
+    //
     // Index of the instruction we are currently stopped at
     //
     private _curInstructionIndex: number = 0;

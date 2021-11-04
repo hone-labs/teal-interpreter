@@ -3,7 +3,6 @@ import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 import { stringToBytes } from "../convert";
 
-
 export class Byte extends Opcode {
    
     //
