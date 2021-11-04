@@ -36,6 +36,7 @@ import { Itob } from "./opcodes/itob";
 import { Btoi } from "./opcodes/btoi";
 import { Mod } from "./opcodes/mod";
 import { Bor } from "./opcodes/bor";
+import { Band } from "./opcodes/band";
 
 //
 // The static definiton of an opcode.
@@ -164,7 +165,11 @@ export const opcodeDefs: IOpcodeMap = {
     "|": {
         version: 1,
         factory: token => new Bor(token),
-    },            
+    },      
+    "&": {
+        version: 1,
+        factory: token => new Band(token),
+    },          
     "arg": {
         version: 1,
         factory: token => new Arg(token),
