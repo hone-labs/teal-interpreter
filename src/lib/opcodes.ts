@@ -48,6 +48,7 @@ import { Bytec } from "./opcodes/bytec";
 import { Bytec_X } from "./opcodes/bytec_X";
 import { Arg_X } from "./opcodes/arg_X";
 import { Bnz } from "./opcodes/bnz";
+import { Dup } from "./opcodes/dup";
 
 //
 // The static definiton of an opcode.
@@ -100,10 +101,6 @@ export const opcodeDefs: IOpcodeMap = {
     "ed25519verify":  {
         version: 1,
         factory: token => new Ed25519verify(token),
-    },
-    "pop": {
-        version: 1,
-        factory: token => new Pop(token),
     },
     "+": {
         version: 1,
@@ -284,6 +281,14 @@ export const opcodeDefs: IOpcodeMap = {
     "bnz": {
         version: 1,
         factory: token => new Bnz(token),
+    },
+    "pop": {
+        version: 1,
+        factory: token => new Pop(token),
+    },
+    "dup": {
+        version: 1,
+        factory: token => new Dup(token),
     },
 
     // Pseudo opcodes
