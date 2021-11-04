@@ -47,6 +47,7 @@ import { Bytecblock } from "./opcodes/bytecblock";
 import { Bytec } from "./opcodes/bytec";
 import { Bytec_X } from "./opcodes/bytec_X";
 import { Arg_X } from "./opcodes/arg_X";
+import { Bnz } from "./opcodes/bnz";
 
 //
 // The static definiton of an opcode.
@@ -279,6 +280,10 @@ export const opcodeDefs: IOpcodeMap = {
     "store": {
         version: 1,
         factory: token => new Store(token),
+    },
+    "bnz": {
+        version: 1,
+        factory: token => new Bnz(token),
     },
 
     // Pseudo opcodes
