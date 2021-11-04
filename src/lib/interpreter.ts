@@ -1,6 +1,23 @@
 import { IExecutionContext, ValueType } from "./context";
+import { convertArgs } from "./convert";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
+
+//
+// Unencoded value for an argument.
+//
+export interface IArgDef {
+
+    //
+    // The type of the argument.
+    //
+    readonly type: "array" | "int" | "string" | "addr";
+
+    //
+    // The value of the argument.
+    //
+    readonly value: any;
+}
 
 //
 // Specifies initial configuration for TEAL code execution.
@@ -25,7 +42,7 @@ export interface ITealInterpreterConfig {
     //
     // Array of arguments.
     //
-    readonly args?: Uint8Array[];
+    readonly args?: IArgDef[];
 
 }
 
@@ -136,7 +153,7 @@ export class TealInterpreter implements ITealInterpreter {
             version: 1,
             branchTargets: parseResult.branchTargets,
             stack: [],
-            args: config?.args || [],
+            args: config?.args !== undefined ? convertArgs(config.args): [],
             txn: config?.txn || {},
             txns: config?.txns || [],
             globals: config?.globals || {},

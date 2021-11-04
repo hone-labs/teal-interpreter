@@ -1,4 +1,5 @@
-import { decodeAddress } from "algosdk";
+import { decodeAddress, encodeUint64 } from "algosdk";
+import { IArgDef } from "./interpreter";
 
 //
 // Converts a string to a byte array.
@@ -16,4 +17,33 @@ export function stringToBytes(input: string, encoding?: BufferEncoding): Uint8Ar
 //
 export function addressToBytes(address: string): Uint8Array {
     return decodeAddress(address).publicKey;
+}
+
+//
+// Converts an array of arguments to an array of byte arrays.
+//
+export function convertArgs(args: IArgDef[]): Uint8Array[] {
+    return args.map(convertArg);
+}
+
+//
+// Converts a single argument to a byte array.
+//
+export function convertArg(arg: IArgDef): Uint8Array {
+    const argDef = arg as IArgDef;
+    if (argDef.type === "array") {
+        return new Uint8Array(argDef.value);
+    }
+    if (argDef.type === "int") {
+        return encodeUint64(argDef.value);
+    }
+    else if (argDef.type === "string") {
+        return new Uint8Array(Buffer.from(argDef.value));
+    }
+    else if (argDef.type === "addr") {
+        return decodeAddress(argDef.value).publicKey;
+    }
+    else {
+        throw new Error(`Unexpected arg type ${argDef.type}.`);
+    }
 }
