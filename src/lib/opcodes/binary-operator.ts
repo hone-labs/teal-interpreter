@@ -15,7 +15,7 @@ export abstract class Binary extends Opcode {
     }
 
     validateContext(context: IExecutionContext) {
-        super.validateOperand();
+        super.validateContext(context);
 
         this.b = this.popInt(context);
         this.a = this.popInt(context);
