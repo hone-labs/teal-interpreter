@@ -17,8 +17,6 @@ describe("itob opcode", () => {
         opcode.validateContext(context);
         opcode.execute(context);
 
-        console.log(Array.from(context.stack[0]));
-
         expect(context.stack.length).toEqual(1);
         expect(Array.from(context.stack[0])).toEqual([
             0, 0, 0, 0,
