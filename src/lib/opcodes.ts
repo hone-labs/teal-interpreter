@@ -42,6 +42,7 @@ import { Complement } from "./opcodes/complement";
 import { Mulw } from "./opcodes/mulw";
 import { Intcblock } from "./opcodes/intcblock";
 import { Intc } from "./opcodes/intc";
+import { Intc_0 } from "./opcodes/intc_0";
 
 //
 // The static definiton of an opcode.
@@ -194,6 +195,10 @@ export const opcodeDefs: IOpcodeMap = {
     "intc": {
         version: 1,
         factory: token => new Intc(token),
+    },              
+    "intc_0": {
+        version: 1,
+        factory: token => new Intc_0(token),
     },              
     "arg": {
         version: 1,
