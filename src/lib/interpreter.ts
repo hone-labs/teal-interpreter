@@ -89,6 +89,7 @@ export class TealInterpreter implements ITealInterpreter {
         globals: {},
         scratch: [],
         intcblock: [],
+        bytecblock: [],
     };
 
     //
@@ -141,6 +142,7 @@ export class TealInterpreter implements ITealInterpreter {
             globals: config?.globals || {},
             scratch: new Array<StackEntry>(255).fill(BigInt(0)),
             intcblock: [],
+            bytecblock: [],
         };
         this._curInstructionIndex = 0;
     }

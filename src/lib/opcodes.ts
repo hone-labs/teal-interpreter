@@ -43,6 +43,9 @@ import { Mulw } from "./opcodes/mulw";
 import { Intcblock } from "./opcodes/intcblock";
 import { Intc } from "./opcodes/intc";
 import { Intc_X } from "./opcodes/intc_X";
+import { Bytecblock } from "./opcodes/bytecblock";
+import { Bytec } from "./opcodes/bytec";
+import { Bytec_X } from "./opcodes/bytec_X";
 
 //
 // The static definiton of an opcode.
@@ -211,6 +214,30 @@ export const opcodeDefs: IOpcodeMap = {
     "intc_3": {
         version: 1,
         factory: token => new Intc_X(token, 3),
+    },              
+    "bytecblock": {
+        version: 1,
+        factory: token => new Bytecblock(token),
+    },              
+    "bytec": {
+        version: 1,
+        factory: token => new Bytec(token),
+    },              
+    "bytec_0": {
+        version: 1,
+        factory: token => new Bytec_X(token, 0),
+    },              
+    "bytec_1": {
+        version: 1,
+        factory: token => new Bytec_X(token, 1),
+    },              
+    "bytec_2": {
+        version: 1,
+        factory: token => new Bytec_X(token, 2),
+    },              
+    "bytec_3": {
+        version: 1,
+        factory: token => new Bytec_X(token, 3),
     },              
     "arg": {
         version: 1,

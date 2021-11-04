@@ -12,9 +12,14 @@ export type StackEntry = bigint | Uint8Array;
 export interface IExecutionContext {
 
     //
-    // Constant block.
+    // Int constants block.
     //
     intcblock: bigint[];
+
+    //
+    // Byte constants block.
+    //
+    bytecblock: Uint8Array[];
     
     //
     // Scratch space.
