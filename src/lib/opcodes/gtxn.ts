@@ -27,7 +27,7 @@ export class Gtxn extends Opcode {
     
     execute(context: IExecutionContext): void {
         
-        const value = context.txns[this.txnIndex][this.fieldName];
+        const value = context.txns[this.txnIndex][this.fieldName]; //TODO: Ensure the index is valid.
         if (value === undefined) {
             throw new Error(`Field "${this.fieldName}" has not been supplied with current transaction, please adjust your configuration to include this field.`)
         }
