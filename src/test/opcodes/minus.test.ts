@@ -5,7 +5,7 @@ describe("minus opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "+",
+            opcode: "-",
             operands: [],
         };
         const context: any = {

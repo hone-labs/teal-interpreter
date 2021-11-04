@@ -5,7 +5,7 @@ describe("div opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "+",
+            opcode: "/",
             operands: [],
             
         };

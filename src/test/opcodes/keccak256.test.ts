@@ -5,7 +5,7 @@ describe("keccak256 opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "sha256",
+            opcode: "keccak256",
             operands: [],
         };
         const opcode = new Keccak256(token);
