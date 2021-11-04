@@ -46,6 +46,7 @@ import { Intc_X } from "./opcodes/intc_X";
 import { Bytecblock } from "./opcodes/bytecblock";
 import { Bytec } from "./opcodes/bytec";
 import { Bytec_X } from "./opcodes/bytec_X";
+import { Arg_X } from "./opcodes/arg_X";
 
 //
 // The static definiton of an opcode.
@@ -242,6 +243,22 @@ export const opcodeDefs: IOpcodeMap = {
     "arg": {
         version: 1,
         factory: token => new Arg(token),
+    },
+    "arg_0": {
+        version: 1,
+        factory: token => new Arg_X(token, 0),
+    },
+    "arg_1": {
+        version: 1,
+        factory: token => new Arg_X(token, 1),
+    },
+    "arg_2": {
+        version: 1,
+        factory: token => new Arg_X(token, 2),
+    },
+    "arg_3": {
+        version: 1,
+        factory: token => new Arg_X(token, 3),
     },
     "txn": {
         version: 1,
