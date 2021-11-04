@@ -5,7 +5,7 @@ describe("bitwise and opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "|",
+            opcode: "&",
             operands: [],
             
         };
