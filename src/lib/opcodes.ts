@@ -40,6 +40,7 @@ import { Band } from "./opcodes/band";
 import { Xor } from "./opcodes/xor";
 import { Complement } from "./opcodes/complement";
 import { Mulw } from "./opcodes/mulw";
+import { Intcblock } from "./opcodes/intcblock";
 
 //
 // The static definiton of an opcode.
@@ -184,6 +185,10 @@ export const opcodeDefs: IOpcodeMap = {
     "mulw": {
         version: 1,
         factory: token => new Mulw(token),
+    },              
+    "intcblock": {
+        version: 1,
+        factory: token => new Intcblock(token),
     },              
     "arg": {
         version: 1,
