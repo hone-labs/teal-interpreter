@@ -39,6 +39,7 @@ import { Bor } from "./opcodes/bor";
 import { Band } from "./opcodes/band";
 import { Xor } from "./opcodes/xor";
 import { Complement } from "./opcodes/complement";
+import { Mulw } from "./opcodes/mulw";
 
 //
 // The static definiton of an opcode.
@@ -179,6 +180,10 @@ export const opcodeDefs: IOpcodeMap = {
     "~": {
         version: 1,
         factory: token => new Complement(token),
+    },              
+    "mulw": {
+        version: 1,
+        factory: token => new Mulw(token),
     },              
     "arg": {
         version: 1,
