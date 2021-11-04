@@ -33,6 +33,7 @@ import { Eq } from "./opcodes/eq";
 import { Ne } from "./opcodes/ne";
 import { Not } from "./opcodes/not";
 import { Itob } from "./opcodes/itob";
+import { Btoi } from "./opcodes/btoi";
 
 //
 // The static definiton of an opcode.
@@ -149,7 +150,11 @@ export const opcodeDefs: IOpcodeMap = {
     "itob": {
         version: 1,
         factory: token => new Itob(token),
-    },    
+    },   
+    "btoi": {
+        version: 1,
+        factory: token => new Btoi(token),
+    },        
     "arg": {
         version: 1,
         factory: token => new Arg(token),
