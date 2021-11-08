@@ -98,7 +98,11 @@ export abstract class Opcode implements IOpcode {
     //
     protected parseIntOperand(operandIndex: number): number {
         const operand = this.token.operands[operandIndex];
-        const value = parseInt(operand);
+        let base = 10;
+        if (operand.startsWith("0x")) {
+            base = 16;
+        }
+        const value = parseInt(operand, base);
         if (Number.isNaN(value)) {
             throw new Error(`Failed to pass integer "${operand}" from operand ${operandIndex} for opcode "${this.token.opcode}".`);
         }
