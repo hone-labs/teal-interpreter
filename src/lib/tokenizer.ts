@@ -1,63 +1,157 @@
 
+import { DH_UNABLE_TO_CHECK_GENERATOR } from "constants";
+import { stringToBytes } from "./convert";
 import { IToken } from "./token";
 
 //
 // Tokenizes TEAL code and returns an intermediate format.
 //
-export function tokenize(tealCode: string): IToken[] {
+export interface ITokenizer {
 
-    return tealCode.split("\n") // Split line-by-line.
-
-        // Remove whitespace.
-        .map(line => line.trim()) 
-
-        // Capture line numbers.
-        .map((line, index) => ({ content: line, lineNo: index+1 })) 
-
-        // Filter blank lines.
-        .filter(line => line.content.length > 0)              
-
-        // Parse tokens.
-        .map(line => parseLine(line.content, line.lineNo))
-
-        // Filter blank lines (after comment removed). Casting to remove 'undefined' which has been filtered out.
-        .filter(line => line) as IToken[] 
 }
 
 //
-// Parses a line of TEAL code.
+// Tokenizes TEAL code and returns an intermediate format.
 //
-function parseLine(line: string, lineNo: number): IToken | undefined  {
+export class Tokenizer implements ITokenizer {
 
-    const commentStartIndex = line.indexOf("//");
-    if (commentStartIndex !== -1) {
-        // Remove the comment (leaving the first part of the line intact).
-        line = line.substring(0, commentStartIndex).trim();
+    //
+    // The current offset in the TEAL code.
+    //
+    curOffset: number = 0;
 
-        if (line.length === 0) {
-            return undefined; // Nothing else on the line.
-        }
+    //
+    // The current line number.
+    //
+    curLineNo: number = 1;
+
+    constructor(private tealCode: string) {
     }
 
-    if (!line.startsWith("#pragma")) {
-        const commentStartIndex = line.indexOf("#");
-        if (commentStartIndex !== -1) {
-            // Remove the comment (leaving the first part of the line intact).
-            line = line.substring(0, commentStartIndex).trim();
+    //
+    // Gets the next token.
+    // Returns undefined when no more tokens.
+    //
+    nextToken(): IToken | undefined {
 
-            if (line.length === 0) {
-                return undefined; // Nothing else on the line.
+        while (true) {
+            this.skipWhiteSpace();
+
+            if (this.curOffset >= this.tealCode.length) {
+                return undefined;
+            }
+
+            const lineNo = this.curLineNo;
+            const tokenStart = this.curOffset;
+            let tokenEnd: number | undefined;
+    
+            while (this.curOffset < this.tealCode.length) {
+                if (this.tealCode[this.curOffset] === '#') {
+                    if (!this.tealCode.includes("#pragma", this.curOffset)) {
+                        // A comment ends the token.
+                        // Scan to end of line or end of input.
+                        tokenEnd = this.curOffset; 
+                        this.skipToEndOfLine();
+                        break;
+                    }        
+                }
+                else if (this.tealCode[this.curOffset] === '/' && 
+                    this.curOffset+1 <  this.tealCode.length && 
+                    this.tealCode[this.curOffset+1] === '/') {
+                    // A comment ends the token.
+                    // Scan to end of line or end of input.
+                    tokenEnd = this.curOffset; 
+                    this.skipToEndOfLine();
+                    break;
+                }
+                else if (this.tealCode[this.curOffset] === "\n") {
+                    // End of line ends the instruction.
+                    this.curLineNo += 1;
+                    tokenEnd = this.curOffset; 
+                    this.curOffset += 1;
+                    break;
+                }
+                else if (this.tealCode[this.curOffset] === ";") {
+                    // Semicolon will separate the next instruction.
+                    tokenEnd = this.curOffset; 
+                    this.curOffset += 1;
+                    break;
+                }
+
+                this.curOffset += 1;
+            }
+
+            if (tokenEnd === undefined) {
+                tokenEnd = this.curOffset;
+            }
+
+            if (tokenEnd > tokenStart) {
+                // Have a token.
+                // Split into opcode and operands by whitespace.
+                return this.parseInstruction(tokenStart, tokenEnd, lineNo);
             }
         }
     }
 
-    const parts = line.split(" ")
-        .filter(part => part.length > 0);
-    const opcode = parts.shift()!;
-    const token: IToken = {
-        lineNo: lineNo,
-        opcode: opcode,
-        operands: parts,
-    };         
-    return token;
+    //
+    // Skips white space (but not new lines which are significant).
+    //
+    private skipWhiteSpace(): void {
+        while (this.curOffset < this.tealCode.length) {
+            const ch = this.tealCode[this.curOffset];
+            if (ch === " " ||
+                ch === "\t") {
+                    this.curOffset += 1;
+            }
+            else {
+                break;
+            }
+        }
+    }
+
+    //
+    // Skips to the end of the current line.
+    //
+    private skipToEndOfLine(): void {
+        while (this.curOffset < this.tealCode.length) {
+            if (this.tealCode[this.curOffset++] === "\n") {
+                return;
+            }
+        }
+    }
+
+    //
+    // Parse an instruction and returns the tokenized representation of it.
+    //
+    private parseInstruction(tokenStart: number, tokenEnd: number, lineNo: number): IToken {
+        const parts = this.tealCode.substring(tokenStart, tokenEnd)
+            .split(" ")
+            .filter(part => part.length > 0);
+        const opcode = parts.shift()!;
+        const token: IToken = {
+            lineNo: lineNo,
+            opcode: opcode,
+            operands: parts,
+        };         
+        return token;
+    }
+
+}
+
+//
+// Tokenizes TEAL code and returns an intermediate format.
+//
+export function tokenize(tealCode: string): IToken[] {
+    const tokenizer = new Tokenizer(tealCode);
+    const tokens: IToken[] = [];
+    while (true) {
+        const token = tokenizer.nextToken();
+        if (token) {
+            tokens.push(token);
+        }
+        else {
+            break;
+        }
+    }
+    return tokens;
 }

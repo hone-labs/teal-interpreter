@@ -40,6 +40,15 @@ describe("teal tokenizer", () => {
 
         expect(tokens.length).toEqual(2);
     });
+
+    it("can parse multiple instuctions separated by semicolons", () => {
+
+        const tokens = tokenize(dedent(`
+            return ; pop
+        `));
+
+        expect(tokens.length).toEqual(2);
+    });
     
     it("can handle blank lines", () => {
 
