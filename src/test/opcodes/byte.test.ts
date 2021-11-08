@@ -2,7 +2,7 @@ import { Byte } from "../../lib/opcodes/byte";
 
 describe("byte opcode", () => {
 
-    it ("can execute", () => {
+    it ("base 64", () => {
 
         const token: any = {
             opcode: "byte",

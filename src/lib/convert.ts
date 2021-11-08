@@ -1,15 +1,34 @@
 import { decodeAddress, encodeUint64 } from "algosdk";
 import { IArgDef } from "./interpreter";
+import * as base32 from "hi-base32";
+
+export type Encoding = "base64" | "b64" | "base32" | "b32" | "hex";
 
 //
 // Converts a string to a byte array.
 // Defaults to base64 encoding.
 //
-export function stringToBytes(input: string, encoding?: BufferEncoding): Uint8Array {
+export function stringToBytes(input: string, encoding?: Encoding): Uint8Array {
     if (encoding === undefined) {
         encoding = "base64";
     }
-    return Buffer.from(input, encoding) as Uint8Array;
+
+    switch (encoding) {
+        case "base64":
+        case "b64":
+            return Buffer.from(input, "base64");
+
+        case "base32":
+        case "b32":
+            return Buffer.from(base32.decode(input));
+
+        case "hex":
+            return Buffer.from(input, "hex");
+
+
+        default:
+            throw new Error(`Unknown encoding type ${encoding}`);
+    }
 }
 
 //
