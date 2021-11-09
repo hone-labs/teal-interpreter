@@ -21,7 +21,7 @@ export class Eq extends Opcode {
             const A = a.value as Uint8Array;
             const B = b.value as Uint8Array;
             context.stack.push(makeBigInt(
-                A.length == B.length && A.every((value, index) => value === B[index]) 
+                A.length === B.length && A.every((value, index) => value === B[index]) 
                 ? BigInt(1) 
                 : BigInt(0)
             ));
