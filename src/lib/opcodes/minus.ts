@@ -4,6 +4,10 @@ import { Binary } from "./binary-operator";
 export class Minus extends Binary {
    
     execute(context: IExecutionContext): void {
-        context.stack.push(makeBigInt(this.a - this.b));
+        const result = this.a - this.b;
+        if (result < BigInt(0)) {
+            throw new Error(`Subtraction underflow`);
+        }
+        context.stack.push(makeBigInt(result));
     }
 }
