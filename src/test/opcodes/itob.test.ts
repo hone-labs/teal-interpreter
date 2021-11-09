@@ -10,7 +10,7 @@ describe("itob opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(3) 
+                BigInt("0x1234567812345678"),
             ],
         };
         const opcode = new Itob(token);
@@ -19,8 +19,8 @@ describe("itob opcode", () => {
 
         expect(context.stack.length).toEqual(1);
         expect(Array.from(context.stack[0])).toEqual([
-            0, 0, 0, 0,
-            0, 0, 0, 3
+            18, 52, 86, 120,
+            18, 52, 86, 120
         ]);
     });
 });
