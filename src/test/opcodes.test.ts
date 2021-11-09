@@ -7,6 +7,9 @@ import { execute } from "..";
 
 describe("opcode integration tests", () => {
 
+    //
+    // Evaluates TEAL code and return true for approval or false for rejection.
+    //
     function evaluate(tealCode: string): boolean {
         const result = execute(tealCode);
         if (result.stack.length !== 1) {
@@ -21,7 +24,10 @@ describe("opcode integration tests", () => {
         return true;
     }
 
-    function expectSuccessfulEval(tealCode: string) {
+    //
+    // Evaluates TEAL code and throws an exception on rejection.
+    //
+    function succeeds(tealCode: string) {
         const result = execute(tealCode);
         if (result.stack.length !== 1) {
             throw new Error(`Expected a single result on the stack, got ${result.stack.length}\r\nStack:\r\n${result.stack.toString()}`);
@@ -35,15 +41,24 @@ describe("opcode integration tests", () => {
         // Success.
     }
 
-    function expectFailedEval(tealCode: string) {
-        const result = execute(tealCode);
-        if (result.stack.length !== 1) {
-            throw new Error(`Expected a single result on the stack, got ${result.stack.length}\r\nStack:\r\n${result.stack.toString()}`);
-        }
-
-        if (result.stack[0].type !== "bigint" ||
-            result.stack[0].value !== BigInt(0)) {
+    //
+    // Evaluates TEAL code and throws an exception on approval.
+    //
+    function fails(tealCode: string) {
+        try {
+            const result = execute(tealCode);
+            console.log(`! got stack:`);
+            console.log(result.stack);
+    
+            if (result.stack.length === 0 && 
+                result.stack[0].type === "bigint" &&
+                result.stack[0].value === BigInt(0)) {
+                return; // Success.
+            }
             throw new Error(`Expected a zero result on the stack, got ${result.stack[0].value.toString()} (${result.stack[0].type})`);
+        }
+        catch {
+            // An error thrown is a succesful failure.
         }
 
         // Success.
@@ -54,18 +69,65 @@ describe("opcode integration tests", () => {
     });
 
     it("simple math", () => {
-        expectSuccessfulEval("int  2; int 3; + ;int  5;==");
-        expectSuccessfulEval("int 22; int 3; - ;int 19;==");
-        expectSuccessfulEval("int  8; int 7; * ;int 56;==");
-        expectSuccessfulEval("int 21; int 7; / ;int  3;==");
+        succeeds("int  2; int 3; + ;int  5;==");
+        succeeds("int 22; int 3; - ;int 19;==");
+        succeeds("int  8; int 7; * ;int 56;==");
+        succeeds("int 21; int 7; / ;int  3;==");
     });
 
     it("u64 math", () => {
-        expectSuccessfulEval("int 0x1234567812345678; int 0x100000000; /; int 0x12345678; ==");
+        succeeds("int 0x1234567812345678; int 0x100000000; /; int 0x12345678; ==");
     });
 
     it("itob", () => {
-        expectSuccessfulEval("byte 0x1234567812345678; int 0x1234567812345678; itob; ==")
+        succeeds("byte 0x1234567812345678; int 0x1234567812345678; itob; ==")
+    });
+
+    it("btoi", () => {
+        succeeds("int 0x1234567812345678; byte 0x1234567812345678; btoi; ==");
+        succeeds("int 0x34567812345678; byte 0x34567812345678; btoi; ==");
+        succeeds("int 0x567812345678; byte 0x567812345678; btoi; ==");
+        succeeds("int 0x7812345678; byte 0x7812345678; btoi; ==");
+        succeeds("int 0x12345678; byte 0x12345678; btoi; ==");
+        succeeds("int 0x345678; byte 0x345678; btoi; ==");
+        succeeds("int 0; byte b64(); btoi; ==");
+        
+        fails("int 0x1234567812345678; byte 0x1234567812345678aa; btoi; ==");
+    });
+
+    it("bnz", () => {
+        succeeds(`
+            int 1
+            dup
+            bnz safe
+            err
+            safe:
+            int 1
+            +
+        `);
+
+        succeeds(`
+            int 1
+            int 2
+            int 1
+            int 2
+            >
+            bnz planb
+            *
+            int 1
+            bnz after
+            planb:
+            +
+            after:
+            dup
+            pop
+        `);
+    });
+
+    it("sub underflow", () => {
+        // console.log(execute("int 1; int 10; -; pop; int 1"));
+        // expect(true).toBeFalsy();
+        fails("int 1; int 10; -; pop; int 1");
     });
 
 });
