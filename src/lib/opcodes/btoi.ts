@@ -11,7 +11,10 @@ export class Btoi extends Opcode {
 
     execute(context: IExecutionContext): void {
         const value = context.stack.pop()?.value as Uint8Array;
-        if (value.length === 0) {
+        if (value.length > 8) {
+            throw new Error(`Input byte array is too long at ${value.length}, expected length is between 0 and 8.`);
+        }
+        else if (value.length === 0) {
             context.stack.push(makeBigInt(BigInt(0)));    
         }
         else {
