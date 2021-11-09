@@ -7,7 +7,7 @@ export class Int extends Opcode {
     //
     // The integer literal value parsed from operands.
     //
-    private value!: number;
+    private value!: bigint;
 
     constructor(token: IToken) {
         super(token, 1, 0);
@@ -16,11 +16,10 @@ export class Int extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        this.value = this.parseIntOperand(0);
+        this.value = this.parseBigIntOperand(0);
     }
-    
 
     execute(context: IExecutionContext): void {
-        context.stack.push(BigInt(this.value!));        
+        context.stack.push(this.value!);
     }
 }

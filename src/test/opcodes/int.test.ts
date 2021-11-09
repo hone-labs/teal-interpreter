@@ -40,6 +40,25 @@ describe("int opcode", () => {
         expect(Number(context.stack[0])).toEqual(108);
     });
 
+    it ("can handle a bigint", () => {
+
+        const token: any = {
+            opcode: "int",
+            operands: [
+                "0x1234567812345678"
+            ],
+        };
+        const context: any = {
+            stack: [],
+        };
+        const opcode = new Int(token);
+        opcode.validateOperand(); // Parses the operand.
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(1);
+        expect(context.stack[0] === BigInt("0x1234567812345678")).toEqual(true);
+    });
+
     it("throws when operand is not an int", () => {
 
         const token: any = {
