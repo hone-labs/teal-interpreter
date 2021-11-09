@@ -25,7 +25,6 @@ export function stringToBytes(input: string, encoding?: Encoding): Uint8Array {
         case "hex":
             return Buffer.from(input, "hex");
 
-
         default:
             throw new Error(`Unknown encoding type ${encoding}`);
     }

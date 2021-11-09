@@ -71,6 +71,7 @@ export class Byte extends Opcode {
     }
 
     execute(context: IExecutionContext): void {
-        context.stack.push(stringToBytes(this.value, this.encoding as Encoding));
+        const bytes = stringToBytes(this.value, this.encoding as Encoding);
+        context.stack.push(new Uint8Array(bytes));
     }
 }
