@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBigInt } from "../context";
 import { encodeAddress, verifyBytes } from "algosdk";
 
 export class Ed25519verify extends Opcode {
@@ -10,17 +10,17 @@ export class Ed25519verify extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const data = context.stack.pop() as Uint8Array;
-        const signature = context.stack.pop() as Uint8Array;
-        const pubkey = context.stack.pop() as Uint8Array;
+        const data = context.stack.pop()?.value as Uint8Array;
+        const signature = context.stack.pop()?.value as Uint8Array;
+        const pubkey = context.stack.pop()?.value as Uint8Array;
         
         const addr = encodeAddress(pubkey);
         const isValid = verifyBytes(data, signature, addr);
         if (isValid) {
-            context.stack.push(BigInt(1));
+            context.stack.push(makeBigInt(BigInt(1)));
         } 
         else {
-            context.stack.push(BigInt(0));
+            context.stack.push(makeBigInt(BigInt(0)));
         }      
     }
 }

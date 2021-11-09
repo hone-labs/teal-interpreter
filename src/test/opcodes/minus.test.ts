@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Minus } from "../../lib/opcodes/minus";
 
 describe("minus opcode", () => {
@@ -10,8 +11,8 @@ describe("minus opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(6), 
-                BigInt(4),
+                makeBigInt(BigInt(6)), 
+                makeBigInt(BigInt(4)),
             ],
         };
         const opcode = new Minus(token);
@@ -19,6 +20,6 @@ describe("minus opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(2);
+        expect(Number(context.stack[0]?.value)).toEqual(2);
     });
 });

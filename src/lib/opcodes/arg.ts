@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBytes } from "../context";
 
 
 export class Arg extends Opcode {
@@ -25,6 +25,6 @@ export class Arg extends Opcode {
             throw new Error(`Invalid index "${this.argIndex}" provided to "arg" opcode. It is outside the range of ${context.args.length} arguments.`);
         }
 
-        context.stack.push(context.args[this.argIndex]);
+        context.stack.push(makeBytes(context.args[this.argIndex]));
     }
 }

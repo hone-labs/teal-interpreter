@@ -1,5 +1,5 @@
 import { decodeUint64 } from "algosdk";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBigInt } from "../context";
 import { Opcode } from "../opcode";
 import { IToken } from "../token";
 
@@ -21,7 +21,7 @@ export class Btoi extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const value = context.stack.pop() as Uint8Array;
-        context.stack.push(decodeUint64(value, "bigint"));
+        const value = context.stack.pop()?.value as Uint8Array;
+        context.stack.push(makeBigInt(decodeUint64(value, "bigint")));
     }
 }

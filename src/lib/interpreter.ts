@@ -1,4 +1,4 @@
-import { IExecutionContext, ValueType } from "./context";
+import { IExecutionContext, ITypedValue, makeBigInt, ValueType } from "./context";
 import { convertArgs } from "./convert";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
@@ -157,7 +157,7 @@ export class TealInterpreter implements ITealInterpreter {
             txn: config?.txn || {},
             txns: config?.txns || [],
             globals: config?.globals || {},
-            scratch: new Array<ValueType>(255).fill(BigInt(0)),
+            scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
             intcblock: [],
             bytecblock: [],
         };

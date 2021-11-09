@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Band } from "../../lib/opcodes/band";
 
 describe("bitwise and opcode", () => {
@@ -11,8 +12,8 @@ describe("bitwise and opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(2), 
-                BigInt(6),
+                makeBigInt(BigInt(2)), 
+                makeBigInt(BigInt(6)),
             ],
         };
         const opcode = new Band(token);
@@ -20,6 +21,6 @@ describe("bitwise and opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(2);
+        expect(Number(context.stack[0]?.value)).toEqual(2);
     });
 });

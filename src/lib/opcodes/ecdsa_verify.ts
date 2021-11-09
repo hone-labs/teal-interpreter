@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBigInt } from "../context";
 import { ec as EC } from "elliptic";
 
 export class Ecdsa_verify extends Opcode {
@@ -21,11 +21,11 @@ export class Ecdsa_verify extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const pubkey2 = context.stack.pop() as Uint8Array;
-        const pubkey1 = context.stack.pop() as Uint8Array;
-        const signature2 = context.stack.pop() as Uint8Array;
-        const signature1 = context.stack.pop() as Uint8Array;
-        const data = context.stack.pop() as Uint8Array;
+        const pubkey2 = context.stack.pop()?.value as Uint8Array;
+        const pubkey1 = context.stack.pop()?.value as Uint8Array;
+        const signature2 = context.stack.pop()?.value as Uint8Array;
+        const signature1 = context.stack.pop()?.value as Uint8Array;
+        const data = context.stack.pop()?.value as Uint8Array;
 
         const ec = new EC('secp256k1');
         const key = ec.keyFromPublic({ 
@@ -33,10 +33,10 @@ export class Ecdsa_verify extends Opcode {
             y: Buffer.from(pubkey2).toString('hex') 
         });
         if (key.verify(data, { r: signature1, s: signature2 })) {
-            context.stack.push(BigInt(1));
+            context.stack.push(makeBigInt(BigInt(1)));
         } 
         else {
-            context.stack.push(BigInt(0));
+            context.stack.push(makeBigInt(BigInt(0)));
         }
     }
 }

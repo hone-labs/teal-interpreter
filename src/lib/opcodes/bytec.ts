@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBytes } from "../context";
 
 export class Bytec extends Opcode {
    
@@ -20,6 +20,6 @@ export class Bytec extends Opcode {
     }    
 
     execute(context: IExecutionContext): void {
-        context.stack.push(context.bytecblock[this.blockIndex!]);
+        context.stack.push(makeBytes(context.bytecblock[this.blockIndex!]));
     }
 }

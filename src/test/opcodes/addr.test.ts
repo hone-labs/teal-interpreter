@@ -19,7 +19,7 @@ describe("addr opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([
+        expect(Array.from(context.stack[0]?.value)).toEqual([
             250,  92, 250, 145, 251,  0,  83,  75,
             119,  25, 237, 138, 135, 53, 111, 180,
             243, 214,  98, 253,  57, 85, 197, 125,

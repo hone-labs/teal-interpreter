@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Load } from "../../lib/opcodes/load";
 
 describe("load opcode", () => {
@@ -13,7 +14,7 @@ describe("load opcode", () => {
         const context: any = {
             stack: [],
             scratch: [
-                BigInt(3),
+                makeBigInt(BigInt(3)),
             ],
         };
         const opcode = new Load(token);
@@ -21,7 +22,7 @@ describe("load opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(3);
+        expect(Number(context.stack[0]?.value)).toEqual(3);
     });
 
     it ("can load from second position", () => {
@@ -35,8 +36,8 @@ describe("load opcode", () => {
         const context: any = {
             stack: [],
             scratch: [
-                BigInt(3),
-                BigInt(4),
+                makeBigInt(BigInt(3)),
+                makeBigInt(BigInt(4)),
             ],
         };
         const opcode = new Load(token);
@@ -44,7 +45,7 @@ describe("load opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(4);
+        expect(Number(context.stack[0]?.value)).toEqual(4);
     });
 
     it("throws when operand is not an int", () => {

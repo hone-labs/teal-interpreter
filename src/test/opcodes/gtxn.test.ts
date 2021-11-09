@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Gtxn } from "../../lib/opcodes/gtxn";
 
 describe("gtxn opcode", () => {
@@ -19,14 +20,14 @@ describe("gtxn opcode", () => {
             stack: [],
             txns: [
                 {
-                    Fee: 42,
+                    Fee: makeBigInt(BigInt(42)),
                 },
             ],
         };
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(42);
+        expect(Number(context.stack[0]?.value)).toEqual(42);
     });
 
     it("throws when operand is not an int", () => {

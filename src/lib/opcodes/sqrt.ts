@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBigInt } from "../context";
 
 export class Sqrt extends Opcode {
 
@@ -9,7 +9,7 @@ export class Sqrt extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const value = context.stack.pop()!;
-        context.stack.push(BigInt(Math.sqrt(Number(value))));
+        const value = this.popInt(context);
+        context.stack.push(makeBigInt(BigInt(Math.sqrt(Number(value)))));
     }
 }

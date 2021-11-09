@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Gte } from "../../lib/opcodes/gte";
 
 describe("gte opcode", () => {
@@ -10,8 +11,8 @@ describe("gte opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(2),
-                BigInt(10), 
+                makeBigInt(BigInt(2)),
+                makeBigInt(BigInt(10)), 
             ],
         };
         const opcode = new Gte(token);
@@ -19,6 +20,6 @@ describe("gte opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(0);
+        expect(Number(context.stack[0]?.value)).toEqual(0);
     });
 });

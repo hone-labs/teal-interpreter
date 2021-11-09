@@ -20,7 +20,7 @@ describe("argx opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([
+        expect(Array.from(context.stack[0]?.value)).toEqual([
             1, 2
         ]);
     });
@@ -44,7 +44,7 @@ describe("argx opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([3, 4,]);
+        expect(Array.from(context.stack[0]?.value)).toEqual([3, 4,]);
     });
 
 });

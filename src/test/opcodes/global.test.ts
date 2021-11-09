@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Global } from "../../lib/opcodes/global";
 
 describe("global opcode", () => {
@@ -13,7 +14,7 @@ describe("global opcode", () => {
         const context: any = {
             stack: [],
             globals: {
-                MinBalance: 18,
+                MinBalance: makeBigInt(BigInt(18)),
             },
         };
         
@@ -22,7 +23,7 @@ describe("global opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(18);
+        expect(Number(context.stack[0]?.value)).toEqual(18);
     });
 
     it("throws when global does not exist", () => {

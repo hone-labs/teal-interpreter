@@ -9,7 +9,7 @@ describe("teal interpreter", () => {
         interpreter.load("int 6");
         expect(interpreter.step()).toEqual(true);
         expect(interpreter.context.stack.length).toEqual(1);
-        expect(Number(interpreter.context.stack[0])).toEqual(6);
+        expect(Number(interpreter.context.stack[0]?.value)).toEqual(6);
     });
 
     it("step returns false when no program is loaded", () => {
@@ -103,8 +103,8 @@ describe("teal interpreter", () => {
         interpreter.step(); // int 3
 
         expect(interpreter.context.stack.length).toEqual(2);
-        expect(Number(interpreter.context.stack[0])).toEqual(1);
-        expect(Number(interpreter.context.stack[1])).toEqual(3);
+        expect(Number(interpreter.context.stack[0]?.value)).toEqual(1);
+        expect(Number(interpreter.context.stack[1]?.value)).toEqual(3);
     });
 
 });

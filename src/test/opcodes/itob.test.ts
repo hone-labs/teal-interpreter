@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Itob } from "../../lib/opcodes/itob";
 
 describe("itob opcode", () => {
@@ -10,7 +11,7 @@ describe("itob opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt("0x1234567812345678"),
+                makeBigInt(BigInt("0x1234567812345678")),
             ],
         };
         const opcode = new Itob(token);
@@ -18,7 +19,7 @@ describe("itob opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([
+        expect(Array.from(context.stack[0]?.value)).toEqual([
             18, 52, 86, 120,
             18, 52, 86, 120
         ]);

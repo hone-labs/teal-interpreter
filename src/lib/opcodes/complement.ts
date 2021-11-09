@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBigInt } from "../context";
 
 export class Complement extends Opcode {
     
@@ -9,7 +9,7 @@ export class Complement extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const value = context.stack.pop() as bigint;
-        context.stack.push(~value);
+        const value = context.stack.pop()?.value as bigint;
+        context.stack.push(makeBigInt(~value));
     }
 }

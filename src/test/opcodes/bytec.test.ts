@@ -24,7 +24,7 @@ describe("bytec opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([5, 6]);
+        expect(Array.from(context.stack[0]?.value)).toEqual([5, 6]);
     });
 
     it("throws when operand is not an int", () => {

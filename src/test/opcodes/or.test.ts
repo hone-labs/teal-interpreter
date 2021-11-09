@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Or } from "../../lib/opcodes/or";
 
 describe("or opcode", () => {
@@ -10,8 +11,8 @@ describe("or opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(3),
-                BigInt(0), 
+                makeBigInt(BigInt(3)),
+                makeBigInt(BigInt(0)), 
             ],
         };
         const opcode = new Or(token);
@@ -19,6 +20,6 @@ describe("or opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(1);
+        expect(Number(context.stack[0]?.value)).toEqual(1);
     });
 });

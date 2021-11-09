@@ -1,4 +1,5 @@
 import { ValueType } from "../..";
+import { ITypedValue, makeBigInt } from "../../lib/context";
 import { Store } from "../../lib/opcodes/store";
 
 describe("load opcode", () => {
@@ -16,13 +17,15 @@ describe("load opcode", () => {
 
         const context: any = {
             stack: [
-                BigInt(12),
+                makeBigInt(BigInt(12)),
             ],
-            scratch: new Array<ValueType>(1).fill(BigInt(0)),
+            scratch: [
+                makeBigInt(BigInt(0)),
+            ],
         };
         opcode.execute(context);
 
-        expect(Number(context.scratch[0])).toEqual(12);
+        expect(Number(context.scratch[0]?.value)).toEqual(12);
     });
 
     it ("can store to second position", () => {
@@ -38,14 +41,18 @@ describe("load opcode", () => {
 
         const context: any = {
             stack: [
-                BigInt(3),
+                makeBigInt(BigInt(3)),
             ],
-            scratch: new Array<ValueType>(2).fill(BigInt(0)),
+            scratch: [
+                makeBigInt(BigInt(0)),
+                makeBigInt(BigInt(0)),
+            ],
         };
         opcode.execute(context);
 
-        expect(Number(context.scratch[1])).toEqual(3);
+        expect(Number(context.scratch[1]?.value)).toEqual(3);
     });
+
     it("throws when operand is not an int", () => {
 
         const token: any = {

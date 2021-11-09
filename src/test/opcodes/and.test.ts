@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { And } from "../../lib/opcodes/and";
 
 describe("and opcode", () => {
@@ -10,8 +11,8 @@ describe("and opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(3),
-                BigInt(2), 
+                makeBigInt(BigInt(3)),
+                makeBigInt(BigInt(2)), 
             ],
         };
         const opcode = new And(token);
@@ -19,6 +20,6 @@ describe("and opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(1);
+        expect(Number(context.stack[0]?.value)).toEqual(1);
     });
 });

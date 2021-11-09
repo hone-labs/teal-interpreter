@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBytes } from "../context";
 import { Encoding, stringToBytes } from "../convert";
 import { runInThisContext } from "vm";
 
@@ -72,6 +72,6 @@ export class Byte extends Opcode {
 
     execute(context: IExecutionContext): void {
         const bytes = stringToBytes(this.value, this.encoding as Encoding);
-        context.stack.push(new Uint8Array(bytes));
+        context.stack.push(makeBytes(new Uint8Array(bytes)));
     }
 }

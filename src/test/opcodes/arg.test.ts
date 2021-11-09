@@ -23,7 +23,7 @@ describe("arg opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([
+        expect(Array.from(context.stack[0]?.value)).toEqual([
             1, 2, 3, 4, 5
         ]);
     });
@@ -50,7 +50,7 @@ describe("arg opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([3, 4,]);
+        expect(Array.from(context.stack[0]?.value)).toEqual([3, 4,]);
     });
 
     it("throws when operand is not an int", () => {

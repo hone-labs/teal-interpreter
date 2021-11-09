@@ -18,7 +18,7 @@ describe("int opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(12);
+        expect(Number(context.stack[0]?.value)).toEqual(12);
     });
 
     it ("can push base 16 number", () => {
@@ -37,7 +37,7 @@ describe("int opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(108);
+        expect(Number(context.stack[0]?.value)).toEqual(108);
     });
 
     it ("can handle a bigint", () => {
@@ -56,7 +56,7 @@ describe("int opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(context.stack[0] === BigInt("0x1234567812345678")).toEqual(true);
+        expect(context.stack[0]?.value === BigInt("0x1234567812345678")).toEqual(true);
     });
 
     it("throws when operand is not an int", () => {

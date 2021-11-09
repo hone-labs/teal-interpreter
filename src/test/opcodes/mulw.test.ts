@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Mulw } from "../../lib/opcodes/mulw";
 
 describe("mul opcode", () => {
@@ -10,8 +11,8 @@ describe("mul opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(10), 
-                BigInt(2),
+                makeBigInt(BigInt(10)), 
+                makeBigInt(BigInt(2)),
             ],
         };
         const opcode = new Mulw(token);
@@ -19,7 +20,7 @@ describe("mul opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(2);
-        expect(Number(context.stack[0])).toEqual(0);
-        expect(Number(context.stack[1])).toEqual(0);
+        expect(Number(context.stack[0]?.value)).toEqual(0);
+        expect(Number(context.stack[1]?.value)).toEqual(0);
     });
 });

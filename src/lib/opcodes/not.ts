@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBigInt } from "../context";
 
 export class Not extends Opcode {
     
@@ -9,7 +9,7 @@ export class Not extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const value = context.stack.pop() as bigint;
-        context.stack.push(Number(value) == 0 ? BigInt(1) : BigInt(0));
+        const value = context.stack.pop()?.value as bigint;
+        context.stack.push(makeBigInt(value == BigInt(0) ? BigInt(1) : BigInt(0)));
     }
 }

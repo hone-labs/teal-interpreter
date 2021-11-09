@@ -1,4 +1,4 @@
-import { ValueType } from "..";
+import { ITypedValue } from "./context";
 
 //
 // Results of executing TEAL code.
@@ -13,5 +13,5 @@ export interface IExecuteResult {
     //
     // The compute stack remaining when execution has finished.
     //
-    readonly stack: ValueType[];
+    readonly stack: ITypedValue[];
 }

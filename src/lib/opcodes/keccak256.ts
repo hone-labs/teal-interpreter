@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBytes } from "../context";
 const { Keccak } = require("sha3");
 
 export class Keccak256 extends Opcode {
@@ -10,9 +10,9 @@ export class Keccak256 extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        const value = context.stack.pop() as Uint8Array;
+        const value = context.stack.pop()?.value as Uint8Array;
         const hash = new Keccak(256);
         hash.update(Buffer.from(value).toString('utf-8'));
-        context.stack.push(Uint8Array.from(hash.digest()));
+        context.stack.push(makeBytes(Uint8Array.from(hash.digest())));
     }
 }

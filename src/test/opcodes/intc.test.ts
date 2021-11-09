@@ -24,7 +24,7 @@ describe("intc opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(3);
+        expect(Number(context.stack[0]?.value)).toEqual(3);
     });
 
     it("throws when operand is not an int", () => {

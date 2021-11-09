@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, makeBytes } from "../context";
 
 export class Arg_X extends Opcode {
 
@@ -9,6 +9,6 @@ export class Arg_X extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        context.stack.push(context.args[this.constantIndex]);
+        context.stack.push(makeBytes(context.args[this.constantIndex]));
     }
 }

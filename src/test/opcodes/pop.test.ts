@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Pop } from "../../lib/opcodes/pop";
 
 describe("pop opcode", () => {
@@ -10,7 +11,7 @@ describe("pop opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(3), 
+                makeBigInt(BigInt(3)), 
             ],
         };
         const opcode = new Pop(token);

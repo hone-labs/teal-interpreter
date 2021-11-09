@@ -13,7 +13,7 @@ describe("teal interpreter", () => {
 
         const result = execute("int 1");
         expect(result.stack.length).toEqual(1);
-        expect(Number(result.stack[0])).toEqual(1);
+        expect(Number(result.stack[0]?.value)).toEqual(1);
     });
 
     it("can add numbers", ()  => {
@@ -24,7 +24,7 @@ describe("teal interpreter", () => {
             +
         `));
         expect(result.stack.length).toEqual(1);
-        expect(Number(result.stack[0])).toEqual(5);
+        expect(Number(result.stack[0]?.value)).toEqual(5);
     });
 
     it("unrecognised opcode throws", () => {
@@ -40,8 +40,8 @@ describe("teal interpreter", () => {
         `));            
             
         expect(result.stack.length).toEqual(2);
-        expect(Number(result.stack[0])).toEqual(4);
-        expect(Number(result.stack[1])).toEqual(5);
+        expect(Number(result.stack[0]?.value)).toEqual(4);
+        expect(Number(result.stack[1]?.value)).toEqual(5);
     });
 
     it("can pop a value from the stack", () => {

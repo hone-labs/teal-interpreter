@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Txn } from "../../lib/opcodes/txn";
 
 describe("txn opcode", () => {
@@ -13,7 +14,7 @@ describe("txn opcode", () => {
         const context: any = {
             stack: [],
             txn: {
-                Fee: 42,
+                Fee: makeBigInt(BigInt(42)),
             },
         };
         const opcode = new Txn(token);
@@ -22,7 +23,7 @@ describe("txn opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(42);
+        expect(Number(context.stack[0]?.value)).toEqual(42);
     });
 
     it("throws when field does not exist in current transaction", () => {

@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Bnz } from "../../lib/opcodes/bnz";
 
 describe("bnz opcode", () => {
@@ -37,7 +38,7 @@ describe("bnz opcode", () => {
                 "a-label": 12,
             },
             stack: [
-                BigInt(15),
+                makeBigInt(BigInt(15)),
             ],
         };
         opcode.validateContext(context);;
@@ -60,10 +61,10 @@ describe("bnz opcode", () => {
                 "a-label": 12,
             },
             stack: [
-                BigInt(0),
+                makeBigInt(BigInt(0)),
             ],
         };
-        opcode.validateContext(context);;
+        opcode.validateContext(context);
         expect(opcode.execute(context)).toEqual(undefined);
     });
 });

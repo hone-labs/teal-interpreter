@@ -1,3 +1,4 @@
+import { makeBigInt } from "../../lib/context";
 import { Div } from "../../lib/opcodes/div";
 
 describe("div opcode", () => {
@@ -11,8 +12,8 @@ describe("div opcode", () => {
         };
         const context: any = {
             stack: [
-                BigInt(10), 
-                BigInt(2),
+                makeBigInt(BigInt(10)), 
+                makeBigInt(BigInt(2)),
             ],
         };
         const opcode = new Div(token);
@@ -20,6 +21,6 @@ describe("div opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0])).toEqual(5);
+        expect(Number(context.stack[0]?.value)).toEqual(5);
     });
 });

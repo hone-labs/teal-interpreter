@@ -20,7 +20,7 @@ describe("bytec_X opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([1, 2]);
+        expect(Array.from(context.stack[0]?.value)).toEqual([1, 2]);
     });
 
     it ("can execute with index 2", () => {
@@ -43,7 +43,7 @@ describe("bytec_X opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0])).toEqual([5, 6]);
+        expect(Array.from(context.stack[0]?.value)).toEqual([5, 6]);
     });
 
 });
