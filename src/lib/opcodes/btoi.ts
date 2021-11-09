@@ -5,23 +5,17 @@ import { IToken } from "../token";
 
 export class Btoi extends Opcode {
     
-    //
-    // The value to be converted.
-    //
-    private value!: bigint;
-
     constructor(token: IToken) {
         super(token, 0, 1);
     }
 
-    validateContext(context: IExecutionContext) {
-        super.validateOperand();
-
-        this.value = this.popInt(context);
-    }
-    
     execute(context: IExecutionContext): void {
         const value = context.stack.pop()?.value as Uint8Array;
-        context.stack.push(makeBigInt(decodeUint64(value, "bigint")));
+        if (value.length === 0) {
+            context.stack.push(makeBigInt(BigInt(0)));    
+        }
+        else {
+            context.stack.push(makeBigInt(decodeUint64(value, "bigint")));
+        }
     }
 }

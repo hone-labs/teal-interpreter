@@ -12,8 +12,8 @@ describe("btoi opcode", () => {
         const context: any = {
             stack: [
                 makeBytes(new Uint8Array([
-                    0, 0, 0, 0,
-                    0, 0, 0, 3        
+                    18, 52, 86, 120,
+                    18, 52, 86, 120
                 ])),
             ],
         };
@@ -21,6 +21,24 @@ describe("btoi opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0]?.value)).toEqual(3);
+        expect(context.stack[0]?.value === BigInt("0x1234567812345678")).toEqual(true);
+    });
+
+    it ("an empty input produces a zero", () => {
+
+        const token: any = {
+            opcode: "btoi",
+            operands: [],
+        };
+        const context: any = {
+            stack: [
+                makeBytes(new Uint8Array([])),
+            ],
+        };
+        const opcode = new Btoi(token);
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(1);
+        expect(context.stack[0]?.value === BigInt(0)).toEqual(true);
     });
 });

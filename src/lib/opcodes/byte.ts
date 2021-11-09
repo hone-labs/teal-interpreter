@@ -57,9 +57,10 @@ export class Byte extends Opcode {
         const prefixes = ["base64", "b64", "base32", "b32"];
         for (const prefix of prefixes) {
             if (value.startsWith(`${prefix}(`) && value.endsWith(")")) {
+                value = value.slice(prefix.length+1, value.length-1);
                 return [
                     prefix, 
-                    value.slice(prefix.length+1, value.length-1)
+                    value,
                 ];
             }
         }

@@ -28,6 +28,26 @@ describe("byte opcode", () => {
         ]);
     });
 
+    it ("empty b64", () => {
+
+        const token: any = {
+            opcode: "byte",
+            operands: [
+                "b64(0)",
+            ],
+        };        
+        const opcode = new Byte(token);
+        opcode.validateOperand(); // Parses the operand.
+
+        const context: any = {
+            stack: [],
+        };
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(1);
+        expect(Array.from(context.stack[0]?.value)).toEqual([]);
+    });
+
     it ("hex", () => {
 
         const token: any = {
