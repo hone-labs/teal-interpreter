@@ -42,7 +42,7 @@ export function parse(tealCode: string): IParseResult {
         else {
             const opcodeDef = opcodeDefs[token.opcode];
             if (!opcodeDef) {
-                throw new Error(`Unrecognised opcode ${token.opcode}`);
+                throw new Error(`Unrecognised opcode "${token.opcode}"`);
             }
             instructions.push(opcodeDef.factory(token));
         }

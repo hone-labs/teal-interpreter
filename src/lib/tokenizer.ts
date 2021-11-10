@@ -125,6 +125,7 @@ export class Tokenizer implements ITokenizer {
     //
     private parseInstruction(tokenStart: number, tokenEnd: number, lineNo: number): IToken {
         const parts = this.tealCode.substring(tokenStart, tokenEnd)
+            .trim()
             .split(" ")
             .filter(part => part.length > 0);
         const opcode = parts.shift()!;

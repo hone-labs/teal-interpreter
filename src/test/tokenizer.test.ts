@@ -41,6 +41,15 @@ describe("teal tokenizer", () => {
         expect(tokens.length).toEqual(2);
     });
 
+    it("can parse carriage return", () => {
+
+        const tokens = tokenize(`return\r\npop`);
+
+        expect(tokens.length).toEqual(2);
+        expect(tokens[0].opcode).toEqual("return");
+        expect(tokens[1].opcode).toEqual("pop");
+    });
+
     it("can parse multiple instuctions separated by semicolons", () => {
 
         const tokens = tokenize(dedent(`
