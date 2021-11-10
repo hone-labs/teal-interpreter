@@ -3,7 +3,7 @@ import { IValueDef, IValueDefMap, ValueDef } from "./interpreter";
 import * as base32 from "hi-base32";
 import { ITypedValue, IValueMap, makeBigInt, makeBytes } from "./context";
 
-export type Encoding = "base64" | "b64" | "base32" | "b32" | "hex";
+export type Encoding = "base64" | "b64" | "base32" | "b32" | "hex" | "utf8";
 
 //
 // Converts a string to a byte array.
@@ -25,6 +25,9 @@ export function stringToBytes(input: string, encoding?: Encoding): Uint8Array {
 
         case "hex":
             return Buffer.from(input, "hex");
+
+        case "utf8":
+            return Buffer.from(input);
 
         default:
             throw new Error(`Unknown encoding type ${encoding}`);
