@@ -125,8 +125,6 @@ describe("opcode integration tests", () => {
     });
 
     it("sub underflow", () => {
-        // console.log(execute("int 1; int 10; -; pop; int 1"));
-        // expect(true).toBeFalsy();
         fails("int 1; int 10; -; pop; int 1");
     });
 

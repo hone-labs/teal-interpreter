@@ -1,6 +1,7 @@
-import { decodeAddress, encodeUint64 } from "algosdk";
-import { IArgDef } from "./interpreter";
+import { decodeAddress } from "algosdk";
+import { IValueDef, IValueDefMap, ValueDef } from "./interpreter";
 import * as base32 from "hi-base32";
+import { ITypedValue, IValueMap, makeBigInt, makeBytes } from "./context";
 
 export type Encoding = "base64" | "b64" | "base32" | "b32" | "hex";
 
@@ -38,30 +39,67 @@ export function addressToBytes(address: string): Uint8Array {
 }
 
 //
-// Converts an array of arguments to an array of byte arrays.
+// Loads a single value.
 //
-export function convertArgs(args: IArgDef[]): Uint8Array[] {
-    return args.map(convertArg);
+export function loadValue(valueDef: ValueDef): ITypedValue {
+    if (typeof valueDef === "bigint") {
+        return makeBigInt(valueDef);
+    }
+    if (typeof valueDef === "number") {
+        return makeBigInt(BigInt(valueDef));
+    }
+    else if (typeof valueDef === "string") {
+        if (valueDef.startsWith("int:")) {
+            return makeBigInt(BigInt(valueDef.slice("int:".length)));
+        }
+        else if (valueDef.startsWith("string:")) {
+            return makeBytes(Buffer.from(valueDef.slice("string:".length)));
+        }
+        else if (valueDef.startsWith("addr:")) {
+            return makeBytes(decodeAddress(valueDef.slice("addr:".length)).publicKey);
+        }
+        else if (valueDef.startsWith("b64:")) {
+            return makeBytes(stringToBytes(valueDef.slice("b64:".length), "base64"));
+        }
+        else {
+            // Assume string.
+            return makeBytes(Buffer.from(valueDef));
+        }
+    }
+
+    if (valueDef.type === "array") {
+        return makeBytes(new Uint8Array(valueDef.value));
+    }
+    else if (valueDef.type === "int") {
+        return makeBigInt(BigInt(valueDef.value));
+    }
+    else if (valueDef.type === "string") {
+        return makeBytes(new Uint8Array(Buffer.from(valueDef.value)));
+    }
+    else if (valueDef.type === "addr") {
+        return makeBytes(decodeAddress(valueDef.value).publicKey);
+    }
+    else {
+        throw new Error(`Unexpected arg type ${valueDef.type}.`);
+    }
 }
 
 //
-// Converts a single argument to a byte array.
+// Load an array of values.
 //
-export function convertArg(arg: IArgDef): Uint8Array {
-    const argDef = arg as IArgDef;
-    if (argDef.type === "array") {
-        return new Uint8Array(argDef.value);
-    }
-    if (argDef.type === "int") {
-        return encodeUint64(argDef.value);
-    }
-    else if (argDef.type === "string") {
-        return new Uint8Array(Buffer.from(argDef.value));
-    }
-    else if (argDef.type === "addr") {
-        return decodeAddress(argDef.value).publicKey;
-    }
-    else {
-        throw new Error(`Unexpected arg type ${argDef.type}.`);
-    }
+export function loadValues(values: ValueDef[]): ITypedValue[] {
+    return values.map(loadValue);
 }
+
+//
+// Loads a lookup table of values.
+//
+export function loadValueMap(valueDefMap: IValueDefMap): IValueMap {
+    const valueMap: IValueMap = {};
+    for (const key of Object.keys(valueMap)) {
+        valueMap[key] = loadValue(valueDefMap[key]);
+    }    
+
+    return valueMap;
+}
+

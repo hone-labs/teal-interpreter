@@ -58,5 +58,5 @@ describe("teal interpreter", () => {
         `));
         expect(result.version).toEqual(4);
     });
-   
+
 });

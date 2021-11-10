@@ -101,5 +101,5 @@ export interface IExecutionContext {
     //
     // Array of arguments.
     //
-    readonly args: Uint8Array[];
+    readonly args: ITypedValue[];
 }

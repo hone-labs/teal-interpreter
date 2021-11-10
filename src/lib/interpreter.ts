@@ -1,23 +1,36 @@
-import { IExecutionContext, ITypedValue, makeBigInt, ValueType } from "./context";
-import { convertArgs } from "./convert";
+import { IExecutionContext, ITypedValue, makeBigInt } from "./context";
+import { loadValueMap, loadValues } from "./convert";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
 
 //
 // Unencoded value for an argument.
 //
-export interface IArgDef {
+export interface IValueDef {
 
     //
-    // The type of the argument.
+    // The type of the value.
     //
     readonly type: "array" | "int" | "string" | "addr";
 
     //
-    // The value of the argument.
+    // The value of the value.
     //
     readonly value: any;
 }
+
+//
+// Extended value definition.
+//
+export type ValueDef = bigint | number | string | IValueDef;
+
+//
+// A lookup table for values defs.
+//
+export interface IValueDefMap {
+    [index: string]: ValueDef;
+}
+
 
 //
 // Specifies initial configuration for TEAL code execution.
@@ -27,22 +40,22 @@ export interface ITealInterpreterConfig {
     //
     // Global values.
     //
-    globals?: any;
+    globals?: IValueDefMap;
     
     //
     // The current transaction.
     //
-    txn?: any;
+    txn?: IValueDefMap;
 
     //
     // The current transaction group.
     //
-    txns?: any[];
+    txns?: IValueDefMap[];
 
     //
     // Array of arguments.
     //
-    readonly args?: IArgDef[];
+    readonly args?: ValueDef[];
 
 }
 
@@ -153,10 +166,10 @@ export class TealInterpreter implements ITealInterpreter {
             version: 1,
             branchTargets: parseResult.branchTargets,
             stack: [],
-            args: config?.args !== undefined ? convertArgs(config.args): [],
-            txn: config?.txn || {},
-            txns: config?.txns || [],
-            globals: config?.globals || {},
+            args: config?.args !== undefined ? loadValues(config.args) : [],
+            txn: config?.txn ? loadValueMap(config.txn) : {},
+            txns: config?.txns ? config.txns.map(loadValueMap) : [],
+            globals: config?.globals ? loadValueMap(config.globals) : {},
             scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
             intcblock: [],
             bytecblock: [],

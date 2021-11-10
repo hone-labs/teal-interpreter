@@ -1,3 +1,4 @@
+import { makeBytes } from "../../lib/context";
 import { Arg } from "../../lib/opcodes/arg";
 
 describe("arg opcode", () => {
@@ -15,7 +16,7 @@ describe("arg opcode", () => {
         const context: any = {
             stack : [],
             args: [
-                new Uint8Array([1, 2, 3, 4, 5]),
+                makeBytes(new Uint8Array([1, 2, 3, 4, 5])),
             ],
         };
 
@@ -41,8 +42,8 @@ describe("arg opcode", () => {
         const context: any = {
             stack : [],
             args: [
-                new Uint8Array([1, 2]),
-                new Uint8Array([3, 4]),
+                makeBytes(new Uint8Array([1, 2])),
+                makeBytes(new Uint8Array([3, 4])),
             ],
         };
 
