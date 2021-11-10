@@ -115,6 +115,7 @@ export class Tokenizer implements ITokenizer {
     private skipToEndOfLine(): void {
         while (this.curOffset < this.tealCode.length) {
             if (this.tealCode[this.curOffset++] === "\n") {
+                this.curLineNo += 1;
                 return;
             }
         }

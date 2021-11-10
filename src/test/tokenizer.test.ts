@@ -145,4 +145,13 @@ describe("teal tokenizer", () => {
         expect(token.lineNo).toEqual(3);
     });
 
+    it("can preserve line numbers after comment", () => {
+
+        const tokens = tokenize(`int 10 //comment\nint 12`);
+
+        expect(tokens.length).toEqual(2);
+        
+        const token = tokens[1];
+        expect(token.lineNo).toEqual(2);
+    });
 });
