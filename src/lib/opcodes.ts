@@ -49,6 +49,7 @@ import { Bytec_X } from "./opcodes/bytec_X";
 import { Arg_X } from "./opcodes/arg_X";
 import { Bnz } from "./opcodes/bnz";
 import { Dup } from "./opcodes/dup";
+import { Assert } from "./opcodes/assert";
 
 //
 // The static definiton of an opcode.
@@ -309,6 +310,12 @@ export const opcodeDefs: IOpcodeMap = {
     "b": {
         version: 2,
         factory: token => new Branch(token),
+    },
+
+    // TEAL 3
+    "assert": {
+        version: 3,
+        factory: token => new Assert(token),
     },
 
     // TEAL 4
