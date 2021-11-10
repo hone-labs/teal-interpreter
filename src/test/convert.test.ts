@@ -1,5 +1,5 @@
 import dedent = require("dedent");
-import { loadValue } from "../lib/convert";
+import { loadValue, loadValueMap } from "../lib/convert";
 
 describe("convert", () => {
 
@@ -100,5 +100,15 @@ describe("convert", () => {
 
         const badInput: any = { type: "fooey" };
         expect(() => loadValue(badInput)).toThrow();
+    });
+
+    it("can load value map", () => {
+
+        const valueMap = loadValueMap({
+            "someValue": "hello",
+        });
+        expect(Object.keys(valueMap)).toEqual(["someValue"]);
+        expect(valueMap.someValue.type).toEqual("byte[]");
+        expect(Buffer.from(valueMap.someValue.value as Uint8Array).toString()).toEqual("hello");
     });
 });

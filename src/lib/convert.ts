@@ -96,7 +96,7 @@ export function loadValues(values: ValueDef[]): ITypedValue[] {
 //
 export function loadValueMap(valueDefMap: IValueDefMap): IValueMap {
     const valueMap: IValueMap = {};
-    for (const key of Object.keys(valueMap)) {
+    for (const key of Object.keys(valueDefMap)) {
         valueMap[key] = loadValue(valueDefMap[key]);
     }    
 
