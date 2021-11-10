@@ -1,4 +1,3 @@
-import dedent = require("dedent");
 import { loadValue, loadValueMap } from "../lib/convert";
 
 describe("convert", () => {
