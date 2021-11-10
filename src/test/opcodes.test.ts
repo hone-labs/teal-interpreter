@@ -128,4 +128,13 @@ describe("opcode integration tests", () => {
         fails("int 1; int 10; -; pop; int 1");
     });
 
+    it("sha256", () => { // Adapted from Go code.
+        succeeds(`
+            byte base64 PTCXU4VI6ZFC/ds7MfVarmM/rvJJkwgSlKp+BgiEOWI= //comment
+            sha256
+            byte base64 5rZMNsevs5sULO+54aN+OvU6lQ503z2X+SSYUABIx7E=
+            ==
+        `);
+    })
+
 });
