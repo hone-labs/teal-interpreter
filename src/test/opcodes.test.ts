@@ -135,6 +135,16 @@ describe("opcode integration tests", () => {
             byte base64 5rZMNsevs5sULO+54aN+OvU6lQ503z2X+SSYUABIx7E=
             ==
         `);
-    })
+    });
+
+    it("ed25519verify", () => {
+        // FROM: https://forum.algorand.org/t/need-syntax-example-to-use-ed25519verify-inside-teal/1203
+        fails(`
+            byte base64 iZWMx72KvU6Bw6sPAWQFL96YH+VMrBA0XKWD9XbZOZI=
+            byte base64 if8ooA+32YZc4SQBvIDDY8tgTatPoq4IZ8Kr+We1t38LR2RuURmaVu9D4shbi4VvND87PUqq5/0vsNFEGIIEDA==
+            addr 7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224
+            ed25519verify
+        `);
+    });
 
 });
