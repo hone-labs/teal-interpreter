@@ -152,4 +152,13 @@ describe("opcode integration tests", () => {
         `);
     });
 
+    it("intcblock", () => {
+        succeeds("intcblock 5; intc 0; int 5; ==");
+        succeeds("intcblock 1 2 3 4; intc 2; int 3; ==");
+        succeeds("intcblock 1 2 3 4; intc_0; int 1; ==");
+        succeeds("intcblock 1 2 3 4; intc_1; int 2; ==");
+        succeeds("intcblock 1 2 3 4; intc_2; int 3; ==");
+        succeeds("intcblock 1 2 3 4; intc_3; int 4; ==");
+    });
+
 });
