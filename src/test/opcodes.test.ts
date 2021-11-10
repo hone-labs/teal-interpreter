@@ -27,10 +27,14 @@ describe("opcode integration tests", () => {
     //
     // Evaluates TEAL code and throws an exception on rejection.
     //
-    function succeeds(tealCode: string) {
+    function succeeds(tealCode: string, numStack?: number) {
+        if (numStack === undefined) {
+            numStack = 1;
+        }
+
         const result = execute(tealCode);
-        if (result.stack.length !== 1) {
-            throw new Error(`Expected a single result on the stack, got ${result.stack.length}\r\nStack:\r\n${result.stack.toString()}`);
+        if (result.stack.length !== numStack) {
+            throw new Error(`Expected ${numStack} result(s) on the stack, got ${result.stack.length}\r\nStack:\r\n${result.stack.toString()}`);
         }
 
         if (result.stack[0].type !== "bigint" ||
@@ -159,6 +163,29 @@ describe("opcode integration tests", () => {
         succeeds("intcblock 1 2 3 4; intc_1; int 2; ==");
         succeeds("intcblock 1 2 3 4; intc_2; int 3; ==");
         succeeds("intcblock 1 2 3 4; intc_3; int 4; ==");
+    });
+
+    it("mulw", () => {
+        succeeds("int 1; int 2; mulw; int 2; ==; assert; int 0; ==", 3);
+        succeeds("int 0x111111111; int 0x222222222; mulw; int 0x468acf130eca8642; ==; assert; int 2; ==", 3);
+        succeeds("int 1; int 0; mulw; int 0; ==; assert; int 0; ==", 3);
+        succeeds("int 0xFFFFFFFFFFFFFFFF; int 0xFFFFFFFFFFFFFFFF; mulw; int 1; ==; assert; int 0xFFFFFFFFFFFFFFFe; ==", 3);
+        succeeds(`
+            int 0x111111111
+            int 0x222222222
+            mulw
+            int 0x468acf130eca8642  // compare low (top of the stack)
+            ==
+            bnz continue
+            err
+            continue:
+            int 2                   // compare high
+            ==
+            bnz done
+            err
+            done:
+            int 1                   // ret 1
+        `, 1);   
     });
 
 });
