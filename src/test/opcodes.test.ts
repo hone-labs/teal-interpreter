@@ -47,9 +47,7 @@ describe("opcode integration tests", () => {
     function fails(tealCode: string) {
         try {
             const result = execute(tealCode);
-            console.log(`! got stack:`);
-            console.log(result.stack);
-    
+   
             if (result.stack.length === 0 && 
                 result.stack[0].type === "bigint" &&
                 result.stack[0].value === BigInt(0)) {
@@ -135,6 +133,13 @@ describe("opcode integration tests", () => {
             byte base64 5rZMNsevs5sULO+54aN+OvU6lQ503z2X+SSYUABIx7E=
             ==
         `);
+    });
+
+    it("keccak256", () => {
+        succeeds(`
+            byte 0x666E6F7264; keccak256
+            byte 0xc195eca25a6f4c82bfba0287082ddb0d602ae9230f9cf1f1a40b68f8e2c41567; ==
+        `)
     });
 
     it("ed25519verify", () => {
