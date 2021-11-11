@@ -52,6 +52,7 @@ import { Dup } from "./opcodes/dup";
 import { Assert } from "./opcodes/assert";
 import { Sqrt } from "./opcodes/sqrt";
 import { Addw } from "./opcodes/addw";
+import { Txna } from "./opcodes/txna";
 
 //
 // The static definiton of an opcode.
@@ -445,6 +446,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new Addw(token, this) },
+    },
+    "txna": {
+        version: 2,
+        operands: 2,
+        stack: 0,
+        factory: function (token) { return new Txna(token, this) },
     },
     "b": {
         version: 2,
