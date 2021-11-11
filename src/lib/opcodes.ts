@@ -66,6 +66,7 @@ import { AppLocalPut } from "./opcodes/app_local_put";
 import { AppGlobalGet } from "./opcodes/app_global_get";
 import { AppGlobalPut } from "./opcodes/app_global_put";
 import { AppLocalDel } from "./opcodes/app_local_del";
+import { AppGlobalDel } from "./opcodes/app_global_del";
 
 //
 // The static definiton of an opcode.
@@ -549,6 +550,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new AppLocalDel(token, this) },
+    },
+    "app_global_del": {
+        version: 2,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new AppGlobalDel(token, this) },
     },
 
     // TEAL 3
