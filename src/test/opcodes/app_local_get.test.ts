@@ -1,9 +1,8 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
-import { stringToBytes } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { AppLocalGet } from "../../lib/opcodes/app_local_get";
 
-describe("balance opcode", () => {
+describe("app_local_get opcode", () => {
 
     it ("can execute", () => {
 
