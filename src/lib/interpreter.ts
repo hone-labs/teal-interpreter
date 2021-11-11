@@ -1,4 +1,4 @@
-import { IExecutionContext, ITypedValue, makeBigInt } from "./context";
+import { IAccountMap, IExecutionContext, ITypedValue, makeBigInt } from "./context";
 import { loadValueMap, loadValues } from "./convert";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
@@ -36,6 +36,11 @@ export interface IValueDefMap {
 // Specifies initial configuration for TEAL code execution.
 //
 export interface ITealInterpreterConfig {
+
+    //
+    // Accounts that can be accessed from TEAL code.
+    //
+    accounts?: IAccountMap;
 
     //
     // Global values.
@@ -111,6 +116,7 @@ export class TealInterpreter implements ITealInterpreter {
     //
     private _context: IExecutionContext = {
         version: 1,
+        accounts: {},
         branchTargets: {},
         stack: [],
         args: [],
@@ -165,6 +171,7 @@ export class TealInterpreter implements ITealInterpreter {
         this._instructions = parseResult.instructions;
         this._context = {
             version: 1,
+            accounts: config?.accounts || {},
             branchTargets: parseResult.branchTargets,
             stack: [],
             args: config?.args !== undefined ? loadValues(config.args) : [],

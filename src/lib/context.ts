@@ -49,9 +49,31 @@ export interface IValueMap {
 }
 
 //
+// Represents an Algorand account.
+//
+export interface IAccount {
+    //
+    // The balance of the account (in microalgos).
+    //
+    balance?: number | bigint;
+}
+
+//
+// A lookup table for accounts.
+//
+export interface IAccountMap {
+    [index: string]: IAccount;
+}
+
+//
 // Context for executions of TEAL opcodes.
 //
 export interface IExecutionContext {
+    
+    //
+    // Accounts that can be used from TEAL code.
+    //
+    accounts: IAccountMap;
 
     //
     // Set to true to request that execution finish.

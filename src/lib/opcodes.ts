@@ -60,6 +60,7 @@ import { Dup2 } from "./opcodes/dup2";
 import { Concat } from "./opcodes/concat";
 import { Substring } from "./opcodes/substring";
 import { Substring3 } from "./opcodes/substring3";
+import { Balance } from "./opcodes/balance";
 
 //
 // The static definiton of an opcode.
@@ -507,6 +508,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 3,
         factory: function (token) { return new Substring3(token, this) },
+    },
+    "balance": {
+        version: 2,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Balance(token, this) },
     },
 
     // TEAL 3
