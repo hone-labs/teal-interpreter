@@ -51,6 +51,7 @@ import { Bnz } from "./opcodes/bnz";
 import { Dup } from "./opcodes/dup";
 import { Assert } from "./opcodes/assert";
 import { Sqrt } from "./opcodes/sqrt";
+import { Addw } from "./opcodes/addw";
 
 //
 // The static definiton of an opcode.
@@ -439,6 +440,12 @@ export const opcodeDefs: IOpcodeMap = {
     },
     
     // TEAL 2
+    "addw": {
+        version: 2,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Addw(token, this) },
+    },
     "b": {
         version: 2,
         operands: 1,
