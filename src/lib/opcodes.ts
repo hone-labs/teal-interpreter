@@ -57,6 +57,7 @@ import { Gtxna } from "./opcodes/gtxna";
 import { Bz } from "./opcodes/bz";
 import { Return } from "./opcodes/return";
 import { Dup2 } from "./opcodes/dup2";
+import { Concat } from "./opcodes/concat";
 
 //
 // The static definiton of an opcode.
@@ -486,6 +487,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new Dup2(token, this) },
+    },
+    "concat": {
+        version: 0,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Concat(token, this) },
     },
 
     // TEAL 3
