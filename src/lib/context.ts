@@ -54,6 +54,11 @@ export interface IValueMap {
 export interface IExecutionContext {
 
     //
+    // Set to true to request that execution finish.
+    //
+    finished: boolean;
+
+    //
     // Int constants block.
     //
     intcblock: bigint[];

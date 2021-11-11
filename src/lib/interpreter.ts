@@ -120,6 +120,7 @@ export class TealInterpreter implements ITealInterpreter {
         scratch: [],
         intcblock: [],
         bytecblock: [],
+        finished: false,
     };
 
     //
@@ -173,6 +174,7 @@ export class TealInterpreter implements ITealInterpreter {
             scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
             intcblock: [],
             bytecblock: [],
+            finished: false,
         };
         this._curInstructionIndex = 0;
     }
@@ -182,7 +184,8 @@ export class TealInterpreter implements ITealInterpreter {
     // Returns true if able to continue.
     //
     step(): boolean {
-        if (this.curInstructionIndex > this.instructions.length - 1) {
+        if (this.context.finished 
+            || this.curInstructionIndex > this.instructions.length - 1) {
             //
             // Don't step beyond the end.
             //
@@ -201,6 +204,6 @@ export class TealInterpreter implements ITealInterpreter {
             this._curInstructionIndex += 1;
         }
 
-        return true;
+        return !this.context.finished;
     }
 }

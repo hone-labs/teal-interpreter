@@ -107,4 +107,16 @@ describe("teal interpreter", () => {
         expect(Number(interpreter.context.stack[1]?.value)).toEqual(3);
     });
 
+    it("return instruction can request that execution complete", () => {
+
+        const interpreter = new TealInterpreter();
+        interpreter.load(dedent(`
+            int 1
+            return
+        `));
+
+        expect(interpreter.step()).toEqual(true);
+        expect(interpreter.step()).toEqual(false);
+    });
+
 });

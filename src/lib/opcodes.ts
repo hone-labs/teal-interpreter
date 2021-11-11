@@ -55,6 +55,7 @@ import { Addw } from "./opcodes/addw";
 import { Txna } from "./opcodes/txna";
 import { Gtxna } from "./opcodes/gtxna";
 import { Bz } from "./opcodes/bz";
+import { Return } from "./opcodes/return";
 
 //
 // The static definiton of an opcode.
@@ -472,6 +473,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 0,
         factory: function (token) { return new Branch(token, this) },
+    },
+    "return": {
+        version: 2,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Return(token, this) },
     },
 
     // TEAL 3
