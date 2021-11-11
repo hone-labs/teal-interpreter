@@ -61,6 +61,7 @@ import { Concat } from "./opcodes/concat";
 import { Substring } from "./opcodes/substring";
 import { Substring3 } from "./opcodes/substring3";
 import { Balance } from "./opcodes/balance";
+import { AppLocalGet } from "./opcodes/app_local_get";
 
 //
 // The static definiton of an opcode.
@@ -514,6 +515,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 1,
         factory: function (token) { return new Balance(token, this) },
+    },
+    "app_local_get": {
+        version: 2,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new AppLocalGet(token, this) },
     },
 
     // TEAL 3

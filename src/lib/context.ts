@@ -52,10 +52,16 @@ export interface IValueMap {
 // Represents an Algorand account.
 //
 export interface IAccount {
+    
     //
     // The balance of the account (in microalgos).
     //
     balance?: number | bigint;
+
+    //
+    // Values for account local variables.
+    //
+    locals: IValueMap;
 }
 
 //
