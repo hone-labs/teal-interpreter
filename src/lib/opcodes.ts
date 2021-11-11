@@ -58,6 +58,7 @@ import { Bz } from "./opcodes/bz";
 import { Return } from "./opcodes/return";
 import { Dup2 } from "./opcodes/dup2";
 import { Concat } from "./opcodes/concat";
+import { Substring } from "./opcodes/substring";
 
 //
 // The static definiton of an opcode.
@@ -483,16 +484,22 @@ export const opcodeDefs: IOpcodeMap = {
         factory: function (token) { return new Return(token, this) },
     },
     "dup2": {
-        version: 0,
+        version: 2,
         operands: 0,
         stack: 2,
         factory: function (token) { return new Dup2(token, this) },
     },
     "concat": {
-        version: 0,
+        version: 2,
         operands: 0,
         stack: 2,
         factory: function (token) { return new Concat(token, this) },
+    },
+    "substring": {
+        version: 2,
+        operands: 2,
+        stack: 1,
+        factory: function (token) { return new Substring(token, this) },
     },
 
     // TEAL 3
