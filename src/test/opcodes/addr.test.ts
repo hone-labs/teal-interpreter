@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Addr } from "../../lib/opcodes/addr";
 
 describe("addr opcode", () => {
@@ -10,7 +11,7 @@ describe("addr opcode", () => {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224",
             ],
         };        
-        const opcode = new Addr(token);
+        const opcode = new Addr(token, opcodeDefs.addr);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {

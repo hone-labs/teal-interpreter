@@ -1,4 +1,5 @@
 import { makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Sha512_256 } from "../../lib/opcodes/sha512_256";
 
 describe("sha512_256 opcode", () => {
@@ -9,7 +10,8 @@ describe("sha512_256 opcode", () => {
             opcode: "sha512_256",
             operands: [],
         };
-        const opcode = new Sha512_256(token);
+        
+        const opcode = new Sha512_256(token, opcodeDefs.sha512_256);
 
         const context: any = {
             stack: [

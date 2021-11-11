@@ -1,4 +1,5 @@
 import { makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Len } from "../../lib/opcodes/len";
 
 describe("len opcode", () => {
@@ -14,7 +15,7 @@ describe("len opcode", () => {
                 makeBytes(new Uint8Array([1, 2, 3, 4])), 
             ],
         };
-        const opcode = new Len(token);
+        const opcode = new Len(token, opcodeDefs.len);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);

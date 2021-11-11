@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Bytecblock } from "../../lib/opcodes/bytecblock";
 
 describe("bytecblock opcode", () => {
@@ -13,7 +14,7 @@ describe("bytecblock opcode", () => {
             ],
         };
         
-        const opcode = new Bytecblock(token);
+        const opcode = new Bytecblock(token, opcodeDefs.bytecblock);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {

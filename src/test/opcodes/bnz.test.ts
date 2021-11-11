@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Bnz } from "../../lib/opcodes/bnz";
 
 describe("bnz opcode", () => {
@@ -11,7 +12,7 @@ describe("bnz opcode", () => {
                 "a-label",
             ],
         };
-        const opcode = new Bnz(token)
+        const opcode = new Bnz(token, opcodeDefs.bnz)
 
         const context: any = {
             branchTargets: {
@@ -30,7 +31,7 @@ describe("bnz opcode", () => {
                 "a-label",
             ],
         };
-        const opcode = new Bnz(token);
+        const opcode = new Bnz(token, opcodeDefs.bnz);
         opcode.validateOperand();
 
         const context: any = {
@@ -53,7 +54,7 @@ describe("bnz opcode", () => {
                 "a-label",
             ],
         };
-        const opcode = new Bnz(token);
+        const opcode = new Bnz(token, opcodeDefs.bnz);
         opcode.validateOperand();
 
         const context: any = {

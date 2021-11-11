@@ -1,4 +1,5 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Assert } from "../../lib/opcodes/assert";
 
 describe("assert opcode", () => {
@@ -15,7 +16,7 @@ describe("assert opcode", () => {
             ],
         };
         
-        const opcode = new Assert(token);
+        const opcode = new Assert(token, opcodeDefs.assert);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);
@@ -33,7 +34,7 @@ describe("assert opcode", () => {
             ],
         };
         
-        const opcode = new Assert(token);
+        const opcode = new Assert(token, opcodeDefs.assert);
         expect(() => opcode.execute(context)).toThrow();
     });    
 
@@ -49,7 +50,7 @@ describe("assert opcode", () => {
             ],
         };
         
-        const opcode = new Assert(token);
+        const opcode = new Assert(token, opcodeDefs.assert);
         expect(() => opcode.execute(context)).toThrow();
     });        
 });

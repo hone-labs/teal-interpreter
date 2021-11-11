@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Intc } from "../../lib/opcodes/intc";
 
 describe("intc opcode", () => {
@@ -10,7 +11,7 @@ describe("intc opcode", () => {
                 "2"
             ],
         };
-        const opcode = new Intc(token);
+        const opcode = new Intc(token, opcodeDefs.intc);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -35,7 +36,7 @@ describe("intc opcode", () => {
                 "xxx"
             ],
         };
-        const opcode = new Intc(token);
+        const opcode = new Intc(token, opcodeDefs.intc);
 
         expect(() => opcode.validateOperand()).toThrow();
     });

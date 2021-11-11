@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Minus } from "../../lib/opcodes/minus";
 
 describe("minus opcode", () => {
@@ -15,7 +16,7 @@ describe("minus opcode", () => {
                 makeBigInt(BigInt(4)),
             ],
         };
-        const opcode = new Minus(token);
+        const opcode = new Minus(token, opcodeDefs["-"]);
         opcode.validateContext(context);
         opcode.execute(context);
 
@@ -35,7 +36,7 @@ describe("minus opcode", () => {
                 makeBigInt(BigInt(6)),
             ],
         };
-        const opcode = new Minus(token);
+        const opcode = new Minus(token, opcodeDefs["-"]);
         opcode.validateContext(context);
         expect(() => opcode.execute(context)).toThrow();
     });

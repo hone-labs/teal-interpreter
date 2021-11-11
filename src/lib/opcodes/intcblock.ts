@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -9,10 +8,6 @@ export class Intcblock extends Opcode {
     //
     private block: bigint[] = [];
 
-    constructor(token: IToken) {
-        super(token, undefined, 0);
-    }
-    
     validateOperand(): void {
         super.validateOperand();
 

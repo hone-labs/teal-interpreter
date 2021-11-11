@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Or } from "../../lib/opcodes/or";
 
 describe("or opcode", () => {
@@ -15,7 +16,7 @@ describe("or opcode", () => {
                 makeBigInt(BigInt(0)), 
             ],
         };
-        const opcode = new Or(token);
+        const opcode = new Or(token, opcodeDefs["||"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

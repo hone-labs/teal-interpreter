@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Intc_X } from "../../lib/opcodes/intc_X";
 
 describe("intc_X opcode", () => {
@@ -8,7 +9,7 @@ describe("intc_X opcode", () => {
             opcode: "intc_0",
             operands: [],
         };
-        const opcode = new Intc_X(token, 0);
+        const opcode = new Intc_X(token, opcodeDefs.intc_0, 0);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -29,7 +30,7 @@ describe("intc_X opcode", () => {
             opcode: "intc_2",
             operands: [],
         };
-        const opcode = new Intc_X(token, 2);
+        const opcode = new Intc_X(token, opcodeDefs.intc_2, 2);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {

@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -9,10 +8,6 @@ export abstract class Binary extends Opcode {
     //
     protected a!: bigint;
     protected b!: bigint;
-
-    constructor(token: IToken) {
-        super(token, 0, 2);
-    }
 
     validateContext(context: IExecutionContext) {
         super.validateContext(context);

@@ -1,4 +1,5 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Ne } from "../../lib/opcodes/ne";
 
 describe("ne opcode", () => {
@@ -15,7 +16,7 @@ describe("ne opcode", () => {
                 makeBytes(new Uint8Array([1, 2, 3, 4])),
             ],
         };
-        const opcode = new Ne(token);
+        const opcode = new Ne(token, opcodeDefs["!="]);
         opcode.validateContext(context);
         opcode.execute(context);
 
@@ -35,7 +36,7 @@ describe("ne opcode", () => {
                 makeBigInt(BigInt(0)),
             ],
         };
-        const opcode = new Ne(token);
+        const opcode = new Ne(token, opcodeDefs["!="]);
         opcode.validateContext(context);
         opcode.execute(context);
 
@@ -55,7 +56,7 @@ describe("ne opcode", () => {
                 makeBigInt(BigInt(5)),
             ],
         };
-        const opcode = new Ne(token);
+        const opcode = new Ne(token, opcodeDefs["!="]);
         opcode.validateContext(context);
         opcode.execute(context);
 
@@ -75,7 +76,7 @@ describe("ne opcode", () => {
                 makeBytes(new Uint8Array([5, 6, 7, 8])),                
             ],
         };
-        const opcode = new Ne(token);
+        const opcode = new Ne(token, opcodeDefs["!="]);
         opcode.validateContext(context);
         opcode.execute(context);
 
@@ -95,7 +96,7 @@ describe("ne opcode", () => {
                 makeBytes(new Uint8Array([1, 2, 3, 4])),                
             ],
         };
-        const opcode = new Ne(token);
+        const opcode = new Ne(token, opcodeDefs["!="]);
         opcode.validateContext(context);
         opcode.execute(context);
 

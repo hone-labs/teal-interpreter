@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -9,10 +8,6 @@ export class Load extends Opcode {
     //
     private position!: number;
 
-    constructor(token: IToken) {
-        super(token, 1, 0);
-    }
-    
     validateOperand(): void {
         super.validateOperand();
 

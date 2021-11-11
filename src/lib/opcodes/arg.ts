@@ -1,7 +1,5 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBytes } from "../context";
-
+import { IExecutionContext } from "../context";
 
 export class Arg extends Opcode {
 
@@ -10,10 +8,6 @@ export class Arg extends Opcode {
     //
     private argIndex!: number;
     
-    constructor(token: IToken) {
-        super(token, 1, 0);
-    }
-
     validateOperand() {
         super.validateOperand();
 

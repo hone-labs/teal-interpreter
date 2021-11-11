@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext, makeBytes } from "../context";
 import { addressToBytes } from "../convert";
@@ -10,10 +9,6 @@ export class Addr extends Opcode {
     //
     private value!: string;
 
-    constructor(token: IToken) {
-        super(token, 1, 0);
-    }
-    
     validateOperand(): void {
         super.validateOperand();
 

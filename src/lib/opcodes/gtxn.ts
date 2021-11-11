@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -14,10 +13,6 @@ export class Gtxn extends Opcode {
     //
     private fieldName!: string;
     
-    constructor(token: IToken) {
-        super(token, 2, 0);
-    }
-
     validateOperand() {
         super.validateOperand();
 

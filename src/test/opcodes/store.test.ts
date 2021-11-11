@@ -1,5 +1,5 @@
-import { ValueType } from "../..";
-import { ITypedValue, makeBigInt } from "../../lib/context";
+import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Store } from "../../lib/opcodes/store";
 
 describe("load opcode", () => {
@@ -12,7 +12,7 @@ describe("load opcode", () => {
                 "0"
             ],
         };
-        const opcode = new Store(token);
+        const opcode = new Store(token, opcodeDefs.store);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -36,7 +36,7 @@ describe("load opcode", () => {
                 "1"
             ],
         };
-        const opcode = new Store(token);
+        const opcode = new Store(token, opcodeDefs.store);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -62,7 +62,7 @@ describe("load opcode", () => {
             ],
         };
         
-        const opcode = new Store(token);
+        const opcode = new Store(token, opcodeDefs.store);
         expect(() => opcode.validateOperand()).toThrow();
     });
 
@@ -75,7 +75,7 @@ describe("load opcode", () => {
             ],
         };
         
-        const opcode = new Store(token);
+        const opcode = new Store(token, opcodeDefs.store);
         expect(() => opcode.validateOperand()).toThrow();
     });
 
@@ -88,7 +88,7 @@ describe("load opcode", () => {
             ],
         };
         
-        const opcode = new Store(token);
+        const opcode = new Store(token, opcodeDefs.store);
         expect(() => opcode.validateOperand()).toThrow();
     });
 });

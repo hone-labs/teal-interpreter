@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -9,10 +8,6 @@ export class Txn extends Opcode {
     //
     private fieldName!: string;
     
-    constructor(token: IToken) {
-        super(token, 1, 0);
-    }
-
     validateOperand() {
         super.validateOperand();
 

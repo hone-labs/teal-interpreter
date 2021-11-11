@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { IExecutionContext, makeBigInt } from "../context";
 import { Binary } from "./binary-operator";
 

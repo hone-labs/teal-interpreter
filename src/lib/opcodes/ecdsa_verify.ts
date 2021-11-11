@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext, makeBigInt } from "../context";
 import { ec as EC } from "elliptic";
@@ -10,10 +9,6 @@ export class Ecdsa_verify extends Opcode {
     ///
     private curveIndex!: number;
     
-    constructor(token: IToken) {
-        super(token, 1, 5);
-    }
-
     validateOperand() {
         super.validateOperand();
 

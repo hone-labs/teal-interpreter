@@ -50,6 +50,7 @@ import { Arg_X } from "./opcodes/arg_X";
 import { Bnz } from "./opcodes/bnz";
 import { Dup } from "./opcodes/dup";
 import { Assert } from "./opcodes/assert";
+import { Sqrt } from "./opcodes/sqrt";
 
 //
 // The static definiton of an opcode.
@@ -59,6 +60,16 @@ export interface IOpcodeDef {
     // The version of TEAL that adds the opcode.
     //
     readonly version: number,
+
+    //
+    // The number of operands expected by the opcode.
+    //
+    readonly operands: number | number[] | undefined;
+
+    //
+    // The number of stack based arguments expected by this opcode.
+    //
+    readonly stack: number | undefined;
 
     //
     // Factory function to create an instance of the opcode.
@@ -81,254 +92,373 @@ export const opcodeDefs: IOpcodeMap = {
     // TEAL 1
     "#pragma": {
         version: 1,
-        factory: token => new VersionPragma(token),
+        operands: 2,
+        stack: undefined,
+        factory: function (token) { return new VersionPragma(token, this) },
     },
     "err":  {
         version: 1,
-        factory: token => new Err(token),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Err(token, this) },
     },
     "sha256":  {
         version: 1,
-        factory: token => new Sha256(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Sha256(token, this) },
     },
     "keccak256":  {
         version: 1,
-        factory: token => new Keccak256(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Keccak256(token, this) },
     },
     "sha512_256":  {
         version: 1,
-        factory: token => new Sha512_256(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Sha512_256(token, this) },
     },
     "ed25519verify":  {
         version: 1,
-        factory: token => new Ed25519verify(token),
+        operands: 0,
+        stack: 3,
+        factory: function (token) { return new Ed25519verify(token, this) },
     },
     "+": {
         version: 1,
-        factory: token => new Add(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Add(token, this) },
     },
     "-": {
         version: 1,
-        factory: token => new Minus(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Minus(token, this) },
     },
     "/": {
         version: 1,
-        factory: token => new Div(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Div(token, this) },
     },
     "*": {
         version: 1,
-        factory: token => new Mul(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Mul(token, this) },
     },    
     "<": {
         version: 1,
-        factory: token => new Lt(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Lt(token, this) },
     },    
     ">": {
         version: 1,
-        factory: token => new Gt(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Gt(token, this) },
     },    
     "<=": {
         version: 1,
-        factory: token => new Lte(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Lte(token, this) },
     },    
     ">=": {
         version: 1,
-        factory: token => new Gte(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Gte(token, this) },
     },    
     "&&": {
         version: 1,
-        factory: token => new And(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new And(token, this) },
     },    
     "||": {
         version: 1,
-        factory: token => new Or(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Or(token, this) },
     },    
     "==": {
         version: 1,
-        factory: token => new Eq(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Eq(token, this) },
     },    
     "!=": {
         version: 1,
-        factory: token => new Ne(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Ne(token, this) },
     },    
     "!": {
         version: 1,
-        factory: token => new Not(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Not(token, this) },
     },    
     "len": {
         version: 1,
-        factory: token => new Len(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Len(token, this) },
     },
     "itob": {
         version: 1,
-        factory: token => new Itob(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Itob(token, this) },
     },   
     "btoi": {
         version: 1,
-        factory: token => new Btoi(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Btoi(token, this) },
     },        
     "%": {
         version: 1,
-        factory: token => new Mod(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Mod(token, this) },
     },        
     "|": {
         version: 1,
-        factory: token => new Bor(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Bor(token, this) },
     },      
     "&": {
         version: 1,
-        factory: token => new Band(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Band(token, this) },
     },    
     "^": {
         version: 1,
-        factory: token => new Xor(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Xor(token, this) },
     },    
     "~": {
         version: 1,
-        factory: token => new Complement(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Complement(token, this) },
     },              
     "mulw": {
         version: 1,
-        factory: token => new Mulw(token),
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Mulw(token, this) },
     },              
     "intcblock": {
         version: 1,
-        factory: token => new Intcblock(token),
+        operands: undefined,
+        stack: 0,
+        factory: function (token) { return new Intcblock(token, this) },
     },              
     "intc": {
         version: 1,
-        factory: token => new Intc(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Intc(token, this) },
     },              
     "intc_0": {
         version: 1,
-        factory: token => new Intc_X(token, 0),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Intc_X(token, this, 0) },
     },              
     "intc_1": {
         version: 1,
-        factory: token => new Intc_X(token, 1),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Intc_X(token, this, 1) },
     },              
     "intc_2": {
         version: 1,
-        factory: token => new Intc_X(token, 2),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Intc_X(token, this, 2) },
     },              
     "intc_3": {
         version: 1,
-        factory: token => new Intc_X(token, 3),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Intc_X(token, this, 3) },
     },              
     "bytecblock": {
         version: 1,
-        factory: token => new Bytecblock(token),
+        operands: undefined,
+        stack: 0,
+        factory: function (token) { return new Bytecblock(token, this) },
     },              
     "bytec": {
+        operands: 1,
+        stack: 0,
         version: 1,
-        factory: token => new Bytec(token),
+        factory: function (token) { return new Bytec(token, this) },
     },              
     "bytec_0": {
         version: 1,
-        factory: token => new Bytec_X(token, 0),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Bytec_X(token, this, 0) },
     },              
     "bytec_1": {
         version: 1,
-        factory: token => new Bytec_X(token, 1),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Bytec_X(token, this, 1) },
     },              
     "bytec_2": {
         version: 1,
-        factory: token => new Bytec_X(token, 2),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Bytec_X(token, this, 2) },
     },              
     "bytec_3": {
         version: 1,
-        factory: token => new Bytec_X(token, 3),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Bytec_X(token, this, 3) },
     },              
     "arg": {
         version: 1,
-        factory: token => new Arg(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Arg(token, this) },
     },
     "arg_0": {
         version: 1,
-        factory: token => new Arg_X(token, 0),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Arg_X(token, this, 0) },
     },
     "arg_1": {
         version: 1,
-        factory: token => new Arg_X(token, 1),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Arg_X(token, this, 1) },
     },
     "arg_2": {
         version: 1,
-        factory: token => new Arg_X(token, 2),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Arg_X(token, this, 2) },
     },
     "arg_3": {
         version: 1,
-        factory: token => new Arg_X(token, 3),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Arg_X(token, this, 3) },
     },
     "txn": {
         version: 1,
-        factory: token => new Txn(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Txn(token, this) },
     },
     "global": {
         version: 1,
-        factory: token => new Global(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Global(token, this) },
     },
     "gtxn": {
         version: 1,
-        factory: token => new Gtxn(token),
+        operands: 2,
+        stack: 0,
+        factory: function (token) { return new Gtxn(token, this) },
     },
     "load": {
         version: 1,
-        factory: token => new Load(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Load(token, this) },
     },
     "store": {
         version: 1,
-        factory: token => new Store(token),
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Store(token, this) },
     },
     "bnz": {
         version: 1,
-        factory: token => new Bnz(token),
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Bnz(token, this) },
     },
     "pop": {
         version: 1,
-        factory: token => new Pop(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Pop(token, this) },
     },
     "dup": {
         version: 1,
-        factory: token => new Dup(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Dup(token, this) },
     },
 
     // Pseudo opcodes
     "int":  {
         version: 1,
-        factory: token => new Int(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Int(token, this) },
     },
     "byte":  {
         version: 1,
-        factory: token => new Byte(token),
+        operands: [1, 2],
+        stack: 0,
+        factory: function (token) { return new Byte(token, this) },
     },
     "addr":  {
         version: 1,
-        factory: token => new Addr(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Addr(token, this) },
     },
     
     // TEAL 2
     "b": {
         version: 2,
-        factory: token => new Branch(token),
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Branch(token, this) },
     },
 
     // TEAL 3
     "assert": {
         version: 3,
-        factory: token => new Assert(token),
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new Assert(token, this) },
     },
 
     // TEAL 4
 
     "sqrt": {
         version: 4,
-        factory: token => new Add(token),
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Sqrt(token, this) },
     },
 
     // TEAL 5
     "ecdsa_verify":  {
         version: 5,
-        factory: token => new Ecdsa_verify(token),
+        operands: 1,
+        stack: 5,
+        factory: function (token) { return new Ecdsa_verify(token, this) },
     },
-
-}
+};

@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Pop } from "../../lib/opcodes/pop";
 
 describe("pop opcode", () => {
@@ -14,7 +15,7 @@ describe("pop opcode", () => {
                 makeBigInt(BigInt(3)), 
             ],
         };
-        const opcode = new Pop(token);
+        const opcode = new Pop(token, opcodeDefs.pop);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);

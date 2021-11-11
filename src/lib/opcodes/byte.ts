@@ -1,8 +1,6 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext, makeBytes } from "../context";
 import { Encoding, stringToBytes } from "../convert";
-import { runInThisContext } from "vm";
 
 export class Byte extends Opcode {
    
@@ -16,10 +14,6 @@ export class Byte extends Opcode {
     //
     private value!: string;
 
-    constructor(token: IToken) {
-        super(token, [1, 2], 0);
-    }
-    
     validateOperand(): void {
         super.validateOperand();
 

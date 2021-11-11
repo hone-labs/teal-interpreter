@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Gtxn } from "../../lib/opcodes/gtxn";
 
 describe("gtxn opcode", () => {
@@ -12,7 +13,7 @@ describe("gtxn opcode", () => {
                 "Fee",
             ],
         };
-        const opcode = new Gtxn(token);
+        const opcode = new Gtxn(token, opcodeDefs.gtxn);
 
         opcode.validateOperand(); // Parses the operands.
 
@@ -39,7 +40,7 @@ describe("gtxn opcode", () => {
                 "Fee",
             ],
         };
-        const opcode = new Gtxn(token);
+        const opcode = new Gtxn(token, opcodeDefs.gtxn);
         expect(() => opcode.validateOperand()).toThrow();
     });
 
@@ -52,7 +53,7 @@ describe("gtxn opcode", () => {
                 "Fee",
             ],
         };
-        const opcode = new Gtxn(token);
+        const opcode = new Gtxn(token, opcodeDefs.gtxn);
         opcode.validateOperand();
 
         const context: any = {
@@ -74,7 +75,7 @@ describe("gtxn opcode", () => {
             ],
         };
 
-        const opcode = new Gtxn(token);
+        const opcode = new Gtxn(token, opcodeDefs.gtxn);
         opcode.validateOperand();
 
         const context: any = {

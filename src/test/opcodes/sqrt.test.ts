@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Sqrt } from "../../lib/opcodes/sqrt";
 
 describe("sqrt opcode", () => {
@@ -14,7 +15,7 @@ describe("sqrt opcode", () => {
                 makeBigInt(BigInt(16)),
             ],
         };
-        const opcode = new Sqrt(token);
+        const opcode = new Sqrt(token, opcodeDefs.sqrt);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);

@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -14,10 +13,6 @@ export class Bnz extends Opcode {
     //
     private condition!: bigint;
     
-    constructor(token: IToken) {
-        super(token, 1, 1);
-    }
-
     validateOperand() {
         super.validateOperand();
 

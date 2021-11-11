@@ -1,4 +1,5 @@
 import { makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Keccak256 } from "../../lib/opcodes/keccak256";
 
 describe("keccak256 opcode", () => {
@@ -9,7 +10,7 @@ describe("keccak256 opcode", () => {
             opcode: "keccak256",
             operands: [],
         };
-        const opcode = new Keccak256(token);
+        const opcode = new Keccak256(token, opcodeDefs.keccak256);
 
         const context: any = {
             stack: [

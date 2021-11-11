@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Branch } from "../../lib/opcodes/branch";
 
 describe("branch opcode", () => {
@@ -10,7 +11,7 @@ describe("branch opcode", () => {
                 "a-label",
             ],
         };
-        const opcode = new Branch(token)
+        const opcode = new Branch(token, opcodeDefs.b)
 
         const context: any = {
             branchTargets: {
@@ -29,7 +30,7 @@ describe("branch opcode", () => {
                 "a-label",
             ],
         };
-        const opcode = new Branch(token);
+        const opcode = new Branch(token, opcodeDefs.b);
 
         const context: any = {
             branchTargets: {

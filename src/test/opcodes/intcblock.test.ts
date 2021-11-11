@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Intcblock } from "../../lib/opcodes/intcblock";
 
 describe("intcblock opcode", () => {
@@ -13,7 +14,7 @@ describe("intcblock opcode", () => {
             ],
         };
         
-        const opcode = new Intcblock(token);
+        const opcode = new Intcblock(token, opcodeDefs.intcblock);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -35,7 +36,7 @@ describe("intcblock opcode", () => {
                 "xxx"
             ],
         };
-        const opcode = new Intcblock(token);
+        const opcode = new Intcblock(token, opcodeDefs.intcblock);
 
         expect(() => opcode.validateOperand()).toThrow();
     });

@@ -1,5 +1,6 @@
 import { makeBytes } from "../../lib/context";
 import { addressToBytes, stringToBytes } from "../../lib/convert";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Ed25519verify } from "../../lib/opcodes/ed25519verify";
 
 describe("ed25519verify opcode", () => {
@@ -10,7 +11,7 @@ describe("ed25519verify opcode", () => {
             opcode: "ed25519verify",
             operands: [],
         };
-        const opcode = new Ed25519verify(token);
+        const opcode = new Ed25519verify(token, opcodeDefs.ed25519verify);
 
         const context: any = {
             stack: [

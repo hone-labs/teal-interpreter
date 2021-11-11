@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Txn } from "../../lib/opcodes/txn";
 
 describe("txn opcode", () => {
@@ -17,8 +18,7 @@ describe("txn opcode", () => {
                 Fee: makeBigInt(BigInt(42)),
             },
         };
-        const opcode = new Txn(token);
-
+        const opcode = new Txn(token, opcodeDefs.txn);
         opcode.validateOperand(); // Parses the operand.
         opcode.execute(context);
 
@@ -34,7 +34,7 @@ describe("txn opcode", () => {
                 "xxx"
             ],
         };
-        const opcode = new Txn(token);
+        const opcode = new Txn(token, opcodeDefs.txn);
         opcode.validateOperand();
 
         const context: any = {

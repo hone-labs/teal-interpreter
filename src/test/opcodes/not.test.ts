@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Not } from "../../lib/opcodes/not";
 
 describe("not opcode", () => {
@@ -14,7 +15,7 @@ describe("not opcode", () => {
                 makeBigInt(BigInt(3)),
             ],
         };
-        const opcode = new Not(token);
+        const opcode = new Not(token, opcodeDefs["!"]);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);

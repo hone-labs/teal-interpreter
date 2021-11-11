@@ -1,5 +1,6 @@
 import { makeBytes } from "../../lib/context";
 import { addressToBytes, stringToBytes } from "../../lib/convert";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Ecdsa_verify } from "../../lib/opcodes/ecdsa_verify";
 
 describe("ecdsa_verify opcode", () => {
@@ -12,7 +13,7 @@ describe("ecdsa_verify opcode", () => {
                 "5",
             ],
         };
-        const opcode = new Ecdsa_verify(token);
+        const opcode = new Ecdsa_verify(token, opcodeDefs.ecdsa_verify);
 
         const context: any = {
             stack: [

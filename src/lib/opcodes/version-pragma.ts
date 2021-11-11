@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -9,10 +8,6 @@ export class VersionPragma extends Opcode {
     //
     private versionNo?: number;
 
-    constructor(token: IToken) {
-        super(token, 2, 0);
-    }
-    
     validateOperand(): void {
         super.validateOperand();
 

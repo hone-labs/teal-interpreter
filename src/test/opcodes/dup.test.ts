@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Dup } from "../../lib/opcodes/dup";
 
 describe("dup opcode", () => {
@@ -14,7 +15,7 @@ describe("dup opcode", () => {
                 makeBigInt(BigInt(3)),
             ],
         };
-        const opcode = new Dup(token);
+        const opcode = new Dup(token, opcodeDefs.dup);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(2);

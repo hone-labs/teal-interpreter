@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
@@ -9,10 +8,6 @@ export class Bytecblock extends Opcode {
     //
     private bytecblock: Uint8Array[] = [];
    
-    constructor(token: IToken) {
-        super(token, undefined, 0);
-    }
-    
     validateOperand(): void {
         super.validateOperand();
 

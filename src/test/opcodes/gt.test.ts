@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Gt } from "../../lib/opcodes/gt";
 
 describe("gt opcode", () => {
@@ -15,7 +16,7 @@ describe("gt opcode", () => {
                 makeBigInt(BigInt(10)), 
             ],
         };
-        const opcode = new Gt(token);
+        const opcode = new Gt(token, opcodeDefs[">"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

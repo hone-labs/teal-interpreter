@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Bor } from "../../lib/opcodes/bor";
 
 describe("bitwise or opcode", () => {
@@ -16,7 +17,7 @@ describe("bitwise or opcode", () => {
                 makeBigInt(BigInt(3)),
             ],
         };
-        const opcode = new Bor(token);
+        const opcode = new Bor(token, opcodeDefs["|"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

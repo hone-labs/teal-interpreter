@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Complement } from "../../lib/opcodes/complement";
 
 describe("complement opcode", () => {
@@ -14,7 +15,7 @@ describe("complement opcode", () => {
                 makeBigInt(BigInt(3)),
             ],
         };
-        const opcode = new Complement(token);
+        const opcode = new Complement(token, opcodeDefs["~"]);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);

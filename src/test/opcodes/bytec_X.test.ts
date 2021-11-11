@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Bytec_X } from "../../lib/opcodes/bytec_X";
 
 describe("bytec_X opcode", () => {
@@ -8,7 +9,7 @@ describe("bytec_X opcode", () => {
             opcode: "bytec_0",
             operands: [],
         };
-        const opcode = new Bytec_X(token, 0);
+        const opcode = new Bytec_X(token, opcodeDefs.bytec_0, 0);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -29,7 +30,7 @@ describe("bytec_X opcode", () => {
             opcode: "bytec_2",
             operands: [],
         };
-        const opcode = new Bytec_X(token, 2);
+        const opcode = new Bytec_X(token, opcodeDefs.bytec_2, 2);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {

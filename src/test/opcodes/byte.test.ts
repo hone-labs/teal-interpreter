@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Byte } from "../../lib/opcodes/byte";
 
 describe("byte opcode", () => {
@@ -11,7 +12,7 @@ describe("byte opcode", () => {
                 "iZWMx72KvU6Bw6sPAWQFL96YH+VMrBA0XKWD9XbZOZI=",
             ],
         };        
-        const opcode = new Byte(token);
+        const opcode = new Byte(token, opcodeDefs.byte);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -36,7 +37,7 @@ describe("byte opcode", () => {
                 "b64(0)",
             ],
         };        
-        const opcode = new Byte(token);
+        const opcode = new Byte(token, opcodeDefs.byte);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -56,7 +57,7 @@ describe("byte opcode", () => {
                 "0x1234567812345678",
             ],
         };        
-        const opcode = new Byte(token);
+        const opcode = new Byte(token, opcodeDefs.byte);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
@@ -79,7 +80,7 @@ describe("byte opcode", () => {
                 '"ZC9KNzlnWTlKZ1pwSkNzQXVzYjNBcG1xTU9YbkRNWUtIQXNKYVk2RzRBdExPakQx"',
             ],
         };        
-        const opcode = new Byte(token);
+        const opcode = new Byte(token, opcodeDefs.byte);
         opcode.validateOperand(); // Parses the operand.
 
         const context: any = {

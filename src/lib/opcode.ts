@@ -1,6 +1,7 @@
 import { isArray } from "util";
 import { IExecutionContext } from "./context";
 import { IExecuteResult } from "./execute-result";
+import { IOpcodeDef } from "./opcodes";
 import { IToken } from "./token";
 
 //
@@ -42,19 +43,13 @@ export abstract class Opcode implements IOpcode {
     protected readonly token: IToken;
 
     //
-    // The number of operands expected by the opcode.
+    // Defines the details of the opcode.
     //
-    private numOperands: number | number[] | undefined;
+    protected opcodeDef: IOpcodeDef;
 
-    //
-    // The number of stack based arguments expected by this opcode.
-    //
-    private numStackArgs: number;
-
-    constructor(token: IToken, numOperands: number | number[] | undefined, numStackArgs: number) {
+    constructor(token: IToken, opcodeDef: IOpcodeDef) {
         this.token = token;
-        this.numOperands = numOperands;
-        this.numStackArgs = numStackArgs;
+        this.opcodeDef = opcodeDef;
     }
 
     //
@@ -66,28 +61,30 @@ export abstract class Opcode implements IOpcode {
 
     validateOperand(): void {
 
-        if (this.numOperands !== undefined) {
-            if (Array.isArray(this.numOperands)) {
-                for (const numOperands of this.numOperands) {
+        if (this.opcodeDef.operands !== undefined) {
+            if (Array.isArray(this.opcodeDef.operands)) {
+                for (const numOperands of this.opcodeDef.operands) {
                     if (this.token.operands.length === numOperands) {
                         // Ok, meets one of the expected number of operands.
                         return;
                     }
                 }
     
-                throw new Error(`Opcode ${this.token.opcode} expects a number of operands equal to one of ${this.numOperands.join(", ")}, instead found ${this.token.operands.length} operands.`);
+                throw new Error(`Opcode ${this.token.opcode} expects a number of operands equal to one of ${this.opcodeDef.operands.join(", ")}, instead found ${this.token.operands.length} operands.`);
             }
             else {
-                if (this.token.operands.length !== this.numOperands) {
-                    throw new Error(`Opcode ${this.token.opcode} expects ${this.numOperands} operands, instead found ${this.token.operands.length} operands.`);
+                if (this.token.operands.length !== this.opcodeDef.operands) {
+                    throw new Error(`Opcode ${this.token.opcode} expects ${this.opcodeDef.operands} operands, instead found ${this.token.operands.length} operands.`);
                 }
             }
         }
     }
 
     validateContext(context: IExecuteResult): void {
-        if (context.stack.length < this.numStackArgs) {
-            throw new Error(`Expected ${this.numStackArgs} stack-based arguments on the stack for opcode ${this.token.opcode}, found only ${context.stack.length} values on the stack.`);
+        if (this.opcodeDef.stack !== undefined) {
+            if (context.stack.length < this.opcodeDef.stack) {
+                throw new Error(`Expected ${this.opcodeDef.stack} stack-based arguments on the stack for opcode ${this.token.opcode}, found only ${context.stack.length} values on the stack.`);
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Global } from "../../lib/opcodes/global";
 
 describe("global opcode", () => {
@@ -18,7 +19,7 @@ describe("global opcode", () => {
             },
         };
         
-        const opcode = new Global(token);
+        const opcode = new Global(token, opcodeDefs.global);
         opcode.validateOperand(); // Parses the operand.
         opcode.execute(context);
 
@@ -34,7 +35,7 @@ describe("global opcode", () => {
                 "xxx"
             ],
         };
-        const opcode = new Global(token);
+        const opcode = new Global(token, opcodeDefs.global);
         opcode.validateOperand();
 
         const context: any = {

@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Band } from "../../lib/opcodes/band";
 
 describe("bitwise and opcode", () => {
@@ -16,7 +17,7 @@ describe("bitwise and opcode", () => {
                 makeBigInt(BigInt(6)),
             ],
         };
-        const opcode = new Band(token);
+        const opcode = new Band(token, opcodeDefs["&"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

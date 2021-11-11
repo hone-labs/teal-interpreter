@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Mul } from "../../lib/opcodes/mul";
 
 describe("mul opcode", () => {
@@ -15,7 +16,7 @@ describe("mul opcode", () => {
                 makeBigInt(BigInt(2)),
             ],
         };
-        const opcode = new Mul(token);
+        const opcode = new Mul(token, opcodeDefs["*"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

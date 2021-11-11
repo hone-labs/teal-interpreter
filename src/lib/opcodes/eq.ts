@@ -1,13 +1,8 @@
 import { IExecutionContext, makeBigInt } from "../context";
 import { Opcode } from "../opcode";
-import { IToken } from "../token";
 
 export class Eq extends Opcode {
 
-    constructor(token: IToken) {
-        super(token, 0, 2);
-    }
-    
     execute(context: IExecutionContext): void {
         const b = context.stack.pop()!;
         const a = context.stack.pop()!;

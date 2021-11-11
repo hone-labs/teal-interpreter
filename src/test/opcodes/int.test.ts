@@ -1,3 +1,4 @@
+import { opcodeDefs } from "../../lib/opcodes";
 import { Int } from "../../lib/opcodes/int";
 
 describe("int opcode", () => {
@@ -13,7 +14,7 @@ describe("int opcode", () => {
         const context: any = {
             stack: [],
         };
-        const opcode = new Int(token);
+        const opcode = new Int(token, opcodeDefs.int);
         opcode.validateOperand(); // Parses the operand.
         opcode.execute(context);
 
@@ -32,7 +33,7 @@ describe("int opcode", () => {
         const context: any = {
             stack: [],
         };
-        const opcode = new Int(token);
+        const opcode = new Int(token, opcodeDefs.int);
         opcode.validateOperand(); // Parses the operand.
         opcode.execute(context);
 
@@ -51,7 +52,7 @@ describe("int opcode", () => {
         const context: any = {
             stack: [],
         };
-        const opcode = new Int(token);
+        const opcode = new Int(token, opcodeDefs.int);
         opcode.validateOperand(); // Parses the operand.
         opcode.execute(context);
 
@@ -67,7 +68,7 @@ describe("int opcode", () => {
                 "xxx"
             ],
         };
-        const opcode = new Int(token);
+        const opcode = new Int(token, opcodeDefs.int);
 
         expect(() => opcode.validateOperand()).toThrow();
     });

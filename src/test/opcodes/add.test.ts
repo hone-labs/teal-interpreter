@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Add } from "../../lib/opcodes/add";
 
 describe("add opcode", () => {
@@ -16,7 +17,7 @@ describe("add opcode", () => {
                 makeBigInt(BigInt(4)),
             ],
         };
-        const opcode = new Add(token);
+        const opcode = new Add(token, opcodeDefs["+"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { And } from "../../lib/opcodes/and";
 
 describe("and opcode", () => {
@@ -15,7 +16,7 @@ describe("and opcode", () => {
                 makeBigInt(BigInt(2)), 
             ],
         };
-        const opcode = new And(token);
+        const opcode = new And(token, opcodeDefs["&&"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

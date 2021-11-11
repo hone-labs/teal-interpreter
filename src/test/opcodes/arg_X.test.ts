@@ -1,4 +1,5 @@
 import { makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Arg_X } from "../../lib/opcodes/arg_X";
 
 describe("argx opcode", () => {
@@ -9,7 +10,7 @@ describe("argx opcode", () => {
             opcode: "arg_0",
             operands: [],
         };
-        const opcode = new Arg_X(token, 0);
+        const opcode = new Arg_X(token, opcodeDefs.arg_0, 0);
 
         const context: any = {
             stack : [],
@@ -32,7 +33,7 @@ describe("argx opcode", () => {
             opcode: "arg_1",
             operands: [],
         };
-        const opcode = new Arg_X(token, 1);
+        const opcode = new Arg_X(token, opcodeDefs.arg_1, 1);
 
         const context: any = {
             stack : [],

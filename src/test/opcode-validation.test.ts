@@ -1,12 +1,7 @@
 import { IExecutionContext } from "../lib/context";
 import { Opcode } from "../lib/opcode";
-import { IToken } from "../lib/token";
 
 class TestOpcode extends Opcode {
-
-    constructor(token: IToken, numOperands: number | number[], numStackArgs: number) {
-        super(token, numOperands, numStackArgs);
-    }
 
     execute(context: IExecutionContext): void {
         throw new Error("Method not implemented.");
@@ -22,7 +17,10 @@ describe("opcode validation failures", () => {
             opcode: "something",
             operands: [ "a", "b" ],
         };
-        const opcode = new TestOpcode(token, 3, 0);
+        const opcodeDef: any = {
+            operands: 3,
+        }
+        const opcode = new TestOpcode(token, opcodeDef);
         expect(() => opcode.validateOperand()).toThrow();
     });
 
@@ -32,7 +30,10 @@ describe("opcode validation failures", () => {
             opcode: "something",
             operands: [ "a", "b" ],
         };
-        const opcode = new TestOpcode(token, 2, 0);
+        const opcodeDef: any = {
+            operands: 2,
+        }
+        const opcode = new TestOpcode(token, opcodeDef);
         opcode.validateOperand();
     });
 
@@ -42,7 +43,10 @@ describe("opcode validation failures", () => {
             opcode: "something",
             operands: [ "a", "b" ],
         };
-        const opcode = new TestOpcode(token, [1, 3], 0);
+        const opcodeDef: any = {
+            operands: [1, 3],
+        }
+        const opcode = new TestOpcode(token, opcodeDef);
         expect(() => opcode.validateOperand()).toThrow();
     });
 
@@ -52,7 +56,10 @@ describe("opcode validation failures", () => {
             opcode: "something",
             operands: [ "a", "b" ],
         };
-        const opcode = new TestOpcode(token, [1, 2], 0);
+        const opcodeDef: any = {
+            operands: [1, 2],
+        }
+        const opcode = new TestOpcode(token, opcodeDef);
         opcode.validateOperand();
     });
 
@@ -62,12 +69,16 @@ describe("opcode validation failures", () => {
             opcode: "something",
             operands: [],
         };
+        const opcodeDef: any = {
+            stack: 2,
+        }
+        const opcode = new TestOpcode(token, opcodeDef);
+
         const context: any = {
             stack: [ 
                 BigInt(1),
             ],
         };
-        const opcode = new TestOpcode(token, 0, 2);
         expect(() => opcode.validateContext(context)).toThrow();
      });
 
@@ -77,13 +88,17 @@ describe("opcode validation failures", () => {
             opcode: "something",
             operands: [],
         };
+        const opcodeDef: any = {
+            stack: 2,
+        }
+        const opcode = new TestOpcode(token, opcodeDef);
+
         const context: any = {
             stack: [ 
                 BigInt(1),
                 BigInt(2),
             ],
         };
-        const opcode = new TestOpcode(token, 0, 2);
         opcode.validateContext(context);
      });
 

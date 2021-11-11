@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Load } from "../../lib/opcodes/load";
 
 describe("load opcode", () => {
@@ -17,7 +18,7 @@ describe("load opcode", () => {
                 makeBigInt(BigInt(3)),
             ],
         };
-        const opcode = new Load(token);
+        const opcode = new Load(token, opcodeDefs.load);
         opcode.validateOperand(); // Parses the operand.
         opcode.execute(context);
 
@@ -40,7 +41,7 @@ describe("load opcode", () => {
                 makeBigInt(BigInt(4)),
             ],
         };
-        const opcode = new Load(token);
+        const opcode = new Load(token, opcodeDefs.load);
         opcode.validateOperand(); // Parses the operand.
         opcode.execute(context);
 
@@ -57,7 +58,7 @@ describe("load opcode", () => {
             ],
         };
         
-        const opcode = new Load(token);
+        const opcode = new Load(token, opcodeDefs.load);
         expect(() => opcode.validateOperand()).toThrow();
     });
 
@@ -70,7 +71,7 @@ describe("load opcode", () => {
             ],
         };
         
-        const opcode = new Load(token);
+        const opcode = new Load(token, opcodeDefs.load);
         expect(() => opcode.validateOperand()).toThrow();
     });
 
@@ -83,7 +84,7 @@ describe("load opcode", () => {
             ],
         };
         
-        const opcode = new Load(token);
+        const opcode = new Load(token, opcodeDefs.load);
         expect(() => opcode.validateOperand()).toThrow();
     });
 });

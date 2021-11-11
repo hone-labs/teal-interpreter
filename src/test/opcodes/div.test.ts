@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Div } from "../../lib/opcodes/div";
 
 describe("div opcode", () => {
@@ -16,7 +17,7 @@ describe("div opcode", () => {
                 makeBigInt(BigInt(2)),
             ],
         };
-        const opcode = new Div(token);
+        const opcode = new Div(token, opcodeDefs["/"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

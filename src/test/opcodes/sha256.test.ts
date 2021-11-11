@@ -1,4 +1,5 @@
 import { makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Sha256 } from "../../lib/opcodes/sha256";
 
 describe("sha256 opcode", () => {
@@ -9,7 +10,7 @@ describe("sha256 opcode", () => {
             opcode: "sha256",
             operands: [],
         };
-        const opcode = new Sha256(token);
+        const opcode = new Sha256(token, opcodeDefs.sha256);
 
         const context: any = {
             stack: [

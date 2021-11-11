@@ -1,4 +1,5 @@
 import { makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Btoi } from "../../lib/opcodes/btoi";
 
 describe("btoi opcode", () => {
@@ -17,7 +18,7 @@ describe("btoi opcode", () => {
                 ])),
             ],
         };
-        const opcode = new Btoi(token);
+        const opcode = new Btoi(token, opcodeDefs.btoi);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
@@ -35,7 +36,7 @@ describe("btoi opcode", () => {
                 makeBytes(new Uint8Array([])),
             ],
         };
-        const opcode = new Btoi(token);
+        const opcode = new Btoi(token, opcodeDefs.btoi);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
@@ -53,7 +54,7 @@ describe("btoi opcode", () => {
                 makeBytes(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9])), // One too many.
             ],
         };
-        const opcode = new Btoi(token);
+        const opcode = new Btoi(token, opcodeDefs.btoi);
         expect(() => opcode.execute(context)).toThrow();
     });
 

@@ -1,4 +1,5 @@
 import { makeBigInt } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Mod } from "../../lib/opcodes/mod";
 
 describe("mod opcode", () => {
@@ -16,7 +17,7 @@ describe("mod opcode", () => {
                 makeBigInt(BigInt(3)),
             ],
         };
-        const opcode = new Mod(token);
+        const opcode = new Mod(token, opcodeDefs["%"]);
         opcode.validateContext(context);
         opcode.execute(context);
 

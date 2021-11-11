@@ -1,13 +1,8 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext, makeBigInt } from "../context";
 import { encodeAddress, verifyBytes } from "algosdk";
 
 export class Ed25519verify extends Opcode {
-    
-    constructor(token: IToken) {
-        super(token, 0, 3);
-    }
     
     execute(context: IExecutionContext): void {
         const pubkey = context.stack.pop()?.value as Uint8Array;

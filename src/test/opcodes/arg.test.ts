@@ -1,4 +1,5 @@
 import { makeBytes } from "../../lib/context";
+import { opcodeDefs } from "../../lib/opcodes";
 import { Arg } from "../../lib/opcodes/arg";
 
 describe("arg opcode", () => {
@@ -11,7 +12,7 @@ describe("arg opcode", () => {
                 "0"
             ],
         };
-        const opcode = new Arg(token);
+        const opcode = new Arg(token, opcodeDefs.arg);
 
         const context: any = {
             stack : [],
@@ -37,7 +38,7 @@ describe("arg opcode", () => {
                 "1"
             ],
         };
-        const opcode = new Arg(token);
+        const opcode = new Arg(token, opcodeDefs.arg);
 
         const context: any = {
             stack : [],
@@ -62,7 +63,7 @@ describe("arg opcode", () => {
                 "xxx"
             ],
         };
-        const opcode = new Arg(token);
+        const opcode = new Arg(token, opcodeDefs.arg);
 
         expect(() => opcode.validateOperand()).toThrow();
     });
@@ -75,7 +76,7 @@ describe("arg opcode", () => {
                 "0"
             ],
         };
-        const opcode = new Arg(token);
+        const opcode = new Arg(token, opcodeDefs.arg);
         opcode.validateOperand();
 
         const context: any = {
