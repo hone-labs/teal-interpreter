@@ -59,7 +59,12 @@ export interface IOpcodeDef {
     //
     // The version of TEAL that adds the opcode.
     //
-    readonly version: number,
+    readonly version: number;
+
+    //
+    // The cost of the instruction (at various levels of TEAL versions).
+    //
+    readonly cost?: number | number[];
 
     //
     // The number of operands expected by the opcode.
@@ -104,24 +109,28 @@ export const opcodeDefs: IOpcodeMap = {
     },
     "sha256":  {
         version: 1,
+        cost: [7, 35],
         operands: 0,
         stack: 1,
         factory: function (token) { return new Sha256(token, this) },
     },
     "keccak256":  {
         version: 1,
+        cost: [26, 130],
         operands: 0,
         stack: 1,
         factory: function (token) { return new Keccak256(token, this) },
     },
     "sha512_256":  {
         version: 1,
+        cost: [9, 45],
         operands: 0,
         stack: 1,
         factory: function (token) { return new Sha512_256(token, this) },
     },
     "ed25519verify":  {
         version: 1,
+        cost: 1900,
         operands: 0,
         stack: 3,
         factory: function (token) { return new Ed25519verify(token, this) },
@@ -449,6 +458,7 @@ export const opcodeDefs: IOpcodeMap = {
 
     "sqrt": {
         version: 4,
+        cost: 4,
         operands: 0,
         stack: 1,
         factory: function (token) { return new Sqrt(token, this) },
@@ -457,6 +467,7 @@ export const opcodeDefs: IOpcodeMap = {
     // TEAL 5
     "ecdsa_verify":  {
         version: 5,
+        cost: 1700,
         operands: 1,
         stack: 5,
         factory: function (token) { return new Ecdsa_verify(token, this) },
