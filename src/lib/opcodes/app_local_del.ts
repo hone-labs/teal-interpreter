@@ -1,10 +1,9 @@
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
-export class AppLocalPut extends Opcode {
+export class AppLocalDel extends Opcode {
 
     execute(context: IExecutionContext): void {
-        const value = context.stack.pop()!;
         const localName = Buffer.from(context.stack.pop()!.value as Uint8Array).toString();
         const addr = context.stack.pop()!.value as Uint8Array;
         const accountName = Buffer.from(addr).toString();
@@ -18,6 +17,6 @@ export class AppLocalPut extends Opcode {
             throw new Error(`Locals not set for account "${accountName}", please add field "locals" to this account in your configuration.`);
         }
 
-        account.locals[localName] = value;
+        delete account.locals[localName];
     }
 }
