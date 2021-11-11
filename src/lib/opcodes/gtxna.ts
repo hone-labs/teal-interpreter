@@ -1,7 +1,7 @@
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
-export class Txna extends Opcode {
+export class Gtxna extends Opcode {
 
     //
     // The index of the transaction to get the field of.
@@ -12,12 +12,18 @@ export class Txna extends Opcode {
     // The field to be pulled from the specified transaction.
     //
     private fieldName!: string;
+
+    //
+    // The index in the field.
+    //
+    private fieldIndex!: number;
     
     validateOperand() {
         super.validateOperand();
 
         this.txnIndex = this.parseIntOperand(0);
         this.fieldName = this.token.operands[1];
+        this.fieldIndex = this.parseIntOperand(2);
     }
     
     execute(context: IExecutionContext): void {
@@ -31,15 +37,20 @@ export class Txna extends Opcode {
         }
 
         const txn = context.txns[this.txnIndex];        
-        const value = txn[this.fieldName];
-        if (value === undefined) {
+        const array = txn[this.fieldName];
+        if (array === undefined) {
             throw new Error(`Field "${this.fieldName}" has not been supplied with transaction ${this.txnIndex}, please adjust your configuration to include this field.`)
         }
 
-        if (Array.isArray(value)) {
-            throw new Error(`Expected field "${this.fieldName}" not to be an array when used with opcode ${this.token.opcode}.`);
+        //todo: check that value is an array of typed values!
+
+        if (!Array.isArray(array)) {
+            throw new Error(`Expected field "${this.fieldName}" to contain an array for use with opcode ${this.token.opcode}."`);
         }
 
+        //todo: check index within bounds.
+
+        const value = array[this.fieldIndex];
         context.stack.push(value);
     }
 }

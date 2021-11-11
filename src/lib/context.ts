@@ -45,7 +45,7 @@ export function makeBytes(value: Uint8Array): ITypedValue {
 // A lookup table for values.
 //
 export interface IValueMap {
-    [index: string]: ITypedValue;
+    [index: string]: ITypedValue | ITypedValue[];
 }
 
 //

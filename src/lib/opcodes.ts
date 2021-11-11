@@ -53,6 +53,7 @@ import { Assert } from "./opcodes/assert";
 import { Sqrt } from "./opcodes/sqrt";
 import { Addw } from "./opcodes/addw";
 import { Txna } from "./opcodes/txna";
+import { Gtxna } from "./opcodes/gtxna";
 
 //
 // The static definiton of an opcode.
@@ -452,6 +453,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 2,
         stack: 0,
         factory: function (token) { return new Txna(token, this) },
+    },
+    "gtxna": {
+        version: 2,
+        operands: 3,
+        stack: 0,
+        factory: function (token) { return new Gtxna(token, this) },
     },
     "b": {
         version: 2,

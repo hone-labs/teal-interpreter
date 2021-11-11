@@ -1,3 +1,4 @@
+import { ITypedValue } from "../lib/context";
 import { loadValue, loadValueMap } from "../lib/convert";
 
 describe("convert", () => {
@@ -107,7 +108,8 @@ describe("convert", () => {
             "someValue": "hello",
         });
         expect(Object.keys(valueMap)).toEqual(["someValue"]);
-        expect(valueMap.someValue.type).toEqual("byte[]");
-        expect(Buffer.from(valueMap.someValue.value as Uint8Array).toString()).toEqual("hello");
+        const value = valueMap.someValue as ITypedValue;
+        expect(value.type).toEqual("byte[]");
+        expect(Buffer.from(value.value as Uint8Array).toString()).toEqual("hello");
     });
 });

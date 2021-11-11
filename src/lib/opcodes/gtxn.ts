@@ -27,6 +27,10 @@ export class Gtxn extends Opcode {
             throw new Error(`Field "${this.fieldName}" has not been supplied with current transaction, please adjust your configuration to include this field.`)
         }
 
+        if (Array.isArray(value)) {
+            throw new Error(`Expected field "${this.fieldName}" not to be an array when used with opcode ${this.token.opcode}.`);
+        }
+
         context.stack.push(value);
     }
 }

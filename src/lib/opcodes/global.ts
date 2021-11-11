@@ -21,6 +21,10 @@ export class Global extends Opcode {
             throw new Error(`Global "${this.globalName}" has not been provided, please adjust your configuration to include this global field.`)
         }
 
+        if (Array.isArray(value)) {
+            throw new Error(`Expected global "${this.globalName}" not to be an array when used with opcode ${this.token.opcode}.`);
+        }
+
         context.stack.push(value);
     }
 }
