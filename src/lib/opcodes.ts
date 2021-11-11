@@ -54,6 +54,7 @@ import { Sqrt } from "./opcodes/sqrt";
 import { Addw } from "./opcodes/addw";
 import { Txna } from "./opcodes/txna";
 import { Gtxna } from "./opcodes/gtxna";
+import { Bz } from "./opcodes/bz";
 
 //
 // The static definiton of an opcode.
@@ -459,6 +460,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 3,
         stack: 0,
         factory: function (token) { return new Gtxna(token, this) },
+    },
+    "bz": {
+        version: 2,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Bz(token, this) },
     },
     "b": {
         version: 2,
