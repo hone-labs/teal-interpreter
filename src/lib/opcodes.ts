@@ -64,6 +64,7 @@ import { Balance } from "./opcodes/balance";
 import { AppLocalGet } from "./opcodes/app_local_get";
 import { AppLocalPut } from "./opcodes/app_local_put";
 import { AppGlobalGet } from "./opcodes/app_global_get";
+import { AppGlobalPut } from "./opcodes/app_global_put";
 
 //
 // The static definiton of an opcode.
@@ -535,6 +536,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 3,
         factory: function (token) { return new AppLocalPut(token, this) },
+    },
+    "app_global_put": {
+        version: 2,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new AppGlobalPut(token, this) },
     },
 
     // TEAL 3
