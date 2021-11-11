@@ -21,6 +21,6 @@ describe("mul opcode", () => {
 
         expect(context.stack.length).toEqual(2);
         expect(Number(context.stack[0]?.value)).toEqual(0);
-        expect(Number(context.stack[1]?.value)).toEqual(0);
+        expect(Number(context.stack[1]?.value)).toEqual(20);
     });
 });
