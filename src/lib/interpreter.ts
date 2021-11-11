@@ -38,9 +38,31 @@ export interface IValueDefMap {
 export interface ITealInterpreterConfig {
 
     //
+    // The current application accessible from TEAL code.
+    //
+    application?: {
+        //
+        // Global variables for the application.
+        //
+        globals?: IValueDefMap,
+    },
+
+    //
     // Accounts that can be accessed from TEAL code.
     //
-    accounts?: IAccountMap;
+    accounts?: {
+        [index: string]: {
+            //
+            // Balance of the account.
+            //
+            balance?: number | bigint;
+
+            //
+            // Local variables in the account.
+            //
+            locals?: IValueDefMap;
+        };
+    };
 
     //
     // Global values.
@@ -116,6 +138,10 @@ export class TealInterpreter implements ITealInterpreter {
     //
     private _context: IExecutionContext = {
         version: 1,
+        application: {
+            globals: {
+            },
+        },
         accounts: {},
         branchTargets: {},
         stack: [],
@@ -169,9 +195,26 @@ export class TealInterpreter implements ITealInterpreter {
     load(tealCode: string, config?: ITealInterpreterConfig): void {
         const parseResult = parse(tealCode);
         this._instructions = parseResult.instructions;
+
+        let accounts: IAccountMap = {};
+        if (config?.accounts) {
+            for (const accountName of Object.keys(config.accounts)) {
+                const accountDef = config.accounts[accountName];
+                accounts[accountName] = {
+                    balance: accountDef.balance || 0,
+                    locals: accountDef.locals ? loadValueMap(accountDef.locals) : {},
+                };
+            }
+        }
+
         this._context = {
             version: 1,
-            accounts: config?.accounts || {},
+            application: {
+                globals: config?.application?.globals 
+                    ? loadValueMap(config.application.globals) 
+                    : {},
+            },
+            accounts: accounts,
             branchTargets: parseResult.branchTargets,
             stack: [],
             args: config?.args !== undefined ? loadValues(config.args) : [],

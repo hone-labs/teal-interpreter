@@ -72,9 +72,25 @@ export interface IAccountMap {
 }
 
 //
+// Represents an Algorand applicaton.
+//
+export interface IApplication {
+
+    //
+    // Values for application global variables.
+    //
+    globals: IValueMap;
+}
+
+//
 // Context for executions of TEAL opcodes.
 //
 export interface IExecutionContext {
+
+    //
+    // The current application that can be used from TEAL code.
+    //
+    application: IApplication;
     
     //
     // Accounts that can be used from TEAL code.

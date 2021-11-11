@@ -63,6 +63,7 @@ import { Substring3 } from "./opcodes/substring3";
 import { Balance } from "./opcodes/balance";
 import { AppLocalGet } from "./opcodes/app_local_get";
 import { AppLocalPut } from "./opcodes/app_local_put";
+import { AppGlobalGet } from "./opcodes/app_global_get";
 
 //
 // The static definiton of an opcode.
@@ -522,6 +523,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new AppLocalGet(token, this) },
+    },
+    "app_global_get": {
+        version: 2,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new AppGlobalGet(token, this) },
     },
     "app_local_put": {
         version: 2,
