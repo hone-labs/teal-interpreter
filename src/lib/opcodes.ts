@@ -71,6 +71,7 @@ import { AppOptedIn } from "./opcodes/app_opted_in";
 import { AppLocalGetEx } from "./opcodes/app_local_get_ex";
 import { AppGlobalGetEx } from "./opcodes/app_global_get_ex";
 import { AssetHoldingGet } from "./opcodes/asset_holding_get";
+import { AssetParamsGet } from "./opcodes/asset_params_get";
 
 //
 // The static definiton of an opcode.
@@ -584,6 +585,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 2,
         factory: function (token) { return new AssetHoldingGet(token, this) },
+    },
+    "asset_params_get": {
+        version: 2,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new AssetParamsGet(token, this) },
     },
 
     // TEAL 3
