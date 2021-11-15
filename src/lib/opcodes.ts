@@ -67,6 +67,7 @@ import { AppGlobalGet } from "./opcodes/app_global_get";
 import { AppGlobalPut } from "./opcodes/app_global_put";
 import { AppLocalDel } from "./opcodes/app_local_del";
 import { AppGlobalDel } from "./opcodes/app_global_del";
+import { AppGlobalGetEx } from "./opcodes/app_global_get_ex";
 
 //
 // The static definiton of an opcode.
@@ -532,6 +533,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 1,
         factory: function (token) { return new AppGlobalGet(token, this) },
+    },
+    "app_global_get_ex": {
+        version: 2,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new AppGlobalGetEx(token, this) },
     },
     "app_local_put": {
         version: 2,
