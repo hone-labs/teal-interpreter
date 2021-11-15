@@ -1,90 +1,7 @@
-import { IAccountMap, IExecutionContext, ITypedValue, makeBigInt } from "./context";
-import { loadValueMap, loadValues } from "./convert";
+import { ITealInterpreterConfig } from "./config";
+import { IExecutionContext, loadContext } from "./context";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
-
-//
-// Unencoded value for an argument.
-//
-export interface IValueDef {
-
-    //
-    // The type of the value.
-    //
-    readonly type: "array" | "int" | "string" | "addr";
-
-    //
-    // The value of the value.
-    //
-    readonly value: any;
-}
-
-//
-// Extended value definition.
-//
-export type ValueDef = bigint | number | string | IValueDef;
-
-//
-// A lookup table for values defs.
-//
-export interface IValueDefMap {
-    [index: string]: ValueDef;
-}
-
-
-//
-// Specifies initial configuration for TEAL code execution.
-//
-export interface ITealInterpreterConfig {
-
-    //
-    // The current application accessible from TEAL code.
-    //
-    application?: {
-        //
-        // Global variables for the application.
-        //
-        globals?: IValueDefMap,
-    },
-
-    //
-    // Accounts that can be accessed from TEAL code.
-    //
-    accounts?: {
-        [index: string]: {
-            //
-            // Balance of the account.
-            //
-            balance?: number | bigint;
-
-            //
-            // Local variables in the account.
-            //
-            locals?: IValueDefMap;
-        };
-    };
-
-    //
-    // Global values.
-    //
-    globals?: IValueDefMap;
-    
-    //
-    // The current transaction.
-    //
-    txn?: IValueDefMap;
-
-    //
-    // The current transaction group.
-    //
-    txns?: IValueDefMap[];
-
-    //
-    // Array of arguments.
-    //
-    readonly args?: ValueDef[];
-
-}
 
 export interface ITealInterpreter {
 
@@ -139,9 +56,10 @@ export class TealInterpreter implements ITealInterpreter {
     private _context: IExecutionContext = {
         version: 1,
         application: {
-            globals: {
-            },
+            globals: {},
         },
+        applications: {},
+        assets: {},
         accounts: {},
         branchTargets: {},
         stack: [],
@@ -195,37 +113,7 @@ export class TealInterpreter implements ITealInterpreter {
     load(tealCode: string, config?: ITealInterpreterConfig): void {
         const parseResult = parse(tealCode);
         this._instructions = parseResult.instructions;
-
-        let accounts: IAccountMap = {};
-        if (config?.accounts) {
-            for (const accountName of Object.keys(config.accounts)) {
-                const accountDef = config.accounts[accountName];
-                accounts[accountName] = {
-                    balance: accountDef.balance || 0,
-                    locals: accountDef.locals ? loadValueMap(accountDef.locals) : {},
-                };
-            }
-        }
-
-        this._context = {
-            version: 1,
-            application: {
-                globals: config?.application?.globals 
-                    ? loadValueMap(config.application.globals) 
-                    : {},
-            },
-            accounts: accounts,
-            branchTargets: parseResult.branchTargets,
-            stack: [],
-            args: config?.args !== undefined ? loadValues(config.args) : [],
-            txn: config?.txn ? loadValueMap(config.txn) : {},
-            txns: config?.txns ? config.txns.map(loadValueMap) : [],
-            globals: config?.globals ? loadValueMap(config.globals) : {},
-            scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
-            intcblock: [],
-            bytecblock: [],
-            finished: false,
-        };
+        this._context = loadContext(parseResult.branchTargets, config);
         this._curInstructionIndex = 0;
     }
 

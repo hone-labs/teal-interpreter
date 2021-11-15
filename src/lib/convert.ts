@@ -1,7 +1,7 @@
 import { decodeAddress } from "algosdk";
-import { IValueDef, IValueDefMap, ValueDef } from "./interpreter";
 import * as base32 from "hi-base32";
-import { ITypedValue, IValueMap, makeBigInt, makeBytes } from "./context";
+import { ITable, ValueDef } from "./config";
+import { ITypedValue, makeBigInt, makeBytes } from "./context";
 
 export type Encoding = "base64" | "b64" | "base32" | "b32" | "hex" | "utf8";
 
@@ -97,11 +97,13 @@ export function loadValues(values: ValueDef[]): ITypedValue[] {
 //
 // Loads a lookup table of values.
 //
-export function loadValueMap(valueDefMap: IValueDefMap): IValueMap {
-    const valueMap: IValueMap = {};
-    for (const key of Object.keys(valueDefMap)) {
-        valueMap[key] = loadValue(valueDefMap[key]);
-    }    
+export function loadValueTable(valueDefTable?: ITable<ValueDef>): ITable<ITypedValue> {
+    const valueMap: ITable<ITypedValue> = {};
+    if (valueDefTable) {
+        for (const key of Object.keys(valueDefTable)) {
+            valueMap[key] = loadValue(valueDefTable[key]);
+        }    
+    }
 
     return valueMap;
 }

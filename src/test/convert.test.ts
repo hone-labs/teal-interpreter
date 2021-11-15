@@ -1,5 +1,5 @@
 import { ITypedValue } from "../lib/context";
-import { loadValue, loadValueMap } from "../lib/convert";
+import { loadValue, loadValueTable } from "../lib/convert";
 
 describe("convert", () => {
 
@@ -102,9 +102,9 @@ describe("convert", () => {
         expect(() => loadValue(badInput)).toThrow();
     });
 
-    it("can load value map", () => {
+    it("can load value table", () => {
 
-        const valueMap = loadValueMap({
+        const valueMap = loadValueTable({
             "someValue": "hello",
         });
         expect(Object.keys(valueMap)).toEqual(["someValue"]);
