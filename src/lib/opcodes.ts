@@ -67,6 +67,7 @@ import { AppGlobalGet } from "./opcodes/app_global_get";
 import { AppGlobalPut } from "./opcodes/app_global_put";
 import { AppLocalDel } from "./opcodes/app_local_del";
 import { AppGlobalDel } from "./opcodes/app_global_del";
+import { AppOptedIn } from "./opcodes/app_opted_in";
 import { AppLocalGetEx } from "./opcodes/app_local_get_ex";
 import { AppGlobalGetEx } from "./opcodes/app_global_get_ex";
 
@@ -522,6 +523,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 1,
         factory: function (token) { return new Balance(token, this) },
+    },
+    "app_opted_in": {
+        version: 2,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new AppOptedIn(token, this) },
     },
     "app_local_get": {
         version: 2,
