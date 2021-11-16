@@ -7,17 +7,12 @@ export class AppGlobalGetEx extends Opcode {
         const globalName = Buffer.from(context.stack.pop()!.value as Uint8Array).toString();
         const appId = Number(this.popInt(context));
 
-        if (context.applications === undefined) {
-            throw new Error(`"applications" field not set, please add field "applications" to your configuration.`);
-        }
-
         const application = context.applications[appId];
         if (application === undefined) {
-            throw new Error(`Field for application ${appId} not found, please add field "applications.${appId}" to your configuration.`);
-        }
-
-        if (application.globals === undefined) {
-            throw new Error(`"globals" field not set, please add field "applications.${appId}.globals" to your configuration.`);
+            // Application not found.
+            context.stack.push(makeBigInt(BigInt(0)));
+            context.stack.push(makeBigInt(BigInt(0)));
+            return;
         }
 
         const value = application.globals[globalName];
@@ -26,12 +21,10 @@ export class AppGlobalGetEx extends Opcode {
         }
 
         if (Array.isArray(value)) {
-            if (Array.isArray(value)) {
-                throw new Error(`Expected application global "${globalName}" not to be an array when used with opcode ${this.token.opcode}.`);
-            }
+            throw new Error(`Expected application global "${globalName}" not to be an array when used with opcode ${this.token.opcode}.`);
         }
 
         context.stack.push(value);
-        context.stack.push(makeBigInt(BigInt(1))); //TODO: Under what situation can this be 0?
+        context.stack.push(makeBigInt(BigInt(1)));
     }
 }
