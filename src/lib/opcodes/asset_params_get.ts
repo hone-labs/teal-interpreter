@@ -19,7 +19,10 @@ export class AssetParamsGet extends Opcode {
         const assetId = this.popInt(context).toString();
         const asset = context.assets[assetId];
         if (asset === undefined) {
-            throw new Error(`Asset ${assetId} not found in your configuration. Please add an "assets.${assetId}" field to you configuration.`);
+            // Asset not found.
+            context.stack.push(makeBigInt(BigInt(0)));
+            context.stack.push(makeBigInt(BigInt(0)));
+            return;
         }
 
         const value = asset.fields[this.fieldName];
@@ -28,6 +31,6 @@ export class AssetParamsGet extends Opcode {
         }
 
         context.stack.push(value);
-        context.stack.push(makeBigInt(BigInt(1))); //TODO: Under what circumstances is 0 pushed?
+        context.stack.push(makeBigInt(BigInt(1)));
     }
 }

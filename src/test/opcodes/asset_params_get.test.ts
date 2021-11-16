@@ -33,7 +33,7 @@ describe("asset_params_get opcode", () => {
         expect(Number(context.stack[1]?.value)).toEqual(1);
     });
 
-    it("throws when asset is not set", () => {
+    it ("returns zero when asset not found", () => {
 
         const token: any = {
             operands: [
@@ -51,7 +51,11 @@ describe("asset_params_get opcode", () => {
                 makeBigInt(BigInt(3)),
             ],
         };
-        expect(() => opcode.execute(context)).toThrow();
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(2);
+        expect(Number(context.stack[0]?.value)).toEqual(0);
+        expect(Number(context.stack[1]?.value)).toEqual(0);
     });
 
     it("throws when field is not set", () => {
