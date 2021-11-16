@@ -76,6 +76,7 @@ import { MinBalance } from "./opcodes/min_balance";
 import { PushBytes } from "./opcodes/pushbytes";
 import { PushInt } from "./opcodes/pushint";
 import { Gtxns } from "./opcodes/gtxns";
+import { Gtxnsa } from "./opcodes/gtxnsa";
 
 //
 // The static definiton of an opcode.
@@ -622,6 +623,12 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 1,
         factory: function (token) { return new Gtxns(token, this) },
     },
+    "gtxnsa":  {
+        version: 3,
+        operands: 2,
+        stack: 1,
+        factory: function (token) { return new Gtxnsa(token, this) },
+    },    
 
     "assert": {
         version: 3,
