@@ -73,6 +73,7 @@ import { AppGlobalGetEx } from "./opcodes/app_global_get_ex";
 import { AssetHoldingGet } from "./opcodes/asset_holding_get";
 import { AssetParamsGet } from "./opcodes/asset_params_get";
 import { MinBalance } from "./opcodes/min_balance";
+import { PushBytes } from "./opcodes/pushbytes";
 
 //
 // The static definiton of an opcode.
@@ -595,6 +596,12 @@ export const opcodeDefs: IOpcodeMap = {
     },
 
     // TEAL 3
+    "pushbytes": {
+        version: 3,
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new PushBytes(token, this) },
+    },
     "min_balance": {
         version: 3,
         operands: 0,
