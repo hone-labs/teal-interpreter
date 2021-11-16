@@ -78,6 +78,7 @@ import { PushInt } from "./opcodes/pushint";
 import { Gtxns } from "./opcodes/gtxns";
 import { Gtxnsa } from "./opcodes/gtxnsa";
 import { Dig } from "./opcodes/dig";
+import { Swap } from "./opcodes/swap";
 
 //
 // The static definiton of an opcode.
@@ -635,6 +636,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 0,
         factory: function (token) { return new Dig(token, this) },
+    },    
+    "swap":  {
+        version: 3,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Swap(token, this) },
     },    
 
     "assert": {
