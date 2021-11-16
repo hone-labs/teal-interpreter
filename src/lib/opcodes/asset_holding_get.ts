@@ -25,7 +25,10 @@ export class AssetHoldingGet extends Opcode {
 
         const asset = account.assets[assetId];
         if (asset === undefined) {
-            throw new Error(`Asset "${assetId}" not found under account "${accountName}", please add this asset to the account in your configuration.`);
+            // Asset not found.
+            context.stack.push(makeBigInt(BigInt(0)));
+            context.stack.push(makeBigInt(BigInt(0)));
+            return;
         }
 
         const value = asset.fields[this.fieldName];
@@ -34,6 +37,6 @@ export class AssetHoldingGet extends Opcode {
         }
 
         context.stack.push(value);
-        context.stack.push(makeBigInt(BigInt(1))); //TODO: Under what circumstances is 0 pushed?
+        context.stack.push(makeBigInt(BigInt(1)));
     }
 }
