@@ -80,6 +80,7 @@ import { Gtxnsa } from "./opcodes/gtxnsa";
 import { Dig } from "./opcodes/dig";
 import { Swap } from "./opcodes/swap";
 import { Select } from "./opcodes/select";
+import { GetBit } from "./opcodes/getbit";
 
 //
 // The static definiton of an opcode.
@@ -649,6 +650,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 3,
         factory: function (token) { return new Select(token, this) },
+    },    
+    "getbit":  {
+        version: 3,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new GetBit(token, this) },
     },    
 
     "assert": {
