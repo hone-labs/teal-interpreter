@@ -118,6 +118,15 @@ export abstract class Opcode implements IOpcode {
     // Pops an integer argument from the stack.
     //
     protected popInt(context: IExecutionContext): bigint {
-        return context.stack.pop()?.value as bigint;
+        if (context.stack.length === 0) {
+            throw new Error(`Want to pop uint64 from stack, but there is nothing on the stack!`);
+        }
+
+        const value = context.stack.pop()!;
+        if (value.type !== "bigint") {
+            throw new Error(`Expected to pop utin64 from stack, instead found ${value.type}.`);
+        }
+
+        return value.value as bigint;
     }
 }
