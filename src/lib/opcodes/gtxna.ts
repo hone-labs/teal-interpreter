@@ -42,13 +42,18 @@ export class Gtxna extends Opcode {
             throw new Error(`Field "${this.fieldName}" has not been supplied with transaction ${this.txnIndex}, please adjust your configuration to include this field.`)
         }
 
-        //todo: check that value is an array of typed values!
-
         if (!Array.isArray(array)) {
             throw new Error(`Expected field "${this.fieldName}" to contain an array for use with opcode ${this.token.opcode}."`);
         }
 
-        //todo: check index within bounds.
+        if (this.fieldIndex < 0) {
+            throw new Error(`Field index should be greater than 0, instead got ${this.fieldIndex}.`);
+        }
+
+        if (this.fieldIndex >= array.length) {
+            throw new Error(`Field index should be within the boundary of the array. Expected less than ${array.length}, intead got ${this.fieldIndex}.`);
+
+        }
 
         const value = array[this.fieldIndex];
         context.stack.push(value);
