@@ -81,6 +81,7 @@ import { Dig } from "./opcodes/dig";
 import { Swap } from "./opcodes/swap";
 import { Select } from "./opcodes/select";
 import { GetBit } from "./opcodes/getbit";
+import { SetBit } from "./opcodes/setbit";
 
 //
 // The static definiton of an opcode.
@@ -656,6 +657,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new GetBit(token, this) },
+    },    
+    "setbit":  {
+        version: 3,
+        operands: 0,
+        stack: 3,
+        factory: function (token) { return new SetBit(token, this) },
     },    
 
     "assert": {
