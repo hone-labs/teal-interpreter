@@ -28,42 +28,22 @@ describe("app_local_del opcode", () => {
         expect(context.accounts.AAAA.locals.aLocal).not.toBeDefined();
     });
 
-    // it("throws when account is not found", () => {
+    it("throws when account is not found", () => {
 
-    //     const token: any = {};
-    //     const opcode = new AppLocalDel(token, opcodeDefs.app_local_del);
+        const token: any = {};
+        const opcode = new AppLocalDel(token, opcodeDefs.app_local_del);
 
-    //     const context: any = {
-    //         accounts: {
-    //             // No account.
-    //         },            
-    //         stack: [                
-    //             makeBytes(new Uint8Array(Buffer.from("AAAA"))),
-    //             makeBytes(new Uint8Array(Buffer.from("aLocal"))),
-    //             makeBigInt(BigInt(6)),
-    //         ],
-    //     };
-    //     expect(() => opcode.execute(context)).toThrow();
-    // });
-
-    // it("throws when locals is not set", () => {
-        
-    //     const token: any = {};
-    //     const opcode = new AppLocalDel(token, opcodeDefs.app_local_del);
-
-    //     const context: any = {
-    //         accounts: {
-    //             AAAA: {
-    //                 // Locals is not set.
-    //             },
-    //         },
-    //         stack: [                
-    //             makeBytes(new Uint8Array(Buffer.from("AAAA"))),
-    //             makeBytes(new Uint8Array(Buffer.from("aLocal"))),
-    //             makeBigInt(BigInt(6)),
-    //         ],
-    //     };
-    //     expect(() => opcode.execute(context)).toThrow();
-    // });
+        const context: any = {
+            accounts: {
+                // No account.
+            },            
+            stack: [                
+                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(new Uint8Array(Buffer.from("aLocal"))),
+                makeBigInt(BigInt(6)),
+            ],
+        };
+        expect(() => opcode.execute(context)).toThrow();
+    });
 
 });

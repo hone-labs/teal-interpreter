@@ -13,10 +13,6 @@ export class AppLocalDel extends Opcode {
             throw new Error(`Account "${accountName}" not found, please add this account to your configuration.`);
         }
         
-        if (account.locals === undefined) {
-            throw new Error(`Locals not set for account "${accountName}", please add field "locals" to this account in your configuration.`);
-        }
-
         delete account.locals[localName];
     }
 }
