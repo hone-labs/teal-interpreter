@@ -1,6 +1,6 @@
 import { IToken } from "../token";
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 import { IOpcodeDef } from "../opcodes";
 
 export class Intc_X extends Opcode {
@@ -10,6 +10,6 @@ export class Intc_X extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        context.stack.push(makeBigInt(context.intcblock[this.constantIndex]));
+        this.pushInt(context, context.intcblock[this.constantIndex]);
     }
 }

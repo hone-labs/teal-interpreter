@@ -1,13 +1,12 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
-import { S_IFBLK } from "constants";
+import { IExecutionContext } from "../context";
 
 export class AppLocalGetEx extends Opcode {
 
     execute(context: IExecutionContext): void {
-        const localName = Buffer.from(context.stack.pop()!.value as Uint8Array).toString();
+        const localName = Buffer.from(this.popBytes(context)).toString();
         const appId = Number(this.popInt(context));
-        const accountName = Buffer.from(context.stack.pop()!.value as Uint8Array).toString();
+        const accountName = Buffer.from(this.popBytes(context)).toString();
 
         const account = context.accounts[accountName];
         if (account === undefined) {
@@ -31,6 +30,6 @@ export class AppLocalGetEx extends Opcode {
         }
 
         context.stack.push(value);
-        context.stack.push(makeBigInt(BigInt(1)));
+        this.pushInt(context, BigInt(1));
     }
 }

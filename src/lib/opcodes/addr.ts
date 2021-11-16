@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBytes } from "../context";
+import { IExecutionContext } from "../context";
 import { addressToBytes } from "../convert";
 
 export class Addr extends Opcode {
@@ -16,6 +16,6 @@ export class Addr extends Opcode {
     }    
 
     execute(context: IExecutionContext): void {
-        context.stack.push(makeBytes(addressToBytes(this.value)));
+        this.pushBytes(context, addressToBytes(this.value));
     }
 }

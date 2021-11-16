@@ -1,5 +1,5 @@
 import { isArray } from "util";
-import { IExecutionContext } from "./context";
+import { IExecutionContext, makeBigInt, makeBytes } from "./context";
 import { IExecuteResult } from "./execute-result";
 import { IOpcodeDef } from "./opcodes";
 import { IToken } from "./token";
@@ -124,9 +124,39 @@ export abstract class Opcode implements IOpcode {
 
         const value = context.stack.pop()!;
         if (value.type !== "bigint") {
-            throw new Error(`Expected to pop utin64 from stack, instead found ${value.type}.`);
+            throw new Error(`Expected to pop uint64 from stack, instead found ${value.type}.`);
         }
 
         return value.value as bigint;
+    }
+
+    //
+    // Pushes an int on the stakc.
+    //
+    protected pushInt(context: IExecuteResult, value: bigint): void {
+        context.stack.push(makeBigInt(value));
+    }
+
+    //
+    // Pops a byte array from the stack.
+    //
+    protected popBytes(context: IExecutionContext): Uint8Array {
+        if (context.stack.length === 0) {
+            throw new Error(`Want to pop byte[] from stack, but there is nothing on the stack!`);
+        }
+
+        const value = context.stack.pop()!;
+        if (value.type !== "byte[]") {
+            throw new Error(`Expected to pop byte[] from stack, instead found ${value.type}.`);
+        }
+
+        return value.value as Uint8Array;
+    }
+
+    //
+    // Pushes a byte array on the stack.
+    //
+    protected pushBytes(context: IExecuteResult, value: Uint8Array): void {
+        context.stack.push(makeBytes(value));
     }
 }

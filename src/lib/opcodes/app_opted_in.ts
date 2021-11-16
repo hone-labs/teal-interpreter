@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 
 export class AppOptedIn extends Opcode {
 
@@ -17,10 +17,10 @@ export class AppOptedIn extends Opcode {
         }
 
         if (application.optedIn) {
-            context.stack.push(makeBigInt(BigInt(1)));
+            this.pushInt(context, BigInt(1));
         }
         else {
-            context.stack.push(makeBigInt(BigInt(0)));
+            this.pushInt(context, BigInt(0));
         }
     }
 }

@@ -15,5 +15,5 @@ export abstract class Binary extends Opcode {
         this.b = this.popInt(context);
         this.a = this.popInt(context);
     }
-    
+   
 }

@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBytes } from "../context";
+import { IExecutionContext } from "../context";
 import { Encoding, stringToBytes } from "../convert";
 
 export class Byte extends Opcode {
@@ -67,6 +67,6 @@ export class Byte extends Opcode {
 
     execute(context: IExecutionContext): void {
         const bytes = stringToBytes(this.value, this.encoding as Encoding);
-        context.stack.push(makeBytes(new Uint8Array(bytes)));
+        this.pushBytes(context, new Uint8Array(bytes));
     }
 }

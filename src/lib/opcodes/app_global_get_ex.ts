@@ -1,17 +1,17 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 
 export class AppGlobalGetEx extends Opcode {
 
     execute(context: IExecutionContext): void {
-        const globalName = Buffer.from(context.stack.pop()!.value as Uint8Array).toString();
+        const globalName = Buffer.from(this.popBytes(context)).toString();
         const appId = Number(this.popInt(context));
 
         const application = context.applications[appId];
         if (application === undefined) {
             // Application not found.
-            context.stack.push(makeBigInt(BigInt(0)));
-            context.stack.push(makeBigInt(BigInt(0)));
+            this.pushInt(context, BigInt(0));
+            this.pushInt(context, BigInt(0));
             return;
         }
 
@@ -25,6 +25,6 @@ export class AppGlobalGetEx extends Opcode {
         }
 
         context.stack.push(value);
-        context.stack.push(makeBigInt(BigInt(1)));
+        this.pushInt(context, BigInt(1));
     }
 }

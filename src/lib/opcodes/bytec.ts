@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBytes } from "../context";
+import { IExecutionContext } from "../context";
 
 export class Bytec extends Opcode {
    
@@ -15,6 +15,6 @@ export class Bytec extends Opcode {
     }    
 
     execute(context: IExecutionContext): void {
-        context.stack.push(makeBytes(context.bytecblock[this.blockIndex!]));
+        this.pushBytes(context, context.bytecblock[this.blockIndex!]);
     }
 }

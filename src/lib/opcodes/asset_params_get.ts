@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 
 export class AssetParamsGet extends Opcode {
     
@@ -20,8 +20,8 @@ export class AssetParamsGet extends Opcode {
         const asset = context.assets[assetId];
         if (asset === undefined) {
             // Asset not found.
-            context.stack.push(makeBigInt(BigInt(0)));
-            context.stack.push(makeBigInt(BigInt(0)));
+            this.pushInt(context, BigInt(0));
+            this.pushInt(context, BigInt(0));
             return;
         }
 
@@ -31,6 +31,6 @@ export class AssetParamsGet extends Opcode {
         }
 
         context.stack.push(value);
-        context.stack.push(makeBigInt(BigInt(1)));
+        this.pushInt(context, BigInt(1));
     }
 }

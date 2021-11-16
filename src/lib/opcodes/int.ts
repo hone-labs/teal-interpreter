@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 
 export class Int extends Opcode {
    
@@ -15,6 +15,6 @@ export class Int extends Opcode {
     }
 
     execute(context: IExecutionContext): void {
-        context.stack.push(makeBigInt(this.value!));
+        this.pushInt(context, this.value);
     }
 }

@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 
 export class Balance extends Opcode {
 
@@ -13,6 +13,6 @@ export class Balance extends Opcode {
         if (account.balance === undefined) {
             throw new Error(`Balance not set for account "${accountName}", please add field "balance" to this account in your configuration.`);
         }
-        context.stack.push(makeBigInt(BigInt(account.balance!)));
+        this.pushInt(context, BigInt(account.balance!));
     }
 }

@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBytes } from "../context";
+import { IExecutionContext } from "../context";
 
 export class Substring3 extends Opcode {
 
@@ -23,10 +23,10 @@ export class Substring3 extends Opcode {
 
         this.end = this.popInt(context);
         this.position = this.popInt(context);
-        this.value = context.stack.pop()!.value as Uint8Array;
+        this.value = this.popBytes(context);
     }
 
     execute(context: IExecutionContext): void {
-        context.stack.push(makeBytes(this.value.subarray(Number(this.position), Number(this.end))));
+        this.pushBytes(context, this.value.subarray(Number(this.position), Number(this.end)));
     }
 }

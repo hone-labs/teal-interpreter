@@ -1,5 +1,5 @@
 import { encodeUint64 } from "algosdk";
-import { IExecutionContext, makeBytes } from "../context";
+import { IExecutionContext } from "../context";
 import { Opcode } from "../opcode";
 
 export class Itob extends Opcode {
@@ -16,6 +16,6 @@ export class Itob extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        context.stack.push(makeBytes(encodeUint64(this.value)));
+        this.pushBytes(context, encodeUint64(this.value));
     }
 }

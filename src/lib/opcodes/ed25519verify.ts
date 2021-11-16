@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 import { encodeAddress, verifyBytes } from "algosdk";
 
 export class Ed25519verify extends Opcode {
@@ -12,10 +12,10 @@ export class Ed25519verify extends Opcode {
         const addr = encodeAddress(pubkey);
         const isValid = verifyBytes(data, signature, addr);
         if (isValid) {
-            context.stack.push(makeBigInt(BigInt(1)));
+            this.pushInt(context, BigInt(1));
         } 
         else {
-            context.stack.push(makeBigInt(BigInt(0)));
+            this.pushInt(context, BigInt(0));
         }      
     }
 }

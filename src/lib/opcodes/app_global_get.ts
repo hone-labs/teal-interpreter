@@ -1,10 +1,10 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 
 export class AppGlobalGet extends Opcode {
 
     execute(context: IExecutionContext): void {
-        const globalName = Buffer.from(context.stack.pop()!.value as Uint8Array).toString();
+        const globalName = Buffer.from(this.popBytes(context)).toString();
         if (context.application === undefined) {
             throw new Error(`"application" field not set, please add field "application" to your configuration.`);
         }

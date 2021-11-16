@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 import { ec as EC } from "elliptic";
 
 export class Ecdsa_verify extends Opcode {
@@ -28,10 +28,10 @@ export class Ecdsa_verify extends Opcode {
             y: Buffer.from(pubkey2).toString('hex') 
         });
         if (key.verify(data, { r: signature1, s: signature2 })) {
-            context.stack.push(makeBigInt(BigInt(1)));
+            this.pushInt(context, BigInt(1));
         } 
         else {
-            context.stack.push(makeBigInt(BigInt(0)));
+            this.pushInt(context, BigInt(0));
         }
     }
 }
