@@ -1,18 +1,18 @@
-import { makeBytes } from "../../lib/context";
+import {makeBytes } from "../../lib/context";
 import { opcodeDefs } from "../../lib/opcodes";
-import { Balance } from "../../lib/opcodes/balance";
+import { MinBalance } from "../../lib/opcodes/min_balance";
 
-describe("balance opcode", () => {
+describe("min_balance opcode", () => {
 
     it ("can execute", () => {
 
         const token: any = {};
-        const opcode = new Balance(token, opcodeDefs.balance);
+        const opcode = new MinBalance(token, opcodeDefs.min_balance);
 
         const context: any = {
             accounts: {
                 AAAA: {
-                    balance: 12,
+                    minBalance: 12,
                 },
             },            
             stack: [                
@@ -28,7 +28,7 @@ describe("balance opcode", () => {
     it("throws when account is not found", () => {
 
         const token: any = {};
-        const opcode = new Balance(token, opcodeDefs.balance);
+        const opcode = new MinBalance(token, opcodeDefs.min_balance);
 
         const context: any = {
             accounts: {
@@ -41,15 +41,15 @@ describe("balance opcode", () => {
         expect(() => opcode.execute(context)).toThrow();
     });
 
-    it("throws when balance is not set", () => {
+    it("throws when minBalance is not set", () => {
         
         const token: any = {};
-        const opcode = new Balance(token, opcodeDefs.balance);
+        const opcode = new MinBalance(token, opcodeDefs.min_balance);
 
         const context: any = {
             accounts: {
                 AAAA: {
-                    // Balance is not set.
+                    // minBalance is not set.
                 },
             },
             stack: [                

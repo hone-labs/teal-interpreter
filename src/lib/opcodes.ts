@@ -72,6 +72,7 @@ import { AppLocalGetEx } from "./opcodes/app_local_get_ex";
 import { AppGlobalGetEx } from "./opcodes/app_global_get_ex";
 import { AssetHoldingGet } from "./opcodes/asset_holding_get";
 import { AssetParamsGet } from "./opcodes/asset_params_get";
+import { MinBalance } from "./opcodes/min_balance";
 
 //
 // The static definiton of an opcode.
@@ -594,6 +595,13 @@ export const opcodeDefs: IOpcodeMap = {
     },
 
     // TEAL 3
+    "min_balance": {
+        version: 3,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new MinBalance(token, this) },
+    },
+
     "assert": {
         version: 3,
         operands: 0,

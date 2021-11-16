@@ -69,6 +69,11 @@ export interface IAccount {
     balance?: number | bigint;
 
     //
+    // The minimum balance of the account (in microalgos).
+    //
+    minBalance?: number | bigint;
+
+    //
     // Assets connected to this account.
     //
     assets: ITable<IAsset>;
@@ -228,6 +233,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
             loadTable<IAccountDef, IAccount>(config?.accounts, accountDef => {
                 return {
                     balance: accountDef.balance || 0,
+                    minBalance: accountDef.minBalance || 0,
                     assets: loadTable<IAssetDef, IAsset>(accountDef.assets, assetDef => {
                         return {
                             fields: loadValueTable(assetDef.fields),                                        

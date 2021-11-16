@@ -75,6 +75,11 @@ export interface IAccountDef {
     balance?: number | bigint;
 
     //
+    // The minimum balance of the account (in microalgos).
+    //
+    minBalance?: number | bigint;
+
+    //
     // Assets connected to the account.
     //
     assets?: ITable<IAssetDef>;
