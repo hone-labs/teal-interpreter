@@ -75,6 +75,7 @@ import { AssetParamsGet } from "./opcodes/asset_params_get";
 import { MinBalance } from "./opcodes/min_balance";
 import { PushBytes } from "./opcodes/pushbytes";
 import { PushInt } from "./opcodes/pushint";
+import { Gtxns } from "./opcodes/gtxns";
 
 //
 // The static definiton of an opcode.
@@ -614,6 +615,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 1,
         factory: function (token) { return new MinBalance(token, this) },
+    },
+    "gtxns":  {
+        version: 3,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Gtxns(token, this) },
     },
 
     "assert": {
