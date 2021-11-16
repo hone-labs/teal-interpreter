@@ -21,8 +21,18 @@ export class Gtxn extends Opcode {
     }
     
     execute(context: IExecutionContext): void {
-        
-        const value = context.txns[this.txnIndex][this.fieldName]; //TODO: Ensure the index is valid.
+
+        if (this.txnIndex < 0) {
+            throw new Error(`Transaction index should be greater than 0, instead got ${this.txnIndex}.`);
+        }
+
+        if (this.txnIndex >= context.txns.length) {
+            throw new Error(`Transaction index should be within the boundary of the array. Expected less than ${context.txns.length}, intead got ${this.txnIndex}.`);
+
+        }
+
+        const txn = context.txns[this.txnIndex];
+        const value = txn[this.fieldName];
         if (value === undefined) {
             throw new Error(`Field "${this.fieldName}" has not been supplied with current transaction, please adjust your configuration to include this field.`)
         }
