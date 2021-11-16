@@ -74,6 +74,7 @@ import { AssetHoldingGet } from "./opcodes/asset_holding_get";
 import { AssetParamsGet } from "./opcodes/asset_params_get";
 import { MinBalance } from "./opcodes/min_balance";
 import { PushBytes } from "./opcodes/pushbytes";
+import { PushInt } from "./opcodes/pushint";
 
 //
 // The static definiton of an opcode.
@@ -601,6 +602,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 0,
         factory: function (token) { return new PushBytes(token, this) },
+    },
+    "pushint": {
+        version: 3,
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new PushInt(token, this) },
     },
     "min_balance": {
         version: 3,
