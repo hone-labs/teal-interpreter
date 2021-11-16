@@ -10,7 +10,7 @@ export class Itob extends Opcode {
     private value!: bigint;
 
     validateContext(context: IExecutionContext) {
-        super.validateOperand();
+        super.validateContext(context);
 
         this.value = this.popInt(context);
     }

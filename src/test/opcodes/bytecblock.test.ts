@@ -6,7 +6,6 @@ describe("bytecblock opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "bytecblock",
             operands: [
                 "1",
                 "2",

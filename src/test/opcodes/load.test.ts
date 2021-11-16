@@ -7,7 +7,6 @@ describe("load opcode", () => {
     it ("can load from first position", () => {
 
         const token: any = {
-            opcode: "load",
             operands: [
                 "0"
             ],
@@ -29,7 +28,6 @@ describe("load opcode", () => {
     it ("can load from second position", () => {
 
         const token: any = {
-            opcode: "load",
             operands: [
                 "1"
             ],
@@ -52,7 +50,6 @@ describe("load opcode", () => {
     it("throws when operand is not an int", () => {
 
         const token: any = {
-            opcode: "load",
             operands: [
                 "xxx"
             ],
@@ -65,7 +62,6 @@ describe("load opcode", () => {
     it("throws when operand is less than 0", () => {
 
         const token: any = {
-            opcode: "load",
             operands: [
                 "-1"
             ],
@@ -78,7 +74,6 @@ describe("load opcode", () => {
     it("throws when operand is greater than 254", () => {
 
         const token: any = {
-            opcode: "load",
             operands: [
                 "255"
             ],

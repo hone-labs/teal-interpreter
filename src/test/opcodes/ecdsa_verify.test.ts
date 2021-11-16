@@ -8,7 +8,6 @@ describe("ecdsa_verify opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "ecdsa_verify",
             operands: [
                 "5",
             ],

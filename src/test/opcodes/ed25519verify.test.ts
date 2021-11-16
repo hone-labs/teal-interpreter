@@ -7,10 +7,7 @@ describe("ed25519verify opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "ed25519verify",
-            operands: [],
-        };
+        const token: any = {};
         const opcode = new Ed25519verify(token, opcodeDefs.ed25519verify);
 
         const context: any = {

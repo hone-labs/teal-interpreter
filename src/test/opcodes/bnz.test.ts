@@ -7,7 +7,6 @@ describe("bnz opcode", () => {
     it("throws when branch target doesn't exist", () => {
 
         const token: any = {
-            opcode: "bnz",
             operands: [
                 "a-label",
             ],
@@ -26,7 +25,6 @@ describe("bnz opcode", () => {
     it ("can conditionally follow branch", () => {
 
         const token: any = {
-            opcode: "bnz",
             operands: [
                 "a-label",
             ],
@@ -49,7 +47,6 @@ describe("bnz opcode", () => {
     it ("does not follow branch when condition is zero", () => {
 
         const token: any = {
-            opcode: "bnz",
             operands: [
                 "a-label",
             ],

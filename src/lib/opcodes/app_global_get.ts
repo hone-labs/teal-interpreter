@@ -19,9 +19,7 @@ export class AppGlobalGet extends Opcode {
         }
 
         if (Array.isArray(value)) {
-            if (Array.isArray(value)) {
-                throw new Error(`Expected application global "${globalName}" not to be an array when used with opcode ${this.token.opcode}.`);
-            }
+            throw new Error(`Expected application global "${globalName}" not to be an array when used with opcode ${this.token.opcode}.`);
         }
 
         context.stack.push(value);

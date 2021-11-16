@@ -7,7 +7,6 @@ describe("txn opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "txn",
             operands: [
                 "Fee"
             ],
@@ -29,7 +28,6 @@ describe("txn opcode", () => {
     it("throws when field does not exist in current transaction", () => {
 
         const token: any = {
-            opcode: "txn",
             operands: [
                 "xxx"
             ],

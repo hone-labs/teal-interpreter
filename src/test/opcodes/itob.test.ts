@@ -6,10 +6,7 @@ describe("itob opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "itob",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt("0x1234567812345678")),

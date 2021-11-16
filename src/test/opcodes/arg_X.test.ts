@@ -6,10 +6,7 @@ describe("argx opcode", () => {
 
     it("can push arg 0 on stack", () => {
 
-        const token: any = {
-            opcode: "arg_0",
-            operands: [],
-        };
+        const token: any = {};
         const opcode = new Arg_X(token, opcodeDefs.arg_0, 0);
 
         const context: any = {
@@ -29,10 +26,7 @@ describe("argx opcode", () => {
 
     it("can push arg 1 on stack", () => {
 
-        const token: any = {
-            opcode: "arg_1",
-            operands: [],
-        };
+        const token: any = {};
         const opcode = new Arg_X(token, opcodeDefs.arg_1, 1);
 
         const context: any = {

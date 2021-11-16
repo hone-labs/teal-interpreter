@@ -6,7 +6,6 @@ describe("addr opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "addr",
             operands: [
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224",
             ],

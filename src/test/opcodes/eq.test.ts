@@ -6,10 +6,7 @@ describe("eq opcode", () => {
 
     it ("comparing different types results in zero", () => {
 
-        const token: any = {
-            opcode: "==",
-            operands: [],            
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(3)),
@@ -26,10 +23,7 @@ describe("eq opcode", () => {
 
     it ("can compare bigints that are different", () => {
 
-        const token: any = {
-            opcode: "==",
-            operands: [],            
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(3)),
@@ -46,10 +40,7 @@ describe("eq opcode", () => {
 
     it ("can compare bigints that are equal", () => {
 
-        const token: any = {
-            opcode: "==",
-            operands: [],            
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(5)),
@@ -66,10 +57,7 @@ describe("eq opcode", () => {
 
     it ("can compare byte arrays that are different", () => {
 
-        const token: any = {
-            opcode: "==",
-            operands: [],            
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBytes(new Uint8Array([1, 2, 3, 4])),
@@ -86,10 +74,7 @@ describe("eq opcode", () => {
 
     it ("can compare byte arrays that are equal", () => {
 
-        const token: any = {
-            opcode: "==",
-            operands: [],            
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBytes(new Uint8Array([1, 2, 3, 4])),

@@ -6,7 +6,6 @@ describe("int opcode", () => {
     it ("can push base 10 number", () => {
 
         const token: any = {
-            opcode: "int",
             operands: [
                 "12"
             ],
@@ -25,7 +24,6 @@ describe("int opcode", () => {
     it ("can push base 16 number", () => {
 
         const token: any = {
-            opcode: "int",
             operands: [
                 "0x6c"
             ],
@@ -44,7 +42,6 @@ describe("int opcode", () => {
     it ("can handle a bigint", () => {
 
         const token: any = {
-            opcode: "int",
             operands: [
                 "0x1234567812345678"
             ],
@@ -63,7 +60,6 @@ describe("int opcode", () => {
     it("throws when operand is not an int", () => {
 
         const token: any = {
-            opcode: "int",
             operands: [
                 "xxx"
             ],

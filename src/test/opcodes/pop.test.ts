@@ -6,10 +6,7 @@ describe("pop opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "pop",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(3)), 

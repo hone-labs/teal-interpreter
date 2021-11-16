@@ -6,7 +6,6 @@ describe("bytec opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "bytec",
             operands: [
                 "2"
             ],
@@ -31,7 +30,6 @@ describe("bytec opcode", () => {
     it("throws when operand is not an int", () => {
 
         const token: any = {
-            opcode: "int",
             operands: [
                 "xxx"
             ],

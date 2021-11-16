@@ -7,7 +7,6 @@ describe("arg opcode", () => {
     it("can push arg 0 on stack", () => {
 
         const token: any = {
-            opcode: "arg",
             operands: [
                 "0"
             ],
@@ -33,7 +32,6 @@ describe("arg opcode", () => {
     it("can push arg 1 on stack", () => {
 
         const token: any = {
-            opcode: "arg",
             operands: [
                 "1"
             ],
@@ -58,7 +56,6 @@ describe("arg opcode", () => {
     it("throws when operand is not an int", () => {
 
         const token: any = {
-            opcode: "arg",
             operands: [
                 "xxx"
             ],
@@ -71,7 +68,6 @@ describe("arg opcode", () => {
     it("throws when there is no arg for specified index", () => {
 
         const token: any = {
-            opcode: "arg",
             operands: [
                 "0"
             ],

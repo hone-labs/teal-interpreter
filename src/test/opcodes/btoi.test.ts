@@ -6,10 +6,7 @@ describe("btoi opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "btoi",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBytes(new Uint8Array([
@@ -27,10 +24,7 @@ describe("btoi opcode", () => {
 
     it ("an empty input produces a zero", () => {
 
-        const token: any = {
-            opcode: "btoi",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBytes(new Uint8Array([])),
@@ -45,10 +39,7 @@ describe("btoi opcode", () => {
 
     it ("too long input throws", () => {
 
-        const token: any = {
-            opcode: "btoi",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBytes(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9])), // One too many.

@@ -6,10 +6,7 @@ describe("complement opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "~",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(3)),

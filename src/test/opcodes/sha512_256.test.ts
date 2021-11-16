@@ -6,11 +6,7 @@ describe("sha512_256 opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "sha512_256",
-            operands: [],
-        };
-        
+        const token: any = {};        
         const opcode = new Sha512_256(token, opcodeDefs.sha512_256);
 
         const context: any = {

@@ -6,9 +6,7 @@ describe("addw opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            operands: [],            
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(3)), 

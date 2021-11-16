@@ -7,7 +7,6 @@ describe("gtxn opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "gtxn",
             operands: [
                 "0",
                 "Fee",
@@ -34,7 +33,6 @@ describe("gtxn opcode", () => {
     it("throws when operand is not an int", () => {
 
         const token: any = {
-            opcode: "gtxn",
             operands: [
                 "not-an-int",
                 "Fee",
@@ -47,7 +45,6 @@ describe("gtxn opcode", () => {
     it("throws when there is no transaction for specified index", () => {
 
         const token: any = {
-            opcode: "gtnx",
             operands: [
                 "0",
                 "Fee",
@@ -68,7 +65,6 @@ describe("gtxn opcode", () => {
     it("throws when field does not exist in specified transaction", () => {
 
         const token: any = {
-            opcode: "gtxn",
             operands: [
                 "0",
                 "xxx"

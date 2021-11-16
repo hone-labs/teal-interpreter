@@ -5,12 +5,8 @@ describe("bytec_X opcode", () => {
 
     it ("can execute with index 0", () => {
 
-        const token: any = {
-            opcode: "bytec_0",
-            operands: [],
-        };
+        const token: any = {};
         const opcode = new Bytec_X(token, opcodeDefs.bytec_0, 0);
-        opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
             stack: [],
@@ -26,12 +22,8 @@ describe("bytec_X opcode", () => {
 
     it ("can execute with index 2", () => {
 
-        const token: any = {
-            opcode: "bytec_2",
-            operands: [],
-        };
+        const token: any = {};
         const opcode = new Bytec_X(token, opcodeDefs.bytec_2, 2);
-        opcode.validateOperand(); // Parses the operand.
 
         const context: any = {
             stack: [],

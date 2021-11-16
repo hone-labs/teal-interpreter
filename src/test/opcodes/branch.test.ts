@@ -6,7 +6,6 @@ describe("branch opcode", () => {
     it("throws when branch target doesn't exist", () => {
 
         const token: any = {
-            opcode: "b",
             operands: [
                 "a-label",
             ],
@@ -25,7 +24,6 @@ describe("branch opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "b",
             operands: [
                 "a-label",
             ],

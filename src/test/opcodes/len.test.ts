@@ -6,10 +6,7 @@ describe("len opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "len",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBytes(new Uint8Array([1, 2, 3, 4])), 

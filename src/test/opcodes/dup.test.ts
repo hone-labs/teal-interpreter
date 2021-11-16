@@ -6,10 +6,7 @@ describe("dup opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "dup",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(3)),

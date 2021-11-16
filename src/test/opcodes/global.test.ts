@@ -7,7 +7,6 @@ describe("global opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "global",
             operands: [
                 "MinBalance"
             ],
@@ -30,7 +29,6 @@ describe("global opcode", () => {
     it("throws when global does not exist", () => {
 
         const token: any = {
-            opcode: "global",
             operands: [
                 "xxx"
             ],

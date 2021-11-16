@@ -6,10 +6,7 @@ describe("sha256 opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "sha256",
-            operands: [],
-        };
+        const token: any = {};
         const opcode = new Sha256(token, opcodeDefs.sha256);
 
         const context: any = {

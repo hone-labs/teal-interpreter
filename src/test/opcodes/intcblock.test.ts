@@ -6,7 +6,6 @@ describe("intcblock opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "intcblock",
             operands: [
                 "1",
                 "2",
@@ -31,7 +30,6 @@ describe("intcblock opcode", () => {
     it("throws when operand is not an int", () => {
 
         const token: any = {
-            opcode: "intcblock",
             operands: [
                 "xxx"
             ],

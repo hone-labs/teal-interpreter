@@ -6,7 +6,6 @@ describe("intc opcode", () => {
     it ("can execute", () => {
 
         const token: any = {
-            opcode: "intc",
             operands: [
                 "2"
             ],
@@ -31,7 +30,6 @@ describe("intc opcode", () => {
     it("throws when operand is not an int", () => {
 
         const token: any = {
-            opcode: "int",
             operands: [
                 "xxx"
             ],

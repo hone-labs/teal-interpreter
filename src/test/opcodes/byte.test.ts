@@ -6,7 +6,6 @@ describe("byte opcode", () => {
     it ("base 64", () => {
 
         const token: any = {
-            opcode: "byte",
             operands: [
                 "base64",
                 "iZWMx72KvU6Bw6sPAWQFL96YH+VMrBA0XKWD9XbZOZI=",
@@ -32,7 +31,6 @@ describe("byte opcode", () => {
     it ("empty b64", () => {
 
         const token: any = {
-            opcode: "byte",
             operands: [
                 "b64(0)",
             ],
@@ -52,7 +50,6 @@ describe("byte opcode", () => {
     it ("hex", () => {
 
         const token: any = {
-            opcode: "byte",
             operands: [
                 "0x1234567812345678",
             ],
@@ -75,7 +72,6 @@ describe("byte opcode", () => {
     it ("utf8", () => {
 
         const token: any = {
-            opcode: "byte",
             operands: [
                 '"ZC9KNzlnWTlKZ1pwSkNzQXVzYjNBcG1xTU9YbkRNWUtIQXNKYVk2RzRBdExPakQx"',
             ],

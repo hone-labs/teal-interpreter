@@ -6,10 +6,7 @@ describe("minus opcode", () => {
 
     it ("can execute", () => {
 
-        const token: any = {
-            opcode: "-",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(6)), 
@@ -26,10 +23,7 @@ describe("minus opcode", () => {
 
     it("throws on underflow", () => {
 
-        const token: any = {
-            opcode: "-",
-            operands: [],
-        };
+        const token: any = {};
         const context: any = {
             stack: [
                 makeBigInt(BigInt(4)), 
