@@ -8,43 +8,46 @@ describe("txna opcode", () => {
 
         const token: any = {
             operands: [
-                "0",
-                "Fee"
+                "Something",
+                "1",
             ],
         };
         const opcode = new Txna(token, opcodeDefs.txna);
 
         const context: any = {
             stack: [],
-            txns: [
-                {
-                    Fee: makeBigInt(BigInt(42)),
-                },
-            ],
+            txn:{
+                Something: [
+                    makeBigInt(BigInt(1)),
+                    makeBigInt(BigInt(2)),
+                    makeBigInt(BigInt(3)),
+                ],
+            },
         };
-        opcode.validateOperand(); // Parses the operand.
-        opcode.validateContext(context);
+        opcode.validateOperand();
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Number(context.stack[0]?.value)).toEqual(42);
+        expect(Number(context.stack[0]?.value)).toEqual(2);
     });
 
-    it("throws when when index is outside range of transactions", () => {
+    it("throws when when index is outside range of fields", () => {
 
         const token: any = {
             operands: [
+                "Something",
                 "0",
-                "xxx",
             ],
         };
         const opcode = new Txna(token, opcodeDefs.txna);
         opcode.validateOperand();
 
         const context: any = {
-            txns: [
-                // No transactions.
-            ],
+            txn:{
+                Something: [
+                    // No values.
+                ],
+            },
         };
      
         expect(() => opcode.execute(context)).toThrow();
@@ -54,19 +57,17 @@ describe("txna opcode", () => {
 
         const token: any = {
             operands: [
-                "0",
                 "xxx",
+                "0",
             ],
         };
         const opcode = new Txna(token, opcodeDefs.txna);
         opcode.validateOperand();
 
         const context: any = {
-            txns: [
-                {
-                    // No fields.
-                },
-            ],
+            txn:{
+                // No fields.
+            },
         };
      
         expect(() => opcode.execute(context)).toThrow();
