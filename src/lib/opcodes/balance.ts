@@ -1,10 +1,11 @@
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
+import { encodeAddress } from "algosdk";
 
 export class Balance extends Opcode {
 
     execute(context: IExecutionContext): void {
-        const accountName = Buffer.from(this.popBytes(context)).toString();
+        const accountName = encodeAddress(this.popBytes(context));
         const account = context.accounts[accountName];
         if (account === undefined) {
             throw new Error(`Account "${accountName}" not found, please add this account to your configuration.`);
