@@ -92,7 +92,29 @@ describe("byte opcode", () => {
             89, 106,  78,  66, 99,  71,  49, 120,  84, 85,  57,  89,
             98, 107,  82,  78, 87,  85, 116,  73,  81, 88,  78,  75,
             89,  86, 107,  50, 82, 122,  82,  66, 100, 69, 120,  80,
-            97, 107,  81            
+            97, 107,  81, 120
         ]);
     });    
+
+    it ("utf8 simple", () => {
+
+        const token: any = {
+            operands: [
+                '"1234"',
+            ],
+        };        
+        const opcode = new Byte(token, opcodeDefs.byte);
+        opcode.validateOperand(); // Parses the operand.
+
+        const context: any = {
+            stack: [],
+        };
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(1);
+        expect(context.stack[0].type).toEqual("byte[]");
+        expect(Array.from(context.stack[0]?.value)).toEqual([
+            49, 50, 51, 52,
+        ]);
+    });        
 });

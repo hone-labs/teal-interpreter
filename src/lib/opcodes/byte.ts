@@ -23,7 +23,7 @@ export class Byte extends Opcode {
             if (this.value.length > 1 && this.value.startsWith('"') && this.value.endsWith('"')) {
                 // Value is a string literal.
                 this.encoding = "utf8";
-                this.value = this.value.slice(1, this.value.length - 2);
+                this.value = this.value.slice(1, this.value.length - 1);
             }
             else if (this.value.startsWith("0x")) {
                 // Value is hexadecimal.
