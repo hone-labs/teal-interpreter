@@ -20,9 +20,7 @@ export class AppLocalGet extends Opcode {
         }
 
         if (Array.isArray(value)) {
-            if (Array.isArray(value)) {
-                throw new Error(`Expected local "${localName}" in account ${accountName} not to be an array when used with opcode ${this.token.opcode}.`);
-            }
+            throw new Error(`Expected local "${localName}" in account ${accountName} not to be an array when used with opcode ${this.token.opcode}.`);
         }
 
         context.stack.push(value);
