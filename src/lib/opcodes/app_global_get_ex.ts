@@ -20,10 +20,6 @@ export class AppGlobalGetEx extends Opcode {
             throw new Error(`Application global "${globalName}" not set for application ${appId}, please add "${globalName}" field under the "applications.${appId}.globals" in your configuration.`);
         }
 
-        if (Array.isArray(value)) {
-            throw new Error(`Expected application global "${globalName}" not to be an array when used with opcode ${this.token.opcode}.`);
-        }
-
         context.stack.push(value);
         this.pushInt(context, BigInt(1));
     }
