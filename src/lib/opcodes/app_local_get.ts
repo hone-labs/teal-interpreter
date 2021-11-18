@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext, makeBigInt } from "../context";
+import { IExecutionContext } from "../context";
 import { encodeAddress } from "algosdk";
 
 export class AppLocalGet extends Opcode {

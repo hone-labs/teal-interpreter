@@ -1,4 +1,5 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
+import { addressToBytes } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { AssetHoldingGet } from "../../lib/opcodes/asset_holding_get";
 
@@ -16,7 +17,7 @@ describe("asset_holding_get opcode", () => {
 
         const context: any = {
             accounts: {
-                "AAAA": {
+                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     assets: {
                         "3": {
                             fields: {
@@ -27,7 +28,7 @@ describe("asset_holding_get opcode", () => {
                 },
             },
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
@@ -50,14 +51,14 @@ describe("asset_holding_get opcode", () => {
 
         const context: any = {
             accounts: {
-                "AAAA": {
+                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     assets: {
                         // No asset.
                     },
                 },
             },
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
@@ -83,7 +84,7 @@ describe("asset_holding_get opcode", () => {
                 // No account.
             },
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
@@ -102,7 +103,7 @@ describe("asset_holding_get opcode", () => {
 
         const context: any = {
             accounts: {
-                "AAAA": {
+                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     assets: {
                         "3": {
                             fields: {
@@ -113,7 +114,7 @@ describe("asset_holding_get opcode", () => {
                 },
             },
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
