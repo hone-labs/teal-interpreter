@@ -108,3 +108,23 @@ export function loadValueTable(valueDefTable?: ITable<ValueDef>): ITable<ITypedV
     return valueMap;
 }
 
+//
+// Loads a lookup table of values (allowing arrays of values).
+//
+export function loadValueTableWithArrays(valueDefTable?: ITable<ValueDef | ValueDef[]>): ITable<ITypedValue | ITypedValue[]> {
+    const valueMap: ITable<ITypedValue | ITypedValue[]> = {};
+    if (valueDefTable) {
+        for (const key of Object.keys(valueDefTable)) {
+            const valueDef = valueDefTable[key];
+            if (Array.isArray(valueDef)) {
+                valueMap[key] = valueDef.map(loadValue);
+            }
+            else {
+                valueMap[key] = loadValue(valueDef);
+            }
+        }    
+    }
+
+    return valueMap;
+}
+

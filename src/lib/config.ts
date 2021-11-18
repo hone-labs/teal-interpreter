@@ -130,12 +130,12 @@ export interface ITealInterpreterConfig {
     //
     // The current transaction.
     //
-    txn?: ITable<ValueDef>
+    txn?: ITable<ValueDef | ValueDef[]>;
 
     //
     // The current transaction group.
     //
-    txns?: ITable<ValueDef>[];
+    txns?: ITable<ValueDef | ValueDef[]>[];
 
     //
     // Array of arguments.

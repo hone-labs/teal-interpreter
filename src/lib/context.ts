@@ -55,7 +55,7 @@ export interface IAccountApplication {
     //
     // Storage for local variables related to the application.
     //
-    locals: ITable<ITypedValue | ITypedValue[]>;
+    locals: ITable<ITypedValue>;
 }
 
 //
@@ -81,7 +81,7 @@ export interface IAccount {
     //
     // Storage for local variables related to the current application.
     //
-    locals: ITable<ITypedValue | ITypedValue[]>;
+    locals: ITable<ITypedValue>;
 
     //
     // Details for applications related to this account.
@@ -97,7 +97,7 @@ export interface IApplication {
     //
     // Values for application global variables.
     //
-    globals: ITable<ITypedValue | ITypedValue[]>;
+    globals: ITable<ITypedValue>;
 }
 
 //
@@ -158,7 +158,7 @@ export interface IExecutionContext {
     //
     // Global values.
     //
-    globals: ITable<ITypedValue | ITypedValue[]>;
+    globals: ITable<ITypedValue>;
     
     //
     // The current transaction.
