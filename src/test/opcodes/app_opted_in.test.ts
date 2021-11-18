@@ -1,4 +1,5 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
+import { addressToBytes } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { AppOptedIn } from "../../lib/opcodes/app_opted_in";
 
@@ -11,7 +12,7 @@ describe("app_opted_in opcode", () => {
 
         const context: any = {
             accounts: {
-                AAAA: {
+                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     applications: {
                         "2": {
                             optedIn: true,
@@ -20,7 +21,7 @@ describe("app_opted_in opcode", () => {
                 },
             },            
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };
@@ -37,7 +38,7 @@ describe("app_opted_in opcode", () => {
 
         const context: any = {
             accounts: {
-                AAAA: {
+                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     applications: {
                         "2": {
                             optedIn: false,
@@ -46,7 +47,7 @@ describe("app_opted_in opcode", () => {
                 },
             },            
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };
@@ -63,7 +64,7 @@ describe("app_opted_in opcode", () => {
 
         const context: any = {
             accounts: {
-                AAAA: {
+                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     applications: {
                         "2": {
                             // Not set.
@@ -72,7 +73,7 @@ describe("app_opted_in opcode", () => {
                 },
             },            
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };
@@ -92,7 +93,7 @@ describe("app_opted_in opcode", () => {
                 // No account.
             },            
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };
@@ -106,14 +107,14 @@ describe("app_opted_in opcode", () => {
 
         const context: any = {
             accounts: {
-                AAAA: {
+                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     applications: {
                         // No application
                     },
                 },
             },            
             stack: [                
-                makeBytes(new Uint8Array(Buffer.from("AAAA"))),
+                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };
