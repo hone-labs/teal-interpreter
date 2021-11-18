@@ -27,7 +27,7 @@ export class AssetParamsGet extends Opcode {
 
         const value = asset.fields[this.fieldName];
         if (value === undefined) {
-            throw new Error(`Failed to find asset params field ${this.fieldName} under asset ${assetId} in your configuration. Please add this field.`);
+            throw new Error(`Failed to find field "${this.fieldName}" under asset "assets.${assetId}.fields" in your configuration. Please add this field to your configuration.`);
         }
 
         context.stack.push(value);
