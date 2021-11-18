@@ -33,7 +33,7 @@ export class Gtxna extends Opcode {
         }
 
         if (this.txnIndex >= context.txns.length) {
-            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.txns.length}, please adjust your configuration to include more transactions.`);
+            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.txns.length} transactions provided in your configuration. Please add "txns" array to your configuration containing at least ${this.txnIndex+1} transactions.`);
         }
 
         const txn = context.txns[this.txnIndex];        

@@ -18,7 +18,7 @@ export class Txn extends Opcode {
         
         const value = context.txn[this.fieldName];
         if (value === undefined) {
-            throw new Error(`Field "${this.fieldName}" has not been supplied with current transaction, please adjust your configuration to include this field.`)
+            throw new Error(`Field "${this.fieldName}" not found with current transaction. Please "txn.${this.fieldName}" to your configuration to include this field.`)
         }
 
         if (Array.isArray(value)) {
