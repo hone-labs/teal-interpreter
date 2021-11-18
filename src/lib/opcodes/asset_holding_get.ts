@@ -34,7 +34,7 @@ export class AssetHoldingGet extends Opcode {
 
         const value = asset.fields[this.fieldName];
         if (value === undefined) {
-            throw new Error(`Failed to find asset field "${this.fieldName}" under asset ${assetId}, under account "${accountName}" in your configuration. Please add this field.`);
+            throw new Error(`Failed to find asset field "${this.fieldName}" under "assets.${assetId}.fields", under account "accounts.${accountName}" in your configuration. Please add this field.`);
         }
 
         context.stack.push(value);
