@@ -1,13 +1,13 @@
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
+import { encodeAddress } from "algosdk";
 
 export class AppLocalPut extends Opcode {
 
     execute(context: IExecutionContext): void {
         const value = context.stack.pop()!;
         const localName = Buffer.from(this.popBytes(context)).toString();
-        const addr = this.popBytes(context);
-        const accountName = Buffer.from(addr).toString();
+        const accountName = encodeAddress(this.popBytes(context));
         const account = context.accounts[accountName];
 
         if (account === undefined) {
