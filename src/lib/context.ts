@@ -1,6 +1,6 @@
 
 import { IAccountApplicationDef, IAccountDef, IApplicationDef, IAssetDef, ITable, ITealInterpreterConfig } from "./config";
-import { loadValues, loadValueTable } from "./convert";
+import { loadValues, loadValueTable, loadValueTableWithArrays } from "./convert";
 import { IBranchTargetMap } from "./parser";
 
 //
@@ -254,8 +254,8 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
         branchTargets: branchTargets,
         stack: [],
         args: config?.args !== undefined ? loadValues(config.args) : [],
-        txn: config?.txn ? loadValueTable(config.txn) : {},
-        txns: config?.txns ? config.txns.map(loadValueTable) : [],
+        txn: config?.txn ? loadValueTableWithArrays(config.txn) : {},
+        txns: config?.txns ? config.txns.map(loadValueTableWithArrays) : [],
         globals: config?.globals ? loadValueTable(config.globals) : {},
         scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
         intcblock: [],
