@@ -24,7 +24,7 @@ export class Txna extends Opcode {
 
         const value = context.txn[this.fieldName];
         if (value === undefined) {
-            throw new Error(`Field "${this.fieldName}" has not been supplied with transaction ${this.fieldArrayIndex}, please adjust your configuration to include this field.`)
+            throw new Error(`Array field "${this.fieldName}" not found under "txn.${this.fieldArrayIndex}", please adjust your configuration to include this field.`)
         }
 
         if (!Array.isArray(value)) {
