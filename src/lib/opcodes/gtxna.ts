@@ -51,7 +51,7 @@ export class Gtxna extends Opcode {
         }
 
         if (this.fieldIndex >= array.length) {
-            throw new Error(`Field index should be within the boundary of the array. Expected less than ${array.length}, intead got ${this.fieldIndex}.`);
+            throw new Error(`Field index should be within the boundary of the array. Expected less than ${array.length}, instead got ${this.fieldIndex}.`);
 
         }
 

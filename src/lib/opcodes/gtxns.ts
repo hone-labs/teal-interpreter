@@ -24,11 +24,11 @@ export class Gtxns extends Opcode {
 
         this.txnIndex = Number(this.popInt(context));
         if (this.txnIndex < 0) {
-            throw new Error(`Transaction index supplied to ${this.opcodeDef} is ${this.txnIndex}, it should be zero or greater.`);
+            throw new Error(`Transaction index for ${this.opcodeDef} is ${this.txnIndex}, it should be zero or greater.`);
         }
 
         if (this.txnIndex >= context.txns.length) {
-            throw new Error(`Transaction index ${this.txnIndex} is outside of the bounds of transactions supplied in your configuration.`);
+            throw new Error(`Transaction index ${this.txnIndex} is outside of the bounds of transactions. Please add at least ${this.txnIndex+1} transactions under the "txns" array in your configuration.`);
         }
     }
     
@@ -37,7 +37,7 @@ export class Gtxns extends Opcode {
         const txn = context.txns[this.txnIndex];
         const value = txn[this.fieldName];
         if (value === undefined) {
-            throw new Error(`Field "${this.fieldName}" has not been supplied with current transaction, please adjust your configuration to include this field.`)
+            throw new Error(`Field "${this.fieldName}" not found in transaction ${this.txnIndex}, please add field "txns.${this.txnIndex}.${this.fieldName}" to your configuration to include this field.`)
         }
 
         if (Array.isArray(value)) {
