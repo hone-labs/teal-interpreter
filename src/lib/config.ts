@@ -108,9 +108,7 @@ export interface ITealInterpreterConfig {
     //
     // Applications (by id) accessible from TEAL code.
     //
-    applications?: {
-        [index: string]: IApplicationDef;
-    };
+    applications?: ITable<IApplicationDef>;
 
     //
     // Accounts that can be accessed from TEAL code.
