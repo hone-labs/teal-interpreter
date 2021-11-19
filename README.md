@@ -12,7 +12,7 @@ npm install teal-interpreter
 
 Execute TEAL code and print the result:
 
-```bash
+```typescript
 import { execute } from "teal-interpreter";
 
 const teal = `
@@ -26,6 +26,21 @@ const result = execute(teal);
 console.log("== STACK ==");
 console.log(result.stack);
 ```
+
+You can configuration the state of the interpreter by passing in a configuration object:
+
+```typescript
+import { execute, ITealInterpreterConfig } from "teal-interpreter";
+
+const config: ITealInterpreterConfig = {
+
+};
+
+const teal = `/* your TEAL code */`;
+const result = execute(teal, config);
+```
+
+Please see the [Configuration documentation](./docs/configuration.md) to learn more about configuring the TEAL interpreter.
 
 ## Run in development
 
