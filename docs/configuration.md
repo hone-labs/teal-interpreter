@@ -24,7 +24,7 @@ Literal strings are translated to a byte array:
 You can provide base64 data using the `base64` prefix:
 
 ```json
-"base64:SGVsbG8gd29ybGQ=
+"base64:SGVsbG8gd29ybGQ="
 ```
 
 To specify an Algorand address use the `addr` prefix:
@@ -62,7 +62,7 @@ You can provide these values through the `txn` field of the configuration:
     "txn": {
         "Fee": 1000,
         
-        /* Other fields and values go here ... */
+        /* Other fields and values ... */
     }
 }
 ```
@@ -84,7 +84,7 @@ When using the [`txna`](https://developer.algorand.org/docs/get-details/dapps/av
             /* And so on ... */
         ],
 
-        /* Other fields and values go here ... */
+        /* Other fields and values ... */
     }
 }
 ```
@@ -140,7 +140,7 @@ For TEAL opcodes like this to work you must provide details for each referenced 
 {
     "accounts": {
         "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-            balance: 10000,
+            "balance": 10000,
 
             /* Other account details ... */
         },
@@ -162,7 +162,7 @@ In this example we use the name "john" instead of the Algorand address in the pr
 {
     "accounts": {
         "john": {
-            balance: 10000
+            "balance": 10000
         }
     }
 }
