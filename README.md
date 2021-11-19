@@ -27,18 +27,20 @@ console.log("== STACK ==");
 console.log(result.stack);
 ```
 
-You can configuration the state of the interpreter by passing in a configuration object:
+You can configure the state of the interpreter by passing in a `config` object like this:
 
 ```typescript
 import { execute, ITealInterpreterConfig } from "teal-interpreter";
 
 const config: ITealInterpreterConfig = {
-
+    /* Configuration goes here */
 };
 
 const teal = `/* your TEAL code */`;
 const result = execute(teal, config);
 ```
+
+The configuration allows you to provide values for global and local state and details for transactions, accounts, assets and applications.
 
 Please see the [Configuration documentation](./docs/configuration.md) to learn more about configuring the TEAL interpreter.
 
