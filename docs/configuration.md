@@ -3,7 +3,7 @@
 
 A `config` object to configure the TEAL interpreter can be passed to the `execute` function or the constructor of the `TealInterpreter` class. This allows you to configure the state of the interpreter. You can provide values for arguments, globals, locals. You can provide values for transactions and details of accounts, assets and applications.
 
-The `config` object is simple JSON data that follows particular conventions. Before looking at the overall format of the data let's look at how define individual values.
+The `config` object is a simple JSON data object that follows particular conventions. Before looking at the overall format of the data let's look at how define individual values. Skip to the end to see a complete example.
 
 ## Definining values
 
@@ -123,6 +123,103 @@ The fields of each transaction are defined in the same way as for the `txn` conf
 
 You can then access transactions by index and fields by name using [`gtxn`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#gtxn-t-f), [`gtxna`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#gtxna-t-f-i), [`gtxns`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#gtxns-f) and [`gtxnsa`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#gtxnsa-f-i).
 
+## Configuring args
+
+The [`arg`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#arg-n) opcode (and friends) reads "arguments" that have been provided to the TEAL program.
+
+Configurate arguments like this:
+
+```json
+{
+    "args": [        
+        "addr:7JOPVEP3AB...",
+        15,
+        "Hello world",
+
+        /* As many arguments as you need ... */
+    ]
+}
+```
+
+## Configuring values for global fields
+
+The [`global`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#global-f) opcode can retreive values for global fields.
+
+Configure the values of global fields like this:
+
+```json
+{
+    "globals": {
+        "MinTxnFee": 1200,
+
+        /* Other global values ... */
+    }
+}
+```
+
+## Configuring the "current" application
+
+Opcodes like [`app_global_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_global_put) require the notion of the "current application".
+
+You can configure the current application and add values for global variables like this:
+
+```json
+{
+    "application": {
+        "globals": {
+            "aGlobal": 42,
+
+            /* Other globals ... */
+        }
+    }
+}
+```
+
+### Configuring applications by ID
+
+Opcodes like [`app_global_get_ex`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_global_get_ex) reference aplications by ID.
+
+You can configure each application like this:
+
+```json
+{
+    "applications": {
+        "1": { /* Application with ID 1 */
+            "globals": {
+                "anotherGlobal": "Hello world",
+
+                /* Other globals ... */
+            }
+        },
+
+        /* Other applications ... */
+    }
+}
+```
+
+### Configuring assets
+
+The opcode [`asset_params_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#asset_params_get-i) references assets by ID.
+
+You can configure each asset like this:
+
+```json
+{
+    "assets": {
+        "1": { /* Asset with ID 1 */
+            "fields": { /* Values for fields retreived by opcodes */
+                "AssetTotal": 1500,
+
+                /* Other fields ... */
+            }
+        },
+
+        /* Other assets ... */
+    }
+}
+```
+
+
 ## Configuring accounts
 
 Various opcodes, such as [`balance`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#balance), read information from particular accounts.
@@ -165,5 +262,123 @@ In this example we use the name "john" instead of the Algorand address in the pr
             "balance": 10000
         }
     }
+}
+```
+
+## Assets under accounts
+
+The opcode [`asset_holding_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#asset_holding_get-i) references assets by ID but under a particular account.
+
+You can configure an asset under an account like this:
+
+```json
+{
+    "accounts": {
+        "john": {
+            "assets": {
+                "1": { /* The ID of the asset */
+                    "fields": {
+                        "AssetBalance": 3,
+                        
+                        /* Other field values ... */
+                    }
+                },
+
+                /* Other assets ... */
+            }
+        }
+    }
+}
+```
+
+## Applications under accounts
+
+The opcode [`app_local_get_ex`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_local_get_ex) references applications by ID but under a particular account.
+
+You can configure an application under an account like this:
+
+```json
+{
+    "accounts": {
+        "john": {
+            "applications": {
+                "1": { /* The ID of the application */
+                    "locals": {
+                        "aLocal": 3,
+                        
+                        /* Other locals ... */
+                    }
+                },
+
+                /* Other applications ... */
+            }
+        }
+    }
+}
+```
+
+## Putting it alltogether
+
+To see all possible configurations [please see the TypeScript definition](https://github.com/optio-labs/teal-interpreter/blob/main/src/lib/config.ts).
+
+Here's a more complete example configuration:
+
+```json
+{
+    "txn": {
+        "ApplicationID": 5,
+        "Accounts": [
+            "addr:john"
+        ]
+    },
+    "txns": [
+        {
+            "ApplicationArgs": [
+                "addr:john"
+            ]
+        }
+    ],
+    "application": {
+        "globals": {
+            "aGlobal": 38
+        }
+    },
+    "applications": {
+        "1": {
+            "globals": {
+                "anotherGlobal": 22
+            }
+        }
+    },
+    "assets": {
+        "1": {
+            "fields": {
+                "AssetTotal": 5
+            }
+        }
+    },
+    "accounts": {
+        "john": {
+            "balance": 42,
+            "locals": {
+                "aLocal": 33
+            },
+            "applications": {
+                "1": {
+                    "optedIn": true,
+                    "locals": {
+                        "test": 53
+                    }
+                }
+            },
+            "assets": {
+                "1": {
+                    "fields": {
+                        "AssetBalance": 3000
+                    }
+                }
+            }
+        }
+    }    
 }
 ```
