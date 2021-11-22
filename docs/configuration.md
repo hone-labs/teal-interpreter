@@ -11,31 +11,31 @@ Values are defined using JSON numbers, strings and arrays.
 
 For example to provide a uint64 (bigint) number value just use a literal number:
 
-```json
+```javascript
 42
 ```
 
 Literal strings are translated to a byte array:
 
-```json
+```javascript
 "Hello world"
 ```
 
 You can provide base64 data using the `base64` prefix:
 
-```json
+```javascript
 "base64:SGVsbG8gd29ybGQ="
 ```
 
 To specify an Algorand address use the `addr` prefix:
 
-```json
+```javascript
 "addr:7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224"
 ```
 
 In certain cases (see below) you can also provide arrays of values, for example:
 
-```json
+```javascript
 [
     "addr:7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224",
     "addr:a-differen-address",
@@ -45,7 +45,7 @@ In certain cases (see below) you can also provide arrays of values, for example:
 
 If you need to specify the contents of a byte[] explicitly you can use an array of numbers and it will be translated into a byte array where each number converts to a single byte:
 
-```json
+```javascript
 [1, 2, 3, 4]
 ```
 
@@ -57,7 +57,7 @@ TEAL opcodes [`txn`](https://developer.algorand.org/docs/get-details/dapps/avm/t
 
 You can provide these values through the `txn` field of the configuration:
 
-```json
+```javascript
 {
     "txn": {
         "Fee": 1000,
@@ -75,7 +75,7 @@ txn Fee
 
 When using the [`txna`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#txna-f-i) opcode and accessing a transaction field that contains an array of value you will want to put an array of values in your configuration instead of a single value:
 
-```json
+```javascript
 {
     "txn": {
         "Accounts": [
@@ -101,7 +101,7 @@ The [`gtxn`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opco
 
 You can provide the transaction array through the `gtxn` field of the configuration:
 
-```json
+```javascript
 {
     "gtxn": [
         /* First transaction */
@@ -129,7 +129,7 @@ The [`arg`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcod
 
 Configurate arguments like this:
 
-```json
+```javascript
 {
     "args": [        
         "addr:7JOPVEP3AB...",
@@ -147,7 +147,7 @@ The [`global`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/op
 
 Configure the values of global fields like this:
 
-```json
+```javascript
 {
     "globals": {
         "MinTxnFee": 1200,
@@ -163,7 +163,7 @@ Opcodes like [`app_global_get`](https://developer.algorand.org/docs/get-details/
 
 You can configure the current application and add values for global variables like this:
 
-```json
+```javascript
 {
     "application": {
         "globals": {
@@ -181,7 +181,7 @@ Opcodes like [`app_global_get_ex`](https://developer.algorand.org/docs/get-detai
 
 You can configure each application like this:
 
-```json
+```javascript
 {
     "applications": {
         "1": { /* Application with ID 1 */
@@ -203,7 +203,7 @@ The opcode [`asset_params_get`](https://developer.algorand.org/docs/get-details/
 
 You can configure each asset like this:
 
-```json
+```javascript
 {
     "assets": {
         "1": { /* Asset with ID 1 */
@@ -233,7 +233,7 @@ balance // Pushes the balance of the account on the compute stack.
 
 For TEAL opcodes like this to work you must provide details for each referenced account in the configuration under the `accounts` field, like this:
 
-```json
+```javascript
 {
     "accounts": {
         "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
@@ -255,7 +255,7 @@ For testing and debugging purposes you don't need to use real Algorand addresses
 
 In this example we use the name "john" instead of the Algorand address in the previous example:
 
-```json
+```javascript
 {
     "accounts": {
         "john": {
@@ -271,7 +271,7 @@ The opcode [`asset_holding_get`](https://developer.algorand.org/docs/get-details
 
 You can configure an asset under an account like this:
 
-```json
+```javascript
 {
     "accounts": {
         "john": {
@@ -297,7 +297,7 @@ The opcode [`app_local_get_ex`](https://developer.algorand.org/docs/get-details/
 
 You can configure an application under an account like this:
 
-```json
+```javascript
 {
     "accounts": {
         "john": {
@@ -323,7 +323,7 @@ To see all possible configurations [please see the TypeScript definition](https:
 
 Here's a more complete example configuration:
 
-```json
+```javascript
 {
     "txn": {
         "ApplicationID": 5,
