@@ -14,17 +14,17 @@ export class AppLocalGetEx extends Opcode {
             throw new Error(`Account "${accountName}" not found, please add field "accounts.${accountName}" to your configuration.`);
         }
 
-        const application = account.applications[appId];
-        if (application === undefined) {
-            throw new Error(`Application "${appId}" not found under account "${accountName}" not found, please add field "accounts.${accountName}.applications.${appId}" to your configuration.`);
+        const appLocals = account.appLocals[appId];
+        if (appLocals !== undefined) {
+            const value = appLocals[localName];
+            if (value !== undefined) {
+                context.stack.push(value);
+                this.pushInt(context, BigInt(1));
+                return;
+            }
         }
 
-        const value = application.locals[localName];
-        if (value === undefined) {
-            throw new Error(`Local not set for application "${appId}" under account "${accountName}", please add a local to your configuration.`);
-        }
-
-        context.stack.push(value);
-        this.pushInt(context, BigInt(1));
+        this.pushInt(context, BigInt(0));
+        this.pushInt(context, BigInt(0));
     }
 }

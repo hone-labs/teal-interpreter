@@ -12,12 +12,7 @@ export class AppOptedIn extends Opcode {
             throw new Error(`Account "${accountName}" not found, please add this to "accounts" in your configuration.`);
         }
 
-        const application = account.applications[appId];
-        if (application === undefined) {
-            throw new Error(`Application "${appId}" not found under account "${accountName}", please add this to your configuration.`);
-        }
-
-        if (application.optedIn) {
+        if (account.appsOptedIn.has(appId.toString())) {
             this.pushInt(context, BigInt(1));
         }
         else {

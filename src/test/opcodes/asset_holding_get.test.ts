@@ -18,11 +18,9 @@ describe("asset_holding_get opcode", () => {
         const context: any = {
             accounts: {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    assets: {
+                    assetHoldings: {
                         "3": {
-                            fields: {
-                                AssetBalance: makeBigInt(BigInt(12)),
-                            },
+                            AssetBalance: makeBigInt(BigInt(12)),
                         },
                     },
                 },
@@ -52,8 +50,8 @@ describe("asset_holding_get opcode", () => {
         const context: any = {
             accounts: {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    assets: {
-                        // No asset.
+                    assetHoldings: {
+                        // No asset holdings.
                     },
                 },
             },
@@ -80,7 +78,7 @@ describe("asset_holding_get opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            accouts: {
+            accounts: {
                 // No account.
             },
             stack: [                
@@ -106,9 +104,7 @@ describe("asset_holding_get opcode", () => {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
                     assets: {
                         "3": {
-                            fields: {
-                                // No field.
-                            },
+                            // No field.
                         },
                     },
                 },

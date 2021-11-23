@@ -10,11 +10,14 @@ describe("app_global_del opcode", () => {
         const opcode = new AppGlobalDel(token, opcodeDefs.app_global_del);
 
         const context: any = {
-            application: {
-                globals: {
-                    aGlobal: makeBigInt(BigInt(2)),
-                },
-            },            
+
+            apps: {
+                "0": {
+                    globals: {
+                        aGlobal: makeBigInt(BigInt(2)),
+                    },
+                },            
+            },
             stack: [                
                 makeBytes(new Uint8Array(Buffer.from("aGlobal"))),
             ],
@@ -22,7 +25,7 @@ describe("app_global_del opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);
-        expect(context.application.globals.aGlobal).not.toBeDefined();
+        expect(context.apps["0"].globals.aGlobal).not.toBeDefined();
     });
 
     it("throws when application is not found", () => {
@@ -32,22 +35,6 @@ describe("app_global_del opcode", () => {
 
         const context: any = {
             // No application.
-            stack: [                
-                makeBytes(new Uint8Array(Buffer.from("aGlobal"))),
-            ],
-        };
-        expect(() => opcode.execute(context)).toThrow();
-    });
-
-    it("throws when globals is not set", () => {
-        
-        const token: any = {};
-        const opcode = new AppGlobalDel(token, opcodeDefs.app_global_del);
-
-        const context: any = {
-            application: {
-                // Globals is not set.
-            },
             stack: [                
                 makeBytes(new Uint8Array(Buffer.from("aGlobal"))),
             ],

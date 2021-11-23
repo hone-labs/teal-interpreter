@@ -1,5 +1,5 @@
 
-import { IAccountApplicationDef, IAccountDef, IApplicationDef, IAssetDef, ITable, ITealInterpreterConfig } from "./config";
+import { ITable, ITealInterpreterConfig } from "./config";
 import { loadValues, loadValueTable, loadValueTableWithArrays } from "./convert";
 import { IBranchTargetMap } from "./parser";
 
@@ -44,21 +44,6 @@ export function makeBytes(value: Uint8Array): ITypedValue {
 }
 
 //
-// Details for applications related to an account.
-//
-export interface IAccountApplication {
-    //
-    // Set to true if this account has opted into this applicaiton.
-    //
-    optedIn?: boolean;
-
-    //
-    // Storage for local variables related to the application.
-    //
-    locals: ITable<ITypedValue>;
-}
-
-//
 // Represents an Algorand account.
 //
 export interface IAccount {
@@ -74,40 +59,19 @@ export interface IAccount {
     minBalance?: number | bigint;
 
     //
-    // Assets connected to this account.
+    // Storage for local variables per application.
     //
-    assets: ITable<IAsset>;
+    appLocals: ITable<ITable<ITypedValue>>;
 
     //
-    // Storage for local variables related to the current application.
+    // Set of applications (IDs) this account has opted into.
     //
-    locals: ITable<ITypedValue>;
+    appsOptedIn: Set<string>;
 
     //
-    // Details for applications related to this account.
+    // Asset holdings for this account.
     //
-    applications: ITable<IAccountApplication>;
-}
-
-//
-// Represents an Algorand applicaton.
-//
-export interface IApplication {
-
-    //
-    // Values for application global variables.
-    //
-    globals: ITable<ITypedValue>;
-}
-
-//
-// Represents an Algorand asset.
-//
-export interface IAsset {
-    //
-    // Field values for the asset.
-    //
-    fields: ITable<ITypedValue>;
+    assetHoldings: ITable<ITable<ITypedValue>>;
 }
 
 //
@@ -116,24 +80,19 @@ export interface IAsset {
 export interface IExecutionContext {
 
     //
-    // The current application that can be used from TEAL code.
+    // Application globals that can be referenced from TEAL code.
     //
-    application: IApplication;
+    appGlobals: ITable<ITable<ITypedValue>>;
 
     //
-    // Applications that can be referenced from TEAL code.
+    // Asset params that can be accessed from TEAL code.
     //
-    applications: ITable<IApplication>;
+    assetParams: ITable<ITable<ITypedValue>>;
 
     //
     // Accounts that can be used from TEAL code.
     //
     accounts: ITable<IAccount>;
-
-    //
-    // Assets that can be used from TEAL code.
-    //
-    assets: ITable<IAsset>;
 
     //
     // Set to true to request that execution finish.
@@ -212,43 +171,17 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
 
     const context: IExecutionContext = {
         version: 1,
-        application: {
-            globals: loadValueTable(config?.application?.globals),
-        },
-        applications: 
-            loadTable<IApplicationDef, IApplication>(config?.applications, appDef => {
-                return {
-                    globals: loadValueTable(appDef.globals),
-                };
-            }
-        ),
-        assets: 
-            loadTable<IAssetDef, IAsset>(config?.assets, assetDef => {
-                return {
-                    fields: loadValueTable(assetDef.fields),
-                };
-            }
-        ),
+        appGlobals: loadTable(config?.appGlobals, loadValueTable),
+        assetParams: loadTable(config?.assetParams, loadValueTable),
         accounts: 
-            loadTable<IAccountDef, IAccount>(config?.accounts, accountDef => {
+            loadTable(config?.accounts, accountDef => {
                 return {
                     balance: accountDef.balance || 0,
                     minBalance: accountDef.minBalance || 0,
-                    assets: loadTable<IAssetDef, IAsset>(accountDef.assets, assetDef => {
-                        return {
-                            fields: loadValueTable(assetDef.fields),                                        
-                        };
-                    }),         
-                    locals: loadValueTable(accountDef.locals),   
-                    applications: 
-                        loadTable<IAccountApplicationDef, IAccountApplication>(accountDef.applications, accAppDef => {
-                            return {
-                                optedIn: accAppDef.optedIn || false,
-                                locals: loadValueTable(accAppDef.locals),
-                            };
-                        }
-                    ),
-                }
+                    appLocals: loadTable(accountDef.appLocals, loadValueTable),
+                    appsOptedIn: new Set<string>(accountDef.appsOptedIn.map(appId => appId.toString())),
+                    assetHoldings: loadTable(accountDef.assetHoldings, loadValueTable),
+                };
             }
         ),
         branchTargets: branchTargets,

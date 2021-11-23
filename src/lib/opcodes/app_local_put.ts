@@ -9,15 +9,15 @@ export class AppLocalPut extends Opcode {
         const localName = Buffer.from(this.popBytes(context)).toString();
         const accountName = encodeAddress(this.popBytes(context));
         const account = context.accounts[accountName];
-
         if (account === undefined) {
             throw new Error(`Account "${accountName}" not found, please add this account to your configuration.`);
         }
-        
-        if (account.locals === undefined) {
-            throw new Error(`Locals not set for account "${accountName}", please add field "locals" to this account in your configuration.`);
+
+        let appLocals = account.appLocals["0"];
+        if (appLocals === undefined) {
+            appLocals = account.appLocals["0"] = {};            
         }
 
-        account.locals[localName] = value;
+        appLocals[localName] = value;
     }
 }

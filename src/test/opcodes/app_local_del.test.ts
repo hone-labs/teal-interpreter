@@ -13,9 +13,11 @@ describe("app_local_del opcode", () => {
         const context: any = {
             accounts: {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    locals: {
-                        aLocal: makeBigInt(BigInt(2)),
-                    },
+                    appLocals: {
+                        "0": {
+                            aLocal: makeBigInt(BigInt(2)),
+                        },
+                    }
                 },
             },            
             stack: [                
@@ -26,7 +28,7 @@ describe("app_local_del opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);
-        expect(context.accounts["7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224"].locals.aLocal).not.toBeDefined();
+        expect(context.accounts["7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224"].appLocals["0"].aLocal).not.toBeDefined();
     });
 
     it("throws when account is not found", () => {

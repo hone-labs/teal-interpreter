@@ -10,11 +10,13 @@ describe("app_global_get opcode", () => {
         const opcode = new AppGlobalGet(token, opcodeDefs.app_local_get);
 
         const context: any = {
-            application: {
-                globals: {
-                    aGlobal: makeBigInt(BigInt(4)),
-                },
-            },            
+            apps: {
+                "0": {
+                    globals: {
+                        aGlobal: makeBigInt(BigInt(4)),
+                    },
+                },            
+            },
             stack: [                
                 makeBytes(new Uint8Array(Buffer.from("aGlobal"))),
             ],
@@ -39,31 +41,17 @@ describe("app_global_get opcode", () => {
         expect(() => opcode.execute(context)).toThrow();
     });
 
-    it("throws when globals is not set", () => {
-        
-        const token: any = {};
-        const opcode = new AppGlobalGet(token, opcodeDefs.app_local_get);
-
-        const context: any = {
-            application: {
-                // Globals is not set.
-            },
-            stack: [                
-                makeBytes(new Uint8Array(Buffer.from("aGlobal"))),
-            ],
-        };
-        expect(() => opcode.execute(context)).toThrow();
-    });
-
     it("throws when global is not set", () => {
         
         const token: any = {};
         const opcode = new AppGlobalGet(token, opcodeDefs.app_local_get);
 
         const context: any = {
-            application: {
-                globals: {
-                    // The particular global is not set.
+            apps: {
+                "0": {
+                    globals: {
+                        // The particular global is not set.
+                    },
                 },
             },
             stack: [                

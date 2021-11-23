@@ -17,15 +17,15 @@ export class AssetParamsGet extends Opcode {
     execute(context: IExecutionContext): void {
         
         const assetId = this.popInt(context).toString();
-        const asset = context.assets[assetId];
-        if (asset === undefined) {
+        const assetParams = context.assetParams[assetId];
+        if (assetParams === undefined) {
             // Asset not found.
             this.pushInt(context, BigInt(0));
             this.pushInt(context, BigInt(0));
             return;
         }
 
-        const value = asset.fields[this.fieldName];
+        const value = assetParams[this.fieldName];
         if (value === undefined) {
             throw new Error(`Failed to find field "${this.fieldName}" under asset "assets.${assetId}.fields" in your configuration. Please add this field to your configuration.`);
         }

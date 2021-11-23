@@ -1,4 +1,4 @@
-import { makeBigInt, makeBytes } from "../../lib/context";
+import { makeBigInt } from "../../lib/context";
 import { opcodeDefs } from "../../lib/opcodes";
 import { AssetParamsGet } from "../../lib/opcodes/asset_params_get";
 
@@ -15,11 +15,9 @@ describe("asset_params_get opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            assets: {
+            assetParams: {
                 "3": {
-                    fields: {
-                        AssetTotal: makeBigInt(BigInt(13)),
-                    },
+                    AssetTotal: makeBigInt(BigInt(13)),
                 },
             },
             stack: [                
@@ -44,7 +42,7 @@ describe("asset_params_get opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            assets: {
+            assetParams: {
                 // No asset.
             },
             stack: [                
@@ -69,11 +67,9 @@ describe("asset_params_get opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            assets: {
+            assetParams: {
                 "3": {
-                    fields: {
-                        // No field.
-                    },
+                    // No field.
                 },
             },
             stack: [                

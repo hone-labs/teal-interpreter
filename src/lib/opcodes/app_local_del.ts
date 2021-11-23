@@ -8,11 +8,13 @@ export class AppLocalDel extends Opcode {
         const localName = Buffer.from(this.popBytes(context)).toString();
         const accountName = encodeAddress(this.popBytes(context));
         const account = context.accounts[accountName];
-
         if (account === undefined) {
             throw new Error(`Account "${accountName}" not found, please add this account to your configuration.`);
         }
-        
-        delete account.locals[localName];
+
+        const appLocals = account.appLocals["0"];        
+        if (appLocals !== undefined) {
+            delete appLocals[localName];
+        }       
     }
 }

@@ -31,41 +31,6 @@ export interface IValueDef {
 export type ValueDef = bigint | number | string | IValueDef;
 
 //
-// Defines an application in the configuration.
-//
-export interface IApplicationDef {
-    //
-    // Global variables for the application.
-    //
-    globals?: ITable<ValueDef>;
-}
-
-//
-// Defines an asset in the configuration.
-//
-export interface IAssetDef {
-    //
-    // Field values for the asset.
-    //
-    fields?: ITable<ValueDef>;
-}
-
-//
-// Defines application data under an account in the configuration.
-//
-export interface IAccountApplicationDef {
-    //
-    // Set to true if this account has opted into the application.
-    //
-    optedIn?: boolean;
-
-    //
-    // Values for application locals for the particular account.
-    //
-    locals: ITable<IValueDef>;
-}
-
-//
 // Defines an account in the configuration.
 //
 export interface IAccountDef {
@@ -80,19 +45,19 @@ export interface IAccountDef {
     minBalance?: number | bigint;
 
     //
-    // Assets connected to the account.
+    // A table of locals by application.
     //
-    assets?: ITable<IAssetDef>;
+    appLocals: ITable<ITable<IValueDef>>;
 
     //
-    // Values for locals for the current application.
+    // List of applications (IDs) this account has opted into.
     //
-    locals: ITable<IValueDef>;
+    appsOptedIn: (number | string)[];
 
     //
-    // Applications connected to the account.
+    // Asset holdings for this account.
     //
-    applications?: ITable<IAccountApplicationDef>;
+    assetHoldings: ITable<ITable<IValueDef>>;
 }
 
 //
@@ -101,24 +66,19 @@ export interface IAccountDef {
 export interface ITealInterpreterConfig {
 
     //
-    // The current application accessible from TEAL code.
+    // Application globals that can be referenced from TEAL code.
     //
-    application?: IApplicationDef;
+    appGlobals?: ITable<ITable<ValueDef>>;
 
     //
-    // Applications (by id) accessible from TEAL code.
+    // Asset params that can be accessed from TEAL code.
     //
-    applications?: ITable<IApplicationDef>;
+    assetParams?: ITable<ITable<ValueDef>>;
 
     //
     // Accounts that can be accessed from TEAL code.
     //
     accounts?: ITable<IAccountDef>;
-
-    //
-    // Assets that can be accessed from TEAL code.
-    //
-    assets?: ITable<IAssetDef>;
 
     //
     // Global values.

@@ -13,11 +13,9 @@ describe("app_local_get_ex opcode", () => {
         const context: any = {
             accounts: {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    applications: {
+                    appLocals: {
                         "2": {
-                            locals: {
-                                aLocal: makeBigInt(BigInt(3)),
-                            },
+                            aLocal: makeBigInt(BigInt(3)),
                         },
                     },
                 },
@@ -53,51 +51,4 @@ describe("app_local_get_ex opcode", () => {
         expect(() => opcode.execute(context)).toThrow();
     });
 
-    it("throws when application is not found", () => {
-
-        const token: any = {};
-        const opcode = new AppLocalGetEx(token, opcodeDefs.app_local_get_ex);
-
-        const context: any = {
-            accounts: {
-                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    applications: {
-                        // No applications.
-                    },
-                },
-            },            
-            stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
-                makeBigInt(BigInt(2)),
-                makeBytes(new Uint8Array(Buffer.from("aLocal"))),
-            ],
-        };
-        expect(() => opcode.execute(context)).toThrow();
-    });
-
-    it("throws when local is not set", () => {
-        
-        const token: any = {};
-        const opcode = new AppLocalGetEx(token, opcodeDefs.app_local_get_ex);
-
-        const context: any = {
-            accounts: {
-                "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    applications: {
-                        "2": {
-                            locals: {
-                                // No local set.
-                            },
-                        },
-                    },
-                },
-            },            
-            stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
-                makeBigInt(BigInt(2)),
-                makeBytes(new Uint8Array(Buffer.from("aLocal"))),
-            ],
-        };
-        expect(() => opcode.execute(context)).toThrow();
-    });    
 });

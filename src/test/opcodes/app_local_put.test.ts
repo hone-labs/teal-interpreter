@@ -13,7 +13,9 @@ describe("app_local_put opcode", () => {
         const context: any = {
             accounts: {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    locals: {
+                    appLocals: {
+                        "0": {
+                        },
                     },
                 },
             },            
@@ -26,7 +28,7 @@ describe("app_local_put opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);
-        expect(Number(context.accounts["7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224"].locals.aLocal.value)).toEqual(6);
+        expect(Number(context.accounts["7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224"].appLocals["0"].aLocal.value)).toEqual(6);
     });
 
     it("throws when account is not found", () => {
@@ -47,7 +49,7 @@ describe("app_local_put opcode", () => {
         expect(() => opcode.execute(context)).toThrow();
     });
 
-    it("throws when locals is not set", () => {
+    it("creates app when not found", () => {
         
         const token: any = {};
         const opcode = new AppLocalPut(token, opcodeDefs.app_local_put);
@@ -55,7 +57,9 @@ describe("app_local_put opcode", () => {
         const context: any = {
             accounts: {
                 "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
-                    // Locals is not set.
+                    appLocals: {
+                        // Locals are not set.
+                    },
                 },
             },
             stack: [                
@@ -64,7 +68,10 @@ describe("app_local_put opcode", () => {
                 makeBigInt(BigInt(6)),
             ],
         };
-        expect(() => opcode.execute(context)).toThrow();
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(0);
+        expect(Number(context.accounts["7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224"].appLocals["0"].aLocal.value)).toEqual(6);
     });
 
 });
