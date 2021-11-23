@@ -127,7 +127,7 @@ You can then access transactions by index and fields by name using [`gtxn`](http
 
 The [`arg`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#arg-n) opcode (and friends) reads "arguments" that have been provided to the TEAL program.
 
-Configurate arguments like this:
+You can configure the array arguments like this:
 
 ```javascript
 {
@@ -156,40 +156,19 @@ Configure the values of global fields like this:
     }
 }
 ```
+## Application global state
 
-## Configuring the "current" application
+The opcode [`app_global_get_ex`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_global_get_ex) retreives global state for a particular application.
 
-Opcodes like [`app_global_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_global_put) require the notion of the "current application".
-
-You can configure the current application and add values for global variables like this:
+You can configure global state for each application like this:
 
 ```javascript
 {
-    "application": {
-        "globals": {
-            "aGlobal": 42,
+    "apps": {
+        "1": { /* Application with ID 1 */
+            "traditionalGreeting": "Hello world",
 
             /* Other globals ... */
-        }
-    }
-}
-```
-
-### Configuring applications by ID
-
-Opcodes like [`app_global_get_ex`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_global_get_ex) reference aplications by ID.
-
-You can configure each application like this:
-
-```javascript
-{
-    "applications": {
-        "1": { /* Application with ID 1 */
-            "globals": {
-                "anotherGlobal": "Hello world",
-
-                /* Other globals ... */
-            }
         },
 
         /* Other applications ... */
@@ -197,21 +176,39 @@ You can configure each application like this:
 }
 ```
 
-### Configuring assets
+## Configuring the "current" application
 
-The opcode [`asset_params_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#asset_params_get-i) references assets by ID.
+Opcodes like [`app_global_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_global_put) retreives state for the "current application".
 
-You can configure each asset like this:
+You can define global state for the "current application" by setting an application with an ID of 0 (which is the convention for the current application in the AVM):
 
 ```javascript
 {
-    "assets": {
-        "1": { /* Asset with ID 1 */
-            "fields": { /* Values for fields retreived by opcodes */
-                "AssetTotal": 1500,
+    "apps": {
+        "0": { /* The application with ID 0 is the "current application" */
+            "theMeaningOfLife": 42,
 
-                /* Other fields ... */
-            }
+            /* Other globals ... */
+        },
+
+        /* Other applications ... */
+    }
+}
+```
+
+### Configuring asset params
+
+The opcode [`asset_params_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#asset_params_get-i) references assets by ID to retrieve parameters.
+
+You can configure the params for each asset like this:
+
+```javascript
+{
+    "assetParams": {
+        "1": { /* Asset with ID 1 */
+            "AssetTotal": 1500,
+
+            /* Other fields ... */
         },
 
         /* Other assets ... */
@@ -222,7 +219,7 @@ You can configure each asset like this:
 
 ## Configuring accounts
 
-Various opcodes, such as [`balance`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#balance), read information from particular accounts.
+Various opcodes, such as [`balance`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#balance) and [`min_balance`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#min_balance), read information from particular accounts.
 
 For example (in TEAL):
 
@@ -238,6 +235,7 @@ For TEAL opcodes like this to work you must provide details for each referenced 
     "accounts": {
         "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224": {
             "balance": 10000,
+            "minBalance": 300,
 
             /* Other account details ... */
         },
@@ -265,23 +263,21 @@ In this example we use the name "john" instead of the Algorand address in the pr
 }
 ```
 
-## Assets under accounts
+## Assets holdings
 
-The opcode [`asset_holding_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#asset_holding_get-i) references assets by ID but under a particular account.
+The opcode [`asset_holding_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#asset_holding_get-i) retreives the holdings of an asset for a particular account.
 
-You can configure an asset under an account like this:
+You can configure asset holdigns for an account like this:
 
 ```javascript
 {
     "accounts": {
         "john": {
-            "assets": {
+            "assetHoldings": {
                 "1": { /* The ID of the asset */
-                    "fields": {
-                        "AssetBalance": 3,
+                    "AssetBalance": 3,
                         
-                        /* Other field values ... */
-                    }
+                    /* Other field values ... */
                 },
 
                 /* Other assets ... */
@@ -291,27 +287,65 @@ You can configure an asset under an account like this:
 }
 ```
 
-## Applications under accounts
+## Application local state
 
-The opcode [`app_local_get_ex`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_local_get_ex) references applications by ID but under a particular account.
+The opcode [`app_local_get_ex`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_local_get_ex) references state that is local to a particular account and application.
 
-You can configure an application under an account like this:
+You can configure the local state for an application under an account like this:
 
 ```javascript
 {
     "accounts": {
         "john": {
-            "applications": {
+            "appLocals": {
                 "1": { /* The ID of the application */
-                    "locals": {
-                        "aLocal": 3,
+                    "aLocal": 3,
                         
-                        /* Other locals ... */
-                    }
+                    /* Other locals ... */
                 },
 
                 /* Other applications ... */
             }
+        }
+    }
+}
+```
+
+Opcodes like [`app_local_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_local_get) automatically reference the "current application", which you can set using application ID 0:
+
+```javascript
+{
+    "accounts": {
+        "john": {
+            "appLocals": {
+                "0": { /* ID 0 means "current application". */
+                    "aLocal": 3,
+                        
+                    /* Other locals ... */
+                },
+
+                /* Other applications ... */
+            }
+        }
+    }
+}
+```
+
+## Application opted in
+
+The opcode [`app_opted_in`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#app_opted_in) determines if an account has opted into a particular application.
+
+You can configure whether an accout has opted in like this:
+
+```javascript
+{
+    "accounts": {
+        "john": {
+            "appsOptedIn": [    /* Array of applications John has opted into */
+                "1",            /* App ID 1 */
+                "5",            /* App ID 5 */
+                /* And so on ... */
+            ],
         }
     }
 }
