@@ -10,11 +10,9 @@ describe("app_global_get_ex opcode", () => {
         const opcode = new AppGlobalGetEx(token, opcodeDefs.app_global_get_ex);
 
         const context: any = {
-            apps: {
+            appGlobals: {
                 "2": {
-                    globals: {
-                        aGlobal: makeBigInt(BigInt(4)),
-                    },
+                    aGlobal: makeBigInt(BigInt(4)),
                 }
             },            
             stack: [                
@@ -35,7 +33,7 @@ describe("app_global_get_ex opcode", () => {
         const opcode = new AppGlobalGetEx(token, opcodeDefs.app_global_get_ex);
 
         const context: any = {
-            apps: {
+            appGlobals: {
                 // Particular application not set.
             },            
             stack: [                
@@ -52,12 +50,10 @@ describe("app_global_get_ex opcode", () => {
         const opcode = new AppGlobalGetEx(token, opcodeDefs.app_global_get_ex);
 
         const context: any = {
-            apps: {
+            appGlobals: {
                 "2": {
-                    globals: {
-                        // The particular global is not set.
-                    },
-                }
+                    // The particular global is not set.
+                },
             },
             stack: [                
                 makeBigInt(BigInt(2)),

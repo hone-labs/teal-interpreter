@@ -10,10 +10,8 @@ describe("app_global_put opcode", () => {
         const opcode = new AppGlobalPut(token, opcodeDefs.app_global_put);
 
         const context: any = {
-            apps: {
+            appGlobals: {
                 "0": {
-                    globals: {
-                    },
                 },            
             },
             stack: [                
@@ -24,7 +22,7 @@ describe("app_global_put opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);
-        expect(Number(context.apps["0"].globals.aGlobal.value)).toEqual(6);
+        expect(Number(context.appGlobals["0"].aGlobal.value)).toEqual(6);
     });
 
     it ("creates application when not found", () => {
@@ -33,7 +31,7 @@ describe("app_global_put opcode", () => {
         const opcode = new AppGlobalPut(token, opcodeDefs.app_global_put);
 
         const context: any = {
-            apps: {
+            appGlobals: {
                 // No application.
             },
             stack: [                
@@ -44,7 +42,7 @@ describe("app_global_put opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);
-        expect(Number(context.apps["0"].globals.aGlobal.value)).toEqual(6);
+        expect(Number(context.appGlobals["0"].aGlobal.value)).toEqual(6);
     });
 
 });

@@ -10,11 +10,9 @@ describe("app_global_get opcode", () => {
         const opcode = new AppGlobalGet(token, opcodeDefs.app_local_get);
 
         const context: any = {
-            apps: {
+            appGlobals: {
                 "0": {
-                    globals: {
-                        aGlobal: makeBigInt(BigInt(4)),
-                    },
+                    aGlobal: makeBigInt(BigInt(4)),
                 },            
             },
             stack: [                
@@ -47,11 +45,9 @@ describe("app_global_get opcode", () => {
         const opcode = new AppGlobalGet(token, opcodeDefs.app_local_get);
 
         const context: any = {
-            apps: {
+            appGlobals: {
                 "0": {
-                    globals: {
-                        // The particular global is not set.
-                    },
+                    // The particular global is not set.
                 },
             },
             stack: [                

@@ -6,14 +6,12 @@ export class AppGlobalPut extends Opcode {
     execute(context: IExecutionContext): void {
         const value = context.stack.pop()!;
         const globalName = Buffer.from(this.popBytes(context)).toString();
-        let application = context.apps["0"];
-        if (application === undefined) {
-            application = context.apps["0"] = {
-                globals: {                    
-                },
+        let appGlobals = context.appGlobals["0"];
+        if (appGlobals === undefined) {
+            appGlobals = context.appGlobals["0"] = {
             };
         }
 
-        application.globals[globalName] = value;
+        appGlobals[globalName] = value;
     }
 }

@@ -10,12 +10,9 @@ describe("app_global_del opcode", () => {
         const opcode = new AppGlobalDel(token, opcodeDefs.app_global_del);
 
         const context: any = {
-
-            apps: {
+            appGlobals: {
                 "0": {
-                    globals: {
-                        aGlobal: makeBigInt(BigInt(2)),
-                    },
+                    aGlobal: makeBigInt(BigInt(2)),
                 },            
             },
             stack: [                
@@ -25,7 +22,7 @@ describe("app_global_del opcode", () => {
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(0);
-        expect(context.apps["0"].globals.aGlobal).not.toBeDefined();
+        expect(context.appGlobals["0"].aGlobal).not.toBeDefined();
     });
 
     it("throws when application is not found", () => {

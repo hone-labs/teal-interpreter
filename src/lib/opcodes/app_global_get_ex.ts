@@ -7,14 +7,14 @@ export class AppGlobalGetEx extends Opcode {
         const globalName = Buffer.from(this.popBytes(context)).toString();
         const appId = Number(this.popInt(context));
 
-        const application = context.apps[appId.toString()];
-        if (application === undefined) {
+        const appGlobals = context.appGlobals[appId.toString()];
+        if (appGlobals === undefined) {
             // Application not found.
-            throw new Error(`Expected "apps.${appId}" field to be set in your configuration.`);
+            throw new Error(`Expected "appGlobals.${appId}" field to be set in your configuration.`);
 
         }
 
-        const value = application.globals[globalName];
+        const value = appGlobals[globalName];
         if (value === undefined) {
             // The value doesn't exist.
             this.pushInt(context, BigInt(0));
