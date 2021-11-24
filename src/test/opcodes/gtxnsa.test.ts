@@ -32,46 +32,52 @@ describe("gtxnsa opcode", () => {
         expect(Number(context.stack[0]?.value)).toEqual(42);
     });
 
-    // it("throws when when index is outside range of transactions", () => {
+    it("throws when when index is outside range of transactions", () => {
 
-    //     const token: any = {
-    //         operands: [
-    //             "0",
-    //             "xxx",
-    //         ],
-    //     };
-    //     const opcode = new Gtxnsa(token, opcodeDefs.gtxnsa);
-    //     opcode.validateOperand();
+        const token: any = {
+            operands: [
+                "xxx",
+                "0",
+            ],
+        };
+        const opcode = new Gtxnsa(token, opcodeDefs.gtxnsa);
+        opcode.validateOperand();
 
-    //     const context: any = {
-    //         gtxn: [
-    //             // No transactions.
-    //         ],
-    //     };
+        const context: any = {
+            stack: [
+                makeBigInt(BigInt(1))
+            ],
+            gtxn: [
+                // No transactions.
+            ],
+        };
      
-    //     expect(() => opcode.execute(context)).toThrow();
-    // });
+        expect(() => opcode.execute(context)).toThrow();
+    });
 
-    // it("throws when field does not exist in specified transaction", () => {
+    it("throws when field does not exist in specified transaction", () => {
 
-    //     const token: any = {
-    //         operands: [
-    //             "0",
-    //             "xxx",
-    //         ],
-    //     };
-    //     const opcode = new Gtxnsa(token, opcodeDefs.gtxnsa);
-    //     opcode.validateOperand();
+        const token: any = {
+            operands: [
+                "xxx",
+                "0",
+            ],
+        };
+        const opcode = new Gtxnsa(token, opcodeDefs.gtxnsa);
+        opcode.validateOperand();
 
-    //     const context: any = {
-    //         gtxn: [
-    //             {
-    //                 // No fields.
-    //             },
-    //         ],
-    //     };
+        const context: any = {
+            stack: [
+                makeBigInt(BigInt(0))
+            ],
+            gtxn: [
+                {
+                    // No fields.
+                },
+            ],
+        };
      
-    //     expect(() => opcode.execute(context)).toThrow();
-    // });
+        expect(() => opcode.execute(context)).toThrow();
+    });
 
 });
