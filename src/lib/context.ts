@@ -141,6 +141,11 @@ export interface IExecutionContext {
     // Scratch space corresponding to transactions in a group.
     //
     txnSideEffects: ITable<ITable<ITypedValue>>;
+
+    //
+    // Results (by transaction index) of opcodes `gaid` and `gaids`.
+    //
+    gaid: ITable<ITypedValue>;
     
     //
     // The version of the TEAL executed.
@@ -203,6 +208,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
         txn: loadValueTableWithArrays(config?.txn),
         gtxn: config?.gtxn ? config.gtxn.map(loadValueTableWithArrays) : [],
         txnSideEffects: loadTable(config?.txnSideEffects, loadValueTable),
+        gaid: loadValueTable(config?.gaid),
         globals: loadValueTable(config?.globals),
         scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
         intcblock: [],

@@ -101,6 +101,11 @@ export interface ITealInterpreterConfig {
     txnSideEffects?: ITable<ITable<ValueDef>>;
 
     //
+    // Results for `gaid` and `gaids` opcodes.
+    //
+    gaid?: ITable<ValueDef>;
+
+    //
     // Array of arguments.
     //
     readonly args?: ValueDef[];

@@ -55,8 +55,7 @@ export class TealInterpreter implements ITealInterpreter {
     //
     private _context: IExecutionContext = {
         version: 1,
-        appGlobals: {
-        },
+        appGlobals: {},
         assetParams: {},
         accounts: {},
         branchTargets: {},
@@ -64,6 +63,8 @@ export class TealInterpreter implements ITealInterpreter {
         args: [],
         txn: {},
         gtxn: [],
+        txnSideEffects: {},
+        gaid: {},
         globals: {},
         scratch: [],
         intcblock: [],
