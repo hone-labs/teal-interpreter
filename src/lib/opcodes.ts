@@ -90,6 +90,7 @@ import { Gaid } from "./opcodes/gaid";
 import { Gaids } from "./opcodes/gaids";
 import { Callsub } from "./opcodes/callsub";
 import { Retsub } from "./opcodes/retsub";
+import { Shl } from "./opcodes/Shl";
 
 //
 // The static definiton of an opcode.
@@ -727,6 +728,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 0,
         factory: function (token) { return new Retsub(token, this) },
+    },    
+    "shl": {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Shl(token, this) },
     },    
 
     "sqrt": {
