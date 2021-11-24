@@ -38,7 +38,7 @@ In certain cases (see below) you can also provide arrays of values, for example:
 ```javascript
 [
     "addr:7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224",
-    "addr:a-differen-address",
+    "addr:a-different-address",
     "addr:some-other-address"
 ]
 ```
@@ -49,7 +49,7 @@ If you need to specify the contents of a byte[] explicitly you can use an array 
 [1, 2, 3, 4]
 ```
 
-That covers the main way to provide uint64 and byte[] values to the interpreter.
+That covers the main ways to provide uint64 and byte[] values to the interpreter.
 
 ## Configuring the current transaction
 
@@ -267,7 +267,7 @@ In this example we use the name "john" instead of the Algorand address in the pr
 
 The opcode [`asset_holding_get`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#asset_holding_get-i) retreives the holdings of an asset for a particular account.
 
-You can configure asset holdigns for an account like this:
+You can configure asset holdings for an account like this:
 
 ```javascript
 {
@@ -365,51 +365,38 @@ Here's a more complete example configuration:
             "addr:john"
         ]
     },
-    "txns": [
+    "gtxn": [
         {
             "ApplicationArgs": [
                 "addr:john"
             ]
         }
     ],
-    "application": {
-        "globals": {
+    "appGlobals": {
+        "0": {
             "aGlobal": 38
+        },
+        "1": {
+            "anotherGlobal": 22
         }
     },
-    "applications": {
-        "1": {
-            "globals": {
-                "anotherGlobal": 22
-            }
-        }
-    },
-    "assets": {
-        "1": {
-            "fields": {
-                "AssetTotal": 5
-            }
+    "assetParams": {
+        "2": {
+            "AssetTotal": 5000
         }
     },
     "accounts": {
         "john": {
             "balance": 42,
-            "locals": {
-                "aLocal": 33
-            },
-            "applications": {
+            "appLocals": {
                 "1": {
-                    "optedIn": true,
-                    "locals": {
-                        "test": 53
-                    }
+                    "aLocal": 33
                 }
             },
-            "assets": {
-                "1": {
-                    "fields": {
-                        "AssetBalance": 3000
-                    }
+            "appsOptedIn": [ "1" ],
+            "assetHoldings": {
+                "2": {
+                    "AssetBalance": 3000
                 }
             }
         }
