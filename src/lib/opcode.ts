@@ -134,7 +134,7 @@ export abstract class Opcode implements IOpcode {
     // Pushes an int on the stakc.
     //
     protected pushInt(context: IExecuteResult, value: bigint): void {
-        context.stack.push(makeBigInt(value));
+        context.stack.push(makeBigInt(value, value));
     }
 
     //

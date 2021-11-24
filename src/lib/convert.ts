@@ -52,41 +52,41 @@ export function decodeAddress(bytes: Uint8Array) {
 //
 export function loadValue(valueDef: ValueDef): ITypedValue {
     if (typeof valueDef === "bigint") {
-        return makeBigInt(valueDef);
+        return makeBigInt(valueDef, valueDef);
     }
     if (typeof valueDef === "number") {
-        return makeBigInt(BigInt(valueDef));
+        return makeBigInt(BigInt(valueDef), valueDef);
     }
     else if (typeof valueDef === "string") {
         if (valueDef.startsWith("int:")) {
-            return makeBigInt(BigInt(valueDef.slice("int:".length)));
+            return makeBigInt(BigInt(valueDef.slice("int:".length)), valueDef);
         }
         else if (valueDef.startsWith("string:")) {
-            return makeBytes(Buffer.from(valueDef.slice("string:".length)));
+            return makeBytes(Buffer.from(valueDef.slice("string:".length)), valueDef);
         }
         else if (valueDef.startsWith("addr:")) {
-            return makeBytes(encodeAddress(valueDef.slice("addr:".length)))
+            return makeBytes(encodeAddress(valueDef.slice("addr:".length)), valueDef)
         }
         else if (valueDef.startsWith("b64:")) {
-            return makeBytes(stringToBytes(valueDef.slice("b64:".length), "base64"));
+            return makeBytes(stringToBytes(valueDef.slice("b64:".length), "base64"), valueDef);
         }
         else {
             // Assume string.
-            return makeBytes(Buffer.from(valueDef));
+            return makeBytes(Buffer.from(valueDef), valueDef);
         }
     }
 
     if (valueDef.type === "array") {
-        return makeBytes(new Uint8Array(valueDef.value));
+        return makeBytes(new Uint8Array(valueDef.value), valueDef);
     }
     else if (valueDef.type === "int") {
-        return makeBigInt(BigInt(valueDef.value));
+        return makeBigInt(BigInt(valueDef.value), valueDef);
     }
     else if (valueDef.type === "string") {
-        return makeBytes(new Uint8Array(Buffer.from(valueDef.value)));
+        return makeBytes(new Uint8Array(Buffer.from(valueDef.value)), valueDef);
     }
     else if (valueDef.type === "addr") {
-        return makeBytes(encodeAddress(valueDef.value));
+        return makeBytes(encodeAddress(valueDef.value), valueDef);
     }
     else {
         throw new Error(`Unexpected arg type ${valueDef.type}.`);

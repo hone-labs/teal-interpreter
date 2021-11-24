@@ -1,5 +1,5 @@
 
-import { ITable, ITealInterpreterConfig } from "./config";
+import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
 import { loadValues, loadValueTable, loadValueTableWithArrays } from "./convert";
 import { IBranchTargetMap } from "./parser";
 
@@ -21,25 +21,33 @@ export interface ITypedValue {
     // The value of the value.
     //
     value: ValueType;
+
+    //
+    // Specifies the originally encoded version of this value.
+    // This can be a hint to the debugger on how to display the value.
+    //
+    from?: ValueDef;
 }
 
 //
 // Makes a big int value that can be pushed on the stack or stored in scratch.
 //
-export function makeBigInt(value: bigint): ITypedValue {
+export function makeBigInt(value: bigint, from?: ValueDef): ITypedValue {
     return {
         type: "bigint",
         value: value,
+        from: from,
     };
 }
 
 //
 // Makes a byte[] value that can be pushed on the stack or stored in scratch.
 //
-export function makeBytes(value: Uint8Array): ITypedValue {
+export function makeBytes(value: Uint8Array, from?: ValueDef): ITypedValue {
     return {
         type: "byte[]",
         value: value,
+        from: from,
     };
 }
 
