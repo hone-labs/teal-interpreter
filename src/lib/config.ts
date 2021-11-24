@@ -96,6 +96,11 @@ export interface ITealInterpreterConfig {
     gtxn?: ITable<ValueDef | ValueDef[]>[];
 
     //
+    // Scratch space corresponding to transactions in a group.
+    //
+    txnSideEffects?: ITable<ITable<ValueDef>>;
+
+    //
     // Array of arguments.
     //
     readonly args?: ValueDef[];
