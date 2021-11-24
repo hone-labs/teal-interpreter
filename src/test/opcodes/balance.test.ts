@@ -1,5 +1,5 @@
 import { makeBytes } from "../../lib/context";
-import { addressToBytes } from "../../lib/convert";
+import { encodeAddress } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { Balance } from "../../lib/opcodes/balance";
 
@@ -17,7 +17,7 @@ describe("balance opcode", () => {
                 },
             },            
             stack: [     
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
             ],
         };
         opcode.execute(context);
@@ -36,7 +36,7 @@ describe("balance opcode", () => {
                 // No account.
             },            
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
             ],
         };
         expect(() => opcode.execute(context)).toThrow();
@@ -54,7 +54,7 @@ describe("balance opcode", () => {
                 },
             },
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
             ],
         };
         expect(() => opcode.execute(context)).toThrow();

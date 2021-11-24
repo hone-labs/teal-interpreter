@@ -1,5 +1,5 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
-import { addressToBytes } from "../../lib/convert";
+import { encodeAddress } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { AppOptedIn } from "../../lib/opcodes/app_opted_in";
 
@@ -17,7 +17,7 @@ describe("app_opted_in opcode", () => {
                 },
             },            
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };
@@ -39,7 +39,7 @@ describe("app_opted_in opcode", () => {
                 },
             },            
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };
@@ -59,7 +59,7 @@ describe("app_opted_in opcode", () => {
                 // No account.
             },            
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(2)),
             ],
         };

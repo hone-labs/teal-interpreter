@@ -1,5 +1,5 @@
 import { ITypedValue } from "../lib/context";
-import { loadValue, loadValueTable } from "../lib/convert";
+import { decodeAddress, encodeAddress, loadValue, loadValueTable } from "../lib/convert";
 
 describe("convert", () => {
 
@@ -76,10 +76,11 @@ describe("convert", () => {
 
         expect(converted.type).toEqual("byte[]");
         expect(Array.from(converted.value as Uint8Array)).toEqual([
-            250,  92, 250, 145, 251,  0,  83,  75,
-            119,  25, 237, 138, 135, 53, 111, 180,
-            243, 214,  98, 253,  57, 85, 197, 125,
-             43,  52, 144,   3, 126, 49,  15,  52            
+            55, 74, 79, 80, 86, 69, 80, 51, 65, 66, 74, 85,
+            87, 53, 89, 90, 53, 87, 70, 73, 79, 78, 76, 80,
+            87, 84, 90, 53, 77, 89, 88, 53, 72, 70, 75, 52,
+            75, 55, 74, 76, 71, 83, 73, 65, 71, 55, 82, 82,
+            66, 52, 50, 77, 78, 76, 81, 50, 50, 52
         ]);
     });
 
@@ -111,5 +112,10 @@ describe("convert", () => {
         const value = valueMap.someValue as ITypedValue;
         expect(value.type).toEqual("byte[]");
         expect(Buffer.from(value.value as Uint8Array).toString()).toEqual("hello");
+    });
+
+    it("can encode and decode address", () => {
+            const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
+            expect(decodeAddress(encodeAddress(addr))).toEqual(addr);
     });
 });

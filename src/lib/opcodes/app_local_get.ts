@@ -1,12 +1,12 @@
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
-import { encodeAddress } from "algosdk";
+import { decodeAddress } from "../convert";
 
 export class AppLocalGet extends Opcode {
 
     execute(context: IExecutionContext): void {
         const localName = Buffer.from(this.popBytes(context)).toString();
-        const accountName = encodeAddress(this.popBytes(context));
+        const accountName = decodeAddress(this.popBytes(context));
         const account = context.accounts[accountName];
         const appLocals = account.appLocals["0"]; 
         if (appLocals !== undefined) {

@@ -1,5 +1,5 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
-import { addressToBytes } from "../../lib/convert";
+import { encodeAddress } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { AppLocalPut } from "../../lib/opcodes/app_local_put";
 
@@ -20,7 +20,7 @@ describe("app_local_put opcode", () => {
                 },
             },            
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBytes(new Uint8Array(Buffer.from("aLocal"))),
                 makeBigInt(BigInt(6)),
             ],
@@ -41,7 +41,7 @@ describe("app_local_put opcode", () => {
                 // No account.
             },            
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBytes(new Uint8Array(Buffer.from("aLocal"))),
                 makeBigInt(BigInt(6)),
             ],
@@ -63,7 +63,7 @@ describe("app_local_put opcode", () => {
                 },
             },
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBytes(new Uint8Array(Buffer.from("aLocal"))),
                 makeBigInt(BigInt(6)),
             ],

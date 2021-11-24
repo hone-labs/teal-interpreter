@@ -1,6 +1,6 @@
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
-import { encodeAddress } from "algosdk";
+import { decodeAddress } from "../convert";
 
 export class AssetHoldingGet extends Opcode {
 
@@ -18,7 +18,7 @@ export class AssetHoldingGet extends Opcode {
     execute(context: IExecutionContext): void {
 
         const assetId = Number(this.popInt(context)).toString();
-        const accountName = encodeAddress(this.popBytes(context));
+        const accountName = decodeAddress(this.popBytes(context));
         const account = context.accounts[accountName];
         if (account === undefined) {
             throw new Error(`Account "${accountName}" not found, please add this account to your configuration.`);

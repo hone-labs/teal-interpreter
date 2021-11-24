@@ -1,4 +1,3 @@
-import { decodeAddress } from "algosdk";
 import * as base32 from "hi-base32";
 import { ITable, ValueDef } from "./config";
 import { ITypedValue, makeBigInt, makeBytes } from "./context";
@@ -35,10 +34,17 @@ export function stringToBytes(input: string, encoding?: Encoding): Uint8Array {
 }
 
 //
-// Converts a blockchain address to a byte array.
+// Encodes an address-string to a byte array to be pushed on the compute stack.
 //
-export function addressToBytes(address: string): Uint8Array {
-    return decodeAddress(address).publicKey;
+export function encodeAddress(address: string): Uint8Array {
+    return Buffer.from(address);
+}
+
+//
+// Decodes a byte array popped from the compute stack to a string-string.
+//
+export function decodeAddress(bytes: Uint8Array) {
+    return bytes.toString();
 }
 
 //
@@ -59,7 +65,7 @@ export function loadValue(valueDef: ValueDef): ITypedValue {
             return makeBytes(Buffer.from(valueDef.slice("string:".length)));
         }
         else if (valueDef.startsWith("addr:")) {
-            return makeBytes(decodeAddress(valueDef.slice("addr:".length)).publicKey);
+            return makeBytes(encodeAddress(valueDef.slice("addr:".length)))
         }
         else if (valueDef.startsWith("b64:")) {
             return makeBytes(stringToBytes(valueDef.slice("b64:".length), "base64"));
@@ -80,7 +86,7 @@ export function loadValue(valueDef: ValueDef): ITypedValue {
         return makeBytes(new Uint8Array(Buffer.from(valueDef.value)));
     }
     else if (valueDef.type === "addr") {
-        return makeBytes(decodeAddress(valueDef.value).publicKey);
+        return makeBytes(encodeAddress(valueDef.value));
     }
     else {
         throw new Error(`Unexpected arg type ${valueDef.type}.`);

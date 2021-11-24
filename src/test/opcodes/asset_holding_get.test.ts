@@ -1,5 +1,5 @@
 import { makeBigInt, makeBytes } from "../../lib/context";
-import { addressToBytes } from "../../lib/convert";
+import { encodeAddress } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { AssetHoldingGet } from "../../lib/opcodes/asset_holding_get";
 
@@ -26,7 +26,7 @@ describe("asset_holding_get opcode", () => {
                 },
             },
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
@@ -56,7 +56,7 @@ describe("asset_holding_get opcode", () => {
                 },
             },
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
@@ -82,7 +82,7 @@ describe("asset_holding_get opcode", () => {
                 // No account.
             },
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
@@ -110,7 +110,7 @@ describe("asset_holding_get opcode", () => {
                 },
             },
             stack: [                
-                makeBytes(addressToBytes("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
+                makeBytes(encodeAddress("7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224")),
                 makeBigInt(BigInt(3)),
             ],
         };
