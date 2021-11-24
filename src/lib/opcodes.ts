@@ -85,6 +85,7 @@ import { SetBit } from "./opcodes/setbit";
 import { GetByte } from "./opcodes/getbyte";
 import { SetByte } from "./opcodes/setbyte";
 import { Gload } from "./opcodes/gload";
+import { Gloads } from "./opcodes/gloads";
 
 //
 // The static definiton of an opcode.
@@ -692,6 +693,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 2,
         stack: 0,
         factory: function (token) { return new Gload(token, this) },
+    },
+    "gloads": {
+        version: 4,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Gloads(token, this) },
     },
 
     "sqrt": {
