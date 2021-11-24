@@ -41,11 +41,6 @@ export interface ITealInterpreter {
 export class TealInterpreter implements ITealInterpreter {
 
     //
-    // Index of the instruction we are currently stopped at
-    //
-    private _curInstructionIndex: number = 0;
-
-    //
     // Instructions loaded in the TEAL interpreter.
     //
     private _instructions: IOpcode[] = [];
@@ -55,10 +50,12 @@ export class TealInterpreter implements ITealInterpreter {
     //
     private _context: IExecutionContext = {
         version: 1,
+        curInstructionIndex: 0,
         appGlobals: {},
         assetParams: {},
         accounts: {},
         branchTargets: {},
+        callstack: [],
         stack: [],
         args: [],
         txn: {},
@@ -76,7 +73,7 @@ export class TealInterpreter implements ITealInterpreter {
     // Index of the instruction we are currently stopped at
     //
     get curInstructionIndex(): number {
-        return this._curInstructionIndex;
+        return this.context.curInstructionIndex;
     }
 
     //
@@ -113,7 +110,6 @@ export class TealInterpreter implements ITealInterpreter {
         const parseResult = parse(tealCode);
         this._instructions = parseResult.instructions;
         this._context = loadContext(parseResult.branchTargets, config);
-        this._curInstructionIndex = 0;
     }
 
     //
@@ -134,11 +130,11 @@ export class TealInterpreter implements ITealInterpreter {
         const nextInstructionIndex = instruction.execute(this.context);
         if (nextInstructionIndex !== undefined) {
             // Branch to target instruction.
-            this._curInstructionIndex = nextInstructionIndex;
+            this.context.curInstructionIndex = nextInstructionIndex;
         }
         else {
             // Move to next instruction.
-            this._curInstructionIndex += 1;
+            this.context.curInstructionIndex += 1;
         }
 
         return !this.context.finished;

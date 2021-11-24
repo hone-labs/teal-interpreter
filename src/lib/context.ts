@@ -88,6 +88,11 @@ export interface IAccount {
 export interface IExecutionContext {
 
     //
+    // Index of the instruction to execute next.
+    //
+    curInstructionIndex: number;
+
+    //
     // Application globals that can be referenced from TEAL code.
     //
     appGlobals: ITable<ITable<ITypedValue>>;
@@ -158,6 +163,11 @@ export interface IExecutionContext {
     branchTargets: IBranchTargetMap;
 
     //
+    // Marks the location to return to for each nested function call.
+    //
+    callstack: number[];
+
+    //
     // The compute stack used for execution.
     //
     readonly stack: ITypedValue[];
@@ -189,6 +199,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
 
     const context: IExecutionContext = {
         version: 1,
+        curInstructionIndex: 0,
         appGlobals: loadTable(config?.appGlobals, loadValueTable),
         assetParams: loadTable(config?.assetParams, loadValueTable),
         accounts: 
@@ -203,6 +214,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
             }
         ),
         branchTargets: branchTargets,
+        callstack: [],
         stack: [],
         args: config?.args !== undefined ? loadValues(config.args) : [],
         txn: loadValueTableWithArrays(config?.txn),

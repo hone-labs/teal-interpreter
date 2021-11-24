@@ -88,6 +88,7 @@ import { Gload } from "./opcodes/gload";
 import { Gloads } from "./opcodes/gloads";
 import { Gaid } from "./opcodes/gaid";
 import { Gaids } from "./opcodes/gaids";
+import { Callsub } from "./opcodes/callsub";
 
 //
 // The static definiton of an opcode.
@@ -713,6 +714,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 1,
         factory: function (token) { return new Gaids(token, this) },
+    },    
+    "callsub": {
+        version: 4,
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Callsub(token, this) },
     },    
 
     "sqrt": {
