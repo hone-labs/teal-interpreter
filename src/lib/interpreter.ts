@@ -63,7 +63,7 @@ export class TealInterpreter implements ITealInterpreter {
         stack: [],
         args: [],
         txn: {},
-        txns: [],
+        gtxn: [],
         globals: {},
         scratch: [],
         intcblock: [],

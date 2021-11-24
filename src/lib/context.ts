@@ -127,7 +127,7 @@ export interface IExecutionContext {
     //
     // The current transaction group.
     //
-    txns: ITable<ITypedValue | ITypedValue[]>[];
+    gtxn: ITable<ITypedValue | ITypedValue[]>[];
     
     //
     // The version of the TEAL executed.
@@ -188,7 +188,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
         stack: [],
         args: config?.args !== undefined ? loadValues(config.args) : [],
         txn: config?.txn ? loadValueTableWithArrays(config.txn) : {},
-        txns: config?.txns ? config.txns.map(loadValueTableWithArrays) : [],
+        gtxn: config?.gtxn ? config.gtxn.map(loadValueTableWithArrays) : [],
         globals: config?.globals ? loadValueTable(config.globals) : {},
         scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
         intcblock: [],

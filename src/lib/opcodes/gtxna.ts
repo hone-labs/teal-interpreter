@@ -32,11 +32,11 @@ export class Gtxna extends Opcode {
             throw new Error(`Transaction index should >= 0, instead found ${this.txnIndex}`);
         }
 
-        if (this.txnIndex >= context.txns.length) {
-            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.txns.length} transactions provided in your configuration. Please add "txns" array to your configuration containing at least ${this.txnIndex+1} transactions.`);
+        if (this.txnIndex >= context.gtxn.length) {
+            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.gtxn.length} transactions provided in your configuration. Please add "txns" array to your configuration containing at least ${this.txnIndex+1} transactions.`);
         }
 
-        const txn = context.txns[this.txnIndex];        
+        const txn = context.gtxn[this.txnIndex];        
         const array = txn[this.fieldName];
         if (array === undefined) {
             throw new Error(`Field "${this.fieldName}" has not been supplied with transaction ${this.txnIndex}, please adjust your configuration to include this field.`)

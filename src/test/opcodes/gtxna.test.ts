@@ -17,7 +17,7 @@ describe("txna opcode", () => {
 
         const context: any = {
             stack: [],
-            txns: [
+            gtxn: [
                 {
                     Field: [
                         makeBigInt(BigInt(42))
@@ -46,7 +46,7 @@ describe("txna opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            txns: [
+            gtxn: [
                 // No transactions.
             ],
         };
@@ -67,7 +67,7 @@ describe("txna opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            txns: [
+            gtxn: [
                 {
                     // No fields.
                 },
@@ -90,7 +90,7 @@ describe("txna opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            txns: [
+            gtxn: [
                 {
                     Field: makeBigInt(BigInt(5)), // Not an array.
                 },
@@ -113,7 +113,7 @@ describe("txna opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            txns: [
+            gtxn: [
                 {
                     Field: [
                         // No elements.

@@ -18,7 +18,7 @@ describe("gtxn opcode", () => {
 
         const context: any = {
             stack: [],
-            txns: [
+            gtxn: [
                 {
                     Fee: makeBigInt(BigInt(42)),
                 },
@@ -55,7 +55,7 @@ describe("gtxn opcode", () => {
 
         const context: any = {
             stack : [],
-            txns: [
+            gtxn: [
                 // No transactions.
             ],
         };

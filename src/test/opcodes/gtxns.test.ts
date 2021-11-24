@@ -18,7 +18,7 @@ describe("gtxns opcode", () => {
             stack: [
                 makeBigInt(BigInt(0)),
             ],
-            txns: [
+            gtxn: [
                 {
                     Fee: makeBigInt(BigInt(42)),
                 },
@@ -45,7 +45,7 @@ describe("gtxns opcode", () => {
             stack: [
                 makeBigInt(BigInt(0)),
             ],
-            txns: [
+            gtxn: [
                 // No txns.
             ],
         };     
@@ -66,7 +66,7 @@ describe("gtxns opcode", () => {
             stack: [
                 makeBigInt(BigInt(0)),
             ],
-            txns: [
+            gtxn: [
                 {
                     // No fields.
                 },

@@ -33,14 +33,14 @@ export class Gtxnsa extends Opcode {
             throw new Error(`Transaction index should >= 0, instead found ${this.txnIndex}`);
         }
 
-        if (this.txnIndex >= context.txns.length) {
-            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.txns.length} transactions provided in your configuration. Please add "txns" array to your configuration containing at least ${this.txnIndex+1} transactions.`);
+        if (this.txnIndex >= context.gtxn.length) {
+            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.gtxn.length} transactions provided in your configuration. Please add "txns" array to your configuration containing at least ${this.txnIndex+1} transactions.`);
         }
     }
     
     execute(context: IExecutionContext): void {
         
-        const txn = context.txns[this.txnIndex];        
+        const txn = context.gtxn[this.txnIndex];        
         const value = txn[this.fieldName];
         if (value === undefined) {
             throw new Error(`Field "${this.fieldName}" not found in with transaction ${this.txnIndex}, please add field "txns.${this.txnIndex}.${this.fieldName}" to your configuration to include this field.`)

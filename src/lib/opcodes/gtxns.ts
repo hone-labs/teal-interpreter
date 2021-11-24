@@ -27,14 +27,14 @@ export class Gtxns extends Opcode {
             throw new Error(`Transaction index for ${this.opcodeDef} is ${this.txnIndex}, it should be zero or greater.`);
         }
 
-        if (this.txnIndex >= context.txns.length) {
+        if (this.txnIndex >= context.gtxn.length) {
             throw new Error(`Transaction index ${this.txnIndex} is outside of the bounds of transactions. Please add at least ${this.txnIndex+1} transactions under the "txns" array in your configuration.`);
         }
     }
     
     execute(context: IExecutionContext): void {
 
-        const txn = context.txns[this.txnIndex];
+        const txn = context.gtxn[this.txnIndex];
         const value = txn[this.fieldName];
         if (value === undefined) {
             throw new Error(`Field "${this.fieldName}" not found in transaction ${this.txnIndex}, please add field "txns.${this.txnIndex}.${this.fieldName}" to your configuration to include this field.`)

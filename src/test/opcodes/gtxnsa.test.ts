@@ -19,7 +19,7 @@ describe("gtxnsa opcode", () => {
             stack: [
                 makeBigInt(BigInt(0))
             ],
-            txns: [
+            gtxn: [
                 {
                     Something: [ makeBigInt(BigInt(42)) ],
                 },
@@ -44,7 +44,7 @@ describe("gtxnsa opcode", () => {
     //     opcode.validateOperand();
 
     //     const context: any = {
-    //         txns: [
+    //         gtxn: [
     //             // No transactions.
     //         ],
     //     };
@@ -64,7 +64,7 @@ describe("gtxnsa opcode", () => {
     //     opcode.validateOperand();
 
     //     const context: any = {
-    //         txns: [
+    //         gtxn: [
     //             {
     //                 // No fields.
     //             },
