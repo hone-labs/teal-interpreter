@@ -97,6 +97,7 @@ import { Expw } from "./opcodes/expw";
 import { Loads } from "./opcodes/loads";
 import { Stores } from "./opcodes/stores";
 import { AppParamsGet } from "./opcodes/app_params_get";
+import { Gtxnas } from "./opcodes/gtxnas";
 
 //
 // The static definiton of an opcode.
@@ -794,7 +795,11 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 1,
         factory: function (token) { return new AppParamsGet(token, this) },
     },    
-
-    
+    "gtxnas":  {
+        version: 5,
+        operands: 2,
+        stack: 1,
+        factory: function (token) { return new Gtxnas(token, this) },
+    },        
 
 };
