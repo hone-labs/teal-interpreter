@@ -53,6 +53,7 @@ export class TealInterpreter implements ITealInterpreter {
         curInstructionIndex: 0,
         appGlobals: {},
         assetParams: {},
+        appParams: {},
         accounts: {},
         branchTargets: {},
         callstack: [],

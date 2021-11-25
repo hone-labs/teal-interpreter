@@ -11,7 +11,7 @@ export class Args extends Opcode {
     validateContext(context: IExecutionContext) {
         super.validateContext(context);
 
-        this.argIndex = Number(this.popInt(context)));
+        this.argIndex = Number(this.popInt(context));
     }
     
     execute(context: IExecutionContext): void {
