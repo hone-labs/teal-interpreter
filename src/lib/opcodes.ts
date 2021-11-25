@@ -98,6 +98,7 @@ import { Loads } from "./opcodes/loads";
 import { Stores } from "./opcodes/stores";
 import { AppParamsGet } from "./opcodes/app_params_get";
 import { Gtxnas } from "./opcodes/gtxnas";
+import { Gtxsnas } from "./opcodes/gtxsnas";
 
 //
 // The static definiton of an opcode.
@@ -800,6 +801,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 2,
         stack: 1,
         factory: function (token) { return new Gtxnas(token, this) },
-    },        
+    },    
+    "gtxsnas":  {
+        version: 5,
+        operands: 1,
+        stack: 2,
+        factory: function (token) { return new Gtxsnas(token, this) },
+    },    
 
 };
