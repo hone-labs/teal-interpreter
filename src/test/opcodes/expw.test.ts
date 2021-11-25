@@ -1,8 +1,8 @@
 import { makeBigInt } from "../../lib/context";
 import { opcodeDefs } from "../../lib/opcodes";
-import { Exp } from "../../lib/opcodes/exp";
+import { Expw } from "../../lib/opcodes/expw";
 
-describe("exp opcode", () => {
+describe("expw opcode", () => {
 
     it ("can execute", () => {
 
@@ -13,12 +13,12 @@ describe("exp opcode", () => {
                 makeBigInt(BigInt(2)),
             ],
         };
-        const opcode = new Exp(token, opcodeDefs.exp);
+        const opcode = new Expw(token, opcodeDefs.expw);
         opcode.validateContext(context);
         opcode.execute(context);
 
-        expect(context.stack.length).toEqual(1);
-        expect(context.stack[0].type === "bigint");
-        expect(Number(context.stack[0].value)).toEqual(16);
+        expect(context.stack.length).toEqual(2);
+        expect(Number(context.stack[0].value)).toEqual(0);
+        expect(Number(context.stack[1].value)).toEqual(16);
     });
 });

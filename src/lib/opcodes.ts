@@ -93,6 +93,7 @@ import { Retsub } from "./opcodes/retsub";
 import { Shl } from "./opcodes/Shl";
 import { Shr } from "./opcodes/shr";
 import { Exp } from "./opcodes/exp";
+import { Expw } from "./opcodes/expw";
 
 //
 // The static definiton of an opcode.
@@ -743,14 +744,6 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         factory: function (token) { return new Shr(token, this) },
     },   
-    "exp": {
-        version: 4,
-        operands: 0,
-        stack: 2,
-        factory: function (token) { return new Exp(token, this) },
-    },    
-    
-
     "sqrt": {
         version: 4,
         cost: 4,
@@ -758,6 +751,19 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 1,
         factory: function (token) { return new Sqrt(token, this) },
     },
+    "exp": {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Exp(token, this) },
+    },    
+    "expw": {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Expw(token, this) },
+    },      
+    
 
     // TEAL 5
     "ecdsa_verify":  {
