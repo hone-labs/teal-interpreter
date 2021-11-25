@@ -95,6 +95,7 @@ import { Shr } from "./opcodes/shr";
 import { Exp } from "./opcodes/exp";
 import { Expw } from "./opcodes/expw";
 import { Loads } from "./opcodes/loads";
+import { Stores } from "./opcodes/stores";
 
 //
 // The static definiton of an opcode.
@@ -780,5 +781,11 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 1,
         factory: function (token) { return new Loads(token, this) },
     },
+    "stores":  {
+        version: 5,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Stores(token, this) },
+    },    
 
 };
