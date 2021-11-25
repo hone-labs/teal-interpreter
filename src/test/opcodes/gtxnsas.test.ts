@@ -1,8 +1,8 @@
 import { makeBigInt } from "../../lib/context";
 import { opcodeDefs } from "../../lib/opcodes";
-import { Gtxsnas } from "../../lib/opcodes/gtxsnas";
+import { Gtxnsas } from "../../lib/opcodes/gtxnsas";
 
-describe("gtxsnas opcode", () => {
+describe("gtxnsas opcode", () => {
 
     it ("can execute", () => {
 
@@ -11,7 +11,7 @@ describe("gtxsnas opcode", () => {
                 "Something",
             ],
         };
-        const opcode = new Gtxsnas(token, opcodeDefs.gtxsnas);
+        const opcode = new Gtxnsas(token, opcodeDefs.gtxnsas);
         opcode.validateOperand();
 
         const context: any = {
@@ -39,7 +39,7 @@ describe("gtxsnas opcode", () => {
                 "xxx",
             ],
         };
-        const opcode = new Gtxsnas(token, opcodeDefs.gtxsnas);
+        const opcode = new Gtxnsas(token, opcodeDefs.gtxnsas);
         opcode.validateOperand();
 
         const context: any = {
@@ -58,7 +58,7 @@ describe("gtxsnas opcode", () => {
                 "xxx",
             ],
         };
-        const opcode = new Gtxsnas(token, opcodeDefs.gtxsnas);
+        const opcode = new Gtxnsas(token, opcodeDefs.gtxnsas);
         opcode.validateOperand();
 
         const context: any = {

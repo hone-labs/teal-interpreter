@@ -1,7 +1,7 @@
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
-export class Gtxsnas extends Opcode {
+export class Gtxnsas extends Opcode {
 
     //
     // The index of the transaction to get the field of.

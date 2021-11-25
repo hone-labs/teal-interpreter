@@ -98,7 +98,7 @@ import { Loads } from "./opcodes/loads";
 import { Stores } from "./opcodes/stores";
 import { AppParamsGet } from "./opcodes/app_params_get";
 import { Gtxnas } from "./opcodes/gtxnas";
-import { Gtxsnas } from "./opcodes/gtxsnas";
+import { Gtxnsas } from "./opcodes/gtxnsas";
 import { Args } from "./opcodes/args";
 import { Txnas } from "./opcodes/txnas";
 
@@ -810,11 +810,11 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 1,
         factory: function (token) { return new Gtxnas(token, this) },
     },    
-    "gtxsnas":  {
+    "gtxnsas":  {
         version: 5,
         operands: 1,
         stack: 2,
-        factory: function (token) { return new Gtxsnas(token, this) },
+        factory: function (token) { return new Gtxnsas(token, this) },
     },    
     "args": {
         version: 5,
