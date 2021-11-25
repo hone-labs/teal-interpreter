@@ -100,6 +100,7 @@ import { AppParamsGet } from "./opcodes/app_params_get";
 import { Gtxnas } from "./opcodes/gtxnas";
 import { Gtxsnas } from "./opcodes/gtxsnas";
 import { Args } from "./opcodes/args";
+import { Txnas } from "./opcodes/txnas";
 
 //
 // The static definiton of an opcode.
@@ -796,6 +797,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 1,
         factory: function (token) { return new AppParamsGet(token, this) },
+    },        
+    "txnas":  {
+        version: 5,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Txnas(token, this) },
     },    
     "gtxnas":  {
         version: 5,
