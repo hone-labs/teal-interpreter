@@ -94,6 +94,7 @@ import { Shl } from "./opcodes/Shl";
 import { Shr } from "./opcodes/shr";
 import { Exp } from "./opcodes/exp";
 import { Expw } from "./opcodes/expw";
+import { Loads } from "./opcodes/loads";
 
 //
 // The static definiton of an opcode.
@@ -764,7 +765,7 @@ export const opcodeDefs: IOpcodeMap = {
         factory: function (token) { return new Expw(token, this) },
     },      
     
-
+    
     // TEAL 5
     "ecdsa_verify":  {
         version: 5,
@@ -773,4 +774,11 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 5,
         factory: function (token) { return new Ecdsa_verify(token, this) },
     },
+    "loads":  {
+        version: 5,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Loads(token, this) },
+    },
+
 };
