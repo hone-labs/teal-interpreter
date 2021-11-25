@@ -92,6 +92,7 @@ import { Callsub } from "./opcodes/callsub";
 import { Retsub } from "./opcodes/retsub";
 import { Shl } from "./opcodes/Shl";
 import { Shr } from "./opcodes/shr";
+import { Exp } from "./opcodes/exp";
 
 //
 // The static definiton of an opcode.
@@ -742,6 +743,12 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         factory: function (token) { return new Shr(token, this) },
     },   
+    "exp": {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Exp(token, this) },
+    },    
     
 
     "sqrt": {
