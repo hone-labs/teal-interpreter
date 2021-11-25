@@ -76,6 +76,11 @@ export interface ITealInterpreterConfig {
     assetParams?: ITable<ITable<ValueDef>>;
 
     //
+    // App params that can be accessed from TEAL code.
+    //
+    appParams?: ITable<ITable<ValueDef>>;
+
+    //
     // Accounts that can be accessed from TEAL code.
     //
     accounts?: ITable<IAccountDef>;

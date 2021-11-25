@@ -96,6 +96,7 @@ import { Exp } from "./opcodes/exp";
 import { Expw } from "./opcodes/expw";
 import { Loads } from "./opcodes/loads";
 import { Stores } from "./opcodes/stores";
+import { AppParamsGet } from "./opcodes/app_params_get";
 
 //
 // The static definiton of an opcode.
@@ -787,5 +788,13 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         factory: function (token) { return new Stores(token, this) },
     },    
+    "app_params_get":  {
+        version: 5,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new AppParamsGet(token, this) },
+    },    
+
+    
 
 };

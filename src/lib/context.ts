@@ -103,6 +103,11 @@ export interface IExecutionContext {
     assetParams: ITable<ITable<ITypedValue>>;
 
     //
+    // App params tath can be accessed from TEAL code.
+    //
+    appParams: ITable<ITable<ITypedValue>>;
+
+    //
     // Accounts that can be used from TEAL code.
     //
     accounts: ITable<IAccount>;
@@ -202,6 +207,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
         curInstructionIndex: 0,
         appGlobals: loadTable(config?.appGlobals, loadValueTable),
         assetParams: loadTable(config?.assetParams, loadValueTable),
+        appParams: loadTable(config?.appParams, loadValueTable),
         accounts: 
             loadTable(config?.accounts, accountDef => {
                 return {
