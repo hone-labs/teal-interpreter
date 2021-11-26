@@ -224,7 +224,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
                     balance: accountDef.balance || 0,
                     minBalance: accountDef.minBalance || 0,
                     appLocals: loadTable(accountDef.appLocals, loadValueTable),
-                    appsOptedIn: new Set<string>(accountDef.appsOptedIn.map(appId => appId.toString())),
+                    appsOptedIn: new Set<string>(accountDef.appsOptedIn ? accountDef.appsOptedIn.map(appId => appId.toString()) : []),
                     assetHoldings: loadTable(accountDef.assetHoldings, loadValueTable),
                 };
             }
