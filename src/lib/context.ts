@@ -148,6 +148,11 @@ export interface IExecutionContext {
     gtxn: ITable<ITypedValue | ITypedValue[]>[];
 
     //
+    // The current inner transaction.
+    //
+    itxn: ITable<ITypedValue>;
+
+    //
     // Scratch space corresponding to transactions in a group.
     //
     txnSideEffects: ITable<ITable<ITypedValue>>;
@@ -225,6 +230,7 @@ export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInter
         args: config?.args !== undefined ? loadValues(config.args) : [],
         txn: loadValueTableWithArrays(config?.txn),
         gtxn: config?.gtxn ? config.gtxn.map(loadValueTableWithArrays) : [],
+        itxn: {},
         txnSideEffects: loadTable(config?.txnSideEffects, loadValueTable),
         gaid: loadValueTable(config?.gaid),
         globals: loadValueTable(config?.globals),
