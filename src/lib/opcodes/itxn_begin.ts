@@ -4,8 +4,6 @@ import { IExecutionContext } from "../context";
 export class ItxnBegin extends Opcode {
    
     execute(context: IExecutionContext): void {
-        //
-        // Just a noop.
-        //
+        context.itxn = {};
     }
 }

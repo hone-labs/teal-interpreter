@@ -25,4 +25,22 @@ describe("itxn_field opcode", () => {
         expect(Number(context.itxn.Something.value)).toEqual(42);
     });
 
+    it("throws when inner transaction not started", () => {
+
+        const token: any = {
+            operands: [
+                "Something"
+            ],
+        };
+        const opcode = new ItxnField(token, opcodeDefs.itxn_field);
+        opcode.validateOperand();
+
+        const context: any = {
+            stack: [
+                makeBigInt(BigInt(42)),
+            ],
+        };
+        expect(() => opcode.execute(context)).toThrow();
+    });
+
 });

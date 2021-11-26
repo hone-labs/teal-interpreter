@@ -17,6 +17,12 @@ export class ItxnField extends Opcode {
     execute(context: IExecutionContext): void {
 
         const value = context.stack.pop()!;
+
+        if (context.itxn === undefined) {
+            throw new Error(`Inner transaction not started with "itxn_begin".`);
+        
+        }
+
         context.itxn[this.fieldName] = value;
     }
 }

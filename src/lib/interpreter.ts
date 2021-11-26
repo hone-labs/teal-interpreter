@@ -61,7 +61,6 @@ export class TealInterpreter implements ITealInterpreter {
         args: [],
         txn: {},
         gtxn: [],
-        itxn: {},
         txnSideEffects: {},
         gaid: {},
         globals: {},
