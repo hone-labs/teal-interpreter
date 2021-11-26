@@ -101,6 +101,7 @@ import { Gtxnas } from "./opcodes/gtxnas";
 import { Gtxnsas } from "./opcodes/gtxnsas";
 import { Args } from "./opcodes/args";
 import { Txnas } from "./opcodes/txnas";
+import { ItxnBegin } from "./opcodes/itxn_begin";
 
 //
 // The static definiton of an opcode.
@@ -797,6 +798,13 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 1,
         factory: function (token) { return new AppParamsGet(token, this) },
+    },        
+
+    "itxn_begin":  {
+        version: 5,
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new ItxnBegin(token, this) },
     },        
     "txnas":  {
         version: 5,
