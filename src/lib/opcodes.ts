@@ -104,6 +104,7 @@ import { Txnas } from "./opcodes/txnas";
 import { ItxnBegin } from "./opcodes/itxn_begin";
 import { ItxnField } from "./opcodes/itxn_field";
 import { ItxnSubmit } from "./opcodes/itxn_submit";
+import { Itxn } from "./opcodes/itxn";
 
 //
 // The static definiton of an opcode.
@@ -820,6 +821,12 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 0,
         factory: function (token) { return new ItxnSubmit(token, this) },
     },
+    "itxn":  {
+        version: 5,
+        operands: 1,
+        stack: 0,
+        factory: function (token) { return new Itxn(token, this) },
+    },    
 
     "txnas":  {
         version: 5,
