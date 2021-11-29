@@ -193,9 +193,19 @@ export interface IExecutionContext {
     readonly args: ITypedValue[];
 
     //
-    // Request an account from the configuration.
+    // Request an account from the configuration returning undefined if the account is not found.
     //
-    requestAccount(accountName: string): IAccount;
+    requestAccount(accountName: string): Promise<IAccount | undefined>;
+
+    //
+    // Event raised when an account is not found, allowing the account to be generated on demand.
+    //
+    onAccountNotFound?: (accoutName: string) => Promise<void>;
+
+    //
+    // Require an account and throw if it doesn't exist.
+    //
+    requireAccount(accoutnName: string, forOpcode: string): Promise<IAccount>;
 }
 
 export class ExecutionContext implements IExecutionContext {
@@ -336,10 +346,38 @@ export class ExecutionContext implements IExecutionContext {
     }
 
     //
-    // Request an account from the configuration.
+    // Request an account from the configuration returning undefined if the account is not found.
     //
-    requestAccount(accountName: string): IAccount {
-        return this.accounts[accountName];
+    async requestAccount(accountName: string): Promise<IAccount | undefined> {
+        let account = this.accounts[accountName];
+        if (!account) {
+            if (this.onAccountNotFound) {
+                // Allows the requested account to be automatically generated.
+                await this.onAccountNotFound(accountName);
+
+                // Try and get the account again.
+                account = this.accounts[accountName];
+            }
+        }
+
+        return account;
+    }
+
+    //
+    // Event raised when an account is not found, allowing the account to be generated on demand.
+    //
+    onAccountNotFound?: (accoutName: string) => Promise<void>;
+
+    //
+    // Require an account and throw if it doesn't exist.
+    //
+    async requireAccount(accountName: string, forOpcode: string): Promise<IAccount> {
+        const account = await this.requestAccount(accountName);
+        if (!account) {
+            throw new Error(`Account "${accountName}" not found, required by opcode "${forOpcode}", please add this account to your configuration.`);
+        }
+
+        return account;
     }
 }
 
