@@ -1,5 +1,5 @@
 import { ITealInterpreterConfig } from "./config";
-import { IExecutionContext, loadContext } from "./context";
+import { IExecutionContext, ExecutionContext } from "./context";
 import { IOpcode } from "./opcode";
 import { parse } from "./parser";
 
@@ -48,27 +48,7 @@ export class TealInterpreter implements ITealInterpreter {
     //
     // The context for execution of TEAL code.
     //
-    private _context: IExecutionContext = {
-        version: 1,
-        curInstructionIndex: 0,
-        appGlobals: {},
-        assetParams: {},
-        appParams: {},
-        accounts: {},
-        branchTargets: {},
-        callstack: [],
-        stack: [],
-        args: [],
-        txn: {},
-        gtxn: [],
-        txnSideEffects: {},
-        gaid: {},
-        globals: {},
-        scratch: [],
-        intcblock: [],
-        bytecblock: [],
-        finished: false,
-    };
+    private _context: IExecutionContext = new ExecutionContext({}, {});
 
     //
     // Index of the instruction we are currently stopped at
@@ -110,7 +90,7 @@ export class TealInterpreter implements ITealInterpreter {
     load(tealCode: string, config?: ITealInterpreterConfig): void {
         const parseResult = parse(tealCode);
         this._instructions = parseResult.instructions;
-        this._context = loadContext(parseResult.branchTargets, config);
+        this._context = new ExecutionContext(parseResult.branchTargets, config);
     }
 
     //

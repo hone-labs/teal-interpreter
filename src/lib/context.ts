@@ -191,6 +191,156 @@ export interface IExecutionContext {
     // Array of arguments.
     //
     readonly args: ITypedValue[];
+
+    //
+    // Request an account from the configuration.
+    //
+    requestAccount(accountName: string): IAccount;
+}
+
+export class ExecutionContext implements IExecutionContext {
+
+    //
+    // Index of the instruction to execute next.
+    //
+    curInstructionIndex: number;
+
+    //
+    // Application globals that can be referenced from TEAL code.
+    //
+    appGlobals: ITable<ITable<ITypedValue>>;
+
+    //
+    // Asset params that can be accessed from TEAL code.
+    //
+    assetParams: ITable<ITable<ITypedValue>>;
+
+    //
+    // App params tath can be accessed from TEAL code.
+    //
+    appParams: ITable<ITable<ITypedValue>>;
+
+    //
+    // Accounts that can be used from TEAL code.
+    //
+    accounts: ITable<IAccount>;
+
+    //
+    // Set to true to request that execution finish.
+    //
+    finished: boolean;
+
+    //
+    // Int constants block.
+    //
+    intcblock: bigint[];
+
+    //
+    // Byte constants block.
+    //
+    bytecblock: Uint8Array[];
+    
+    //
+    // Scratch space.
+    //
+    scratch: ITypedValue[];
+
+    //
+    // Global values.
+    //
+    globals: ITable<ITypedValue>;
+    
+    //
+    // The current transaction.
+    //
+    txn: ITable<ITypedValue | ITypedValue[]>;
+
+    //
+    // The current transaction group.
+    //
+    gtxn: ITable<ITypedValue | ITypedValue[]>[];
+
+    //
+    // The current inner transaction.
+    //
+    itxn?: ITable<ITypedValue | ITypedValue[]>;
+
+    //
+    // The previously submitted inner transaciotn.
+    //
+    lastItxn?: ITable<ITypedValue | ITypedValue[]>;
+
+    //
+    // Scratch space corresponding to transactions in a group.
+    //
+    txnSideEffects: ITable<ITable<ITypedValue>>;
+
+    //
+    // Results (by transaction index) of opcodes `gaid` and `gaids`.
+    //
+    gaid: ITable<ITypedValue>;
+    
+    //
+    // The version of the TEAL executed.
+    //
+    version: number;
+
+    //
+    // Converts a branch target to an instruction index.
+    //
+    branchTargets: IBranchTargetMap;
+
+    //
+    // Marks the location to return to for each nested function call.
+    //
+    callstack: number[];
+
+    //
+    // The compute stack used for execution.
+    //
+    readonly stack: ITypedValue[];
+
+    //
+    // Array of arguments.
+    //
+    readonly args: ITypedValue[];
+
+    constructor(branchTargets: IBranchTargetMap, config?: ITealInterpreterConfig) {
+        this.version = 1;
+        this.curInstructionIndex = 0;
+        this.appGlobals = loadTable(config?.appGlobals, loadValueTable);
+        this.assetParams = loadTable(config?.assetParams, loadValueTable);
+        this.appParams = loadTable(config?.appParams, loadValueTable);
+        this.accounts = loadTable(config?.accounts, accountDef => {
+            return {
+                balance: accountDef.balance || 0,
+                minBalance: accountDef.minBalance || 0,
+                appLocals: loadTable(accountDef.appLocals, loadValueTable),
+                appsOptedIn: new Set<string>(accountDef.appsOptedIn ? accountDef.appsOptedIn.map(appId => appId.toString()) : []),
+                assetHoldings: loadTable(accountDef.assetHoldings, loadValueTable),
+            };
+        });
+        this.branchTargets = branchTargets;
+        this.callstack = [];
+        this.stack = [];
+        this.args = config?.args !== undefined ? loadValues(config.args) : [];
+        this.txn = loadValueTableWithArrays(config?.txn);
+        this.gtxn = config?.gtxn ? config.gtxn.map(loadValueTableWithArrays) : [];
+        this.txnSideEffects = loadTable(config?.txnSideEffects, loadValueTable);
+        this.gaid = loadValueTable(config?.gaid);
+        this.globals = loadValueTable(config?.globals);
+        this.scratch = new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0)));
+        this.intcblock = [];
+        this.bytecblock = [];
+        this.finished = false;
+    }
+
+    //
+    // Request an account from the configuration.
+    //
+    requestAccount(accountName: string): IAccount {
+        return this.accounts[accountName];
+    }
 }
 
 //
@@ -207,41 +357,3 @@ function loadTable<FromT, ToT>(obj: ITable<FromT> | undefined, loader: (config: 
     return loaded;
 }
 
-//
-// Load an execution context from a configuration.
-//
-export function loadContext(branchTargets: IBranchTargetMap, config?: ITealInterpreterConfig): IExecutionContext {
-
-    const context: IExecutionContext = {
-        version: 1,
-        curInstructionIndex: 0,
-        appGlobals: loadTable(config?.appGlobals, loadValueTable),
-        assetParams: loadTable(config?.assetParams, loadValueTable),
-        appParams: loadTable(config?.appParams, loadValueTable),
-        accounts: 
-            loadTable(config?.accounts, accountDef => {
-                return {
-                    balance: accountDef.balance || 0,
-                    minBalance: accountDef.minBalance || 0,
-                    appLocals: loadTable(accountDef.appLocals, loadValueTable),
-                    appsOptedIn: new Set<string>(accountDef.appsOptedIn ? accountDef.appsOptedIn.map(appId => appId.toString()) : []),
-                    assetHoldings: loadTable(accountDef.assetHoldings, loadValueTable),
-                };
-            }
-        ),
-        branchTargets: branchTargets,
-        callstack: [],
-        stack: [],
-        args: config?.args !== undefined ? loadValues(config.args) : [],
-        txn: loadValueTableWithArrays(config?.txn),
-        gtxn: config?.gtxn ? config.gtxn.map(loadValueTableWithArrays) : [],
-        txnSideEffects: loadTable(config?.txnSideEffects, loadValueTable),
-        gaid: loadValueTable(config?.gaid),
-        globals: loadValueTable(config?.globals),
-        scratch: new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0))),
-        intcblock: [],
-        bytecblock: [],
-        finished: false,
-    };
-    return context;
-}
