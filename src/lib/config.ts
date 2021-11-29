@@ -47,17 +47,17 @@ export interface IAccountDef {
     //
     // A table of locals by application.
     //
-    appLocals: ITable<ITable<IValueDef>>;
+    appLocals?: ITable<ITable<ValueDef>>;
 
     //
     // List of applications (IDs) this account has opted into.
     //
-    appsOptedIn: (number | string)[];
+    appsOptedIn?: (number | string)[];
 
     //
     // Asset holdings for this account.
     //
-    assetHoldings: ITable<ITable<IValueDef>>;
+    assetHoldings?: ITable<ITable<ValueDef>>;
 }
 
 //
