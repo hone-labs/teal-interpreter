@@ -206,6 +206,11 @@ export interface IExecutionContext {
     // Require an account and throw if it doesn't exist.
     //
     requireAccount(accoutnName: string, forOpcode: string): Promise<IAccount>;
+
+    //
+    // Converts the context back to a configuration.
+    //
+    toConfiguration(): ITealInterpreterConfig;
 }
 
 export class ExecutionContext implements IExecutionContext {
@@ -378,6 +383,15 @@ export class ExecutionContext implements IExecutionContext {
         }
 
         return account;
+    }
+
+    //
+    // Converts the context back to a configuration.
+    //
+    toConfiguration(): ITealInterpreterConfig {
+        return {
+            //todo:
+        };
     }
 }
 

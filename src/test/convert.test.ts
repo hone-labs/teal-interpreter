@@ -115,7 +115,7 @@ describe("convert", () => {
     });
 
     it("can encode and decode address", () => {
-            const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
-            expect(decodeAddress(encodeAddress(addr))).toEqual(addr);
+        const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
+        expect(decodeAddress(encodeAddress(addr))).toEqual(addr);
     });
 });
