@@ -1,5 +1,5 @@
 import { ITypedValue } from "../lib/context";
-import { decodeAddress, encodeAddress, loadValue, loadValueTable } from "../lib/convert";
+import { decodeAddress, encodeAddress, loadValue, loadValueTable, serializeValue, serializeValueTable } from "../lib/convert";
 
 describe("convert", () => {
 
@@ -117,5 +117,28 @@ describe("convert", () => {
     it("can encode and decode address", () => {
         const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
         expect(decodeAddress(encodeAddress(addr))).toEqual(addr);
+    });
+
+    it("can serialize a bigint value", () => {
+
+        const serialized = serializeValue({ type: "bigint", value: BigInt(3) });
+        expect(serialized).toEqual(3);
+    });
+
+    it("can serialize a byte[] value", () => {
+
+        const serialized = serializeValue({ type: "byte[]", value: Buffer.from("Hello") });
+        expect(serialized).toEqual("Hello");
+    });
+
+    it("can serialize value table", () => {
+
+        const serialized = serializeValueTable({
+            aValue: {
+                type: "bigint",
+                value: BigInt(2),
+            },
+        });
+        expect(serialized.aValue).toEqual(2);
     });
 });

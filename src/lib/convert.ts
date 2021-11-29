@@ -94,6 +94,18 @@ export function loadValue(valueDef: ValueDef): ITypedValue {
 }
 
 //
+// Serialize a typed value.
+//
+export function serializeValue(value: ITypedValue): any {
+    if (value.type === "bigint") {
+        return Number(value.value);
+    }
+    else {
+        return Buffer.from(value.value as Uint8Array).toString();
+    }
+}
+
+//
 // Load an array of values.
 //
 export function loadValues(values: ValueDef[]): ITypedValue[] {
@@ -110,6 +122,18 @@ export function loadValueTable(valueDefTable?: ITable<ValueDef>): ITable<ITypedV
             valueMap[key] = loadValue(valueDefTable[key]);
         }    
     }
+
+    return valueMap;
+}
+
+//
+// Serializes a table of values.
+//
+export function serializeValueTable(valueTable: ITable<ITypedValue>): ITable<ValueDef> {
+    const valueMap: ITable<ValueDef> = {};
+    for (const key of Object.keys(valueTable)) {
+        valueMap[key] = serializeValue(valueTable[key]);
+    }    
 
     return valueMap;
 }

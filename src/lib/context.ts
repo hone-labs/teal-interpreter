@@ -1,6 +1,6 @@
 
-import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
-import { loadValues, loadValueTable, loadValueTableWithArrays } from "./convert";
+import { IAccountDef, ITable, ITealInterpreterConfig, ValueDef } from "./config";
+import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValueTable } from "./convert";
 import { IBranchTargetMap } from "./parser";
 
 //
@@ -80,6 +80,63 @@ export interface IAccount {
     // Asset holdings for this account.
     //
     assetHoldings: ITable<ITable<ITypedValue>>;
+
+    //
+    // Serialize the account for saving in configuration.
+    //
+    serialize(): IAccountDef;
+}
+
+//
+// Represents an Algorand account.
+//
+export class Account implements IAccount {
+    
+    //
+    // The balance of the account (in microalgos).
+    //
+    balance?: number | bigint;
+
+    //
+    // The minimum balance of the account (in microalgos).
+    //
+    minBalance?: number | bigint;
+
+    //
+    // Storage for local variables per application.
+    //
+    appLocals: ITable<ITable<ITypedValue>>;
+
+    //
+    // Set of applications (IDs) this account has opted into.
+    //
+    appsOptedIn: Set<string>;
+
+    //
+    // Asset holdings for this account.
+    //
+    assetHoldings: ITable<ITable<ITypedValue>>;
+
+    constructor(accountDef: IAccountDef) {
+        this.balance = accountDef.balance || 0;
+        this.minBalance = accountDef.minBalance || 0;
+        this.appLocals = loadTable(accountDef.appLocals, loadValueTable);
+        this.appsOptedIn = new Set<string>(accountDef.appsOptedIn ? accountDef.appsOptedIn.map(appId => appId.toString()) : []);
+        this.assetHoldings = loadTable(accountDef.assetHoldings, loadValueTable);
+    }
+
+    //
+    // Serialize the account for saving in configuration.
+    //
+    serialize(): IAccountDef {
+        return {
+            balance: this.balance,
+            minBalance: this.minBalance,
+            appLocals: loadTable(this.appLocals, serializeValueTable),
+            appsOptedIn: Array.from(this.appsOptedIn.values()),
+            assetHoldings: loadTable(this.assetHoldings, serializeValueTable),
+        };
+    }
 }
 
 //
@@ -210,7 +267,7 @@ export interface IExecutionContext {
     //
     // Converts the context back to a configuration.
     //
-    toConfiguration(): ITealInterpreterConfig;
+    serialize(): ITealInterpreterConfig;
 }
 
 export class ExecutionContext implements IExecutionContext {
@@ -326,15 +383,7 @@ export class ExecutionContext implements IExecutionContext {
         this.appGlobals = loadTable(config?.appGlobals, loadValueTable);
         this.assetParams = loadTable(config?.assetParams, loadValueTable);
         this.appParams = loadTable(config?.appParams, loadValueTable);
-        this.accounts = loadTable(config?.accounts, accountDef => {
-            return {
-                balance: accountDef.balance || 0,
-                minBalance: accountDef.minBalance || 0,
-                appLocals: loadTable(accountDef.appLocals, loadValueTable),
-                appsOptedIn: new Set<string>(accountDef.appsOptedIn ? accountDef.appsOptedIn.map(appId => appId.toString()) : []),
-                assetHoldings: loadTable(accountDef.assetHoldings, loadValueTable),
-            };
-        });
+        this.accounts = loadTable(config?.accounts, accountDef => new Account(accountDef));
         this.branchTargets = branchTargets;
         this.callstack = [];
         this.stack = [];
@@ -388,9 +437,9 @@ export class ExecutionContext implements IExecutionContext {
     //
     // Converts the context back to a configuration.
     //
-    toConfiguration(): ITealInterpreterConfig {
+    serialize(): ITealInterpreterConfig {
         return {
-            //todo:
+            accounts: loadTable(this.accounts, account => account.serialize())
         };
     }
 }
