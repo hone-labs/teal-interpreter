@@ -29,7 +29,7 @@ export interface IOpcode {
     // Executes the opcode.
     // Branches can return the offset of an instruction to jump to.
     //
-    execute(context: IExecutionContext): number | void;
+    execute(context: IExecutionContext): number | void | Promise<number | void>;
 }
 
 //
@@ -88,7 +88,7 @@ export abstract class Opcode implements IOpcode {
         }
     }
 
-    abstract execute(context: IExecutionContext): number | void;
+    abstract execute(context: IExecutionContext): number | void | Promise<number | void>;
 
     //
     // Parses a number from an operand.

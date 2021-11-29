@@ -35,7 +35,7 @@ export interface ITealInterpreter {
     // Step to the next instruction.
     // Returns true if able to continue.
     //
-    step(): boolean;
+    step(): Promise<boolean>;
 }
 
 export class TealInterpreter implements ITealInterpreter {
@@ -97,7 +97,7 @@ export class TealInterpreter implements ITealInterpreter {
     // Step to the next instruction.
     // Returns true if able to continue.
     //
-    step(): boolean {
+    async step(): Promise<boolean> {
         if (this.context.finished 
             || this.curInstructionIndex > this.instructions.length - 1) {
             //
@@ -108,16 +108,21 @@ export class TealInterpreter implements ITealInterpreter {
 
         const instruction = this.instructions[this.curInstructionIndex];
         instruction.validateContext(this.context);
-        const nextInstructionIndex = instruction.execute(this.context);
-        if (nextInstructionIndex !== undefined) {
-            // Branch to target instruction.
-            this.context.curInstructionIndex = nextInstructionIndex;
-        }
-        else {
-            // Move to next instruction.
-            this.context.curInstructionIndex += 1;
+        let result = instruction.execute(this.context);
+        if (result !== undefined) {
+            if (typeof(result) !== "number") {
+                result = await result; // Assume its a promise for a result.
+            }
+
+            if (result !== undefined) {
+                // Branch to target instruction.
+                this.context.curInstructionIndex = result;
+                return !this.context.finished;
+            }
         }
 
+        // Move to next instruction.
+        this.context.curInstructionIndex += 1;
         return !this.context.finished;
     }
 }

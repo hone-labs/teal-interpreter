@@ -4,12 +4,12 @@ import { IExecuteResult } from "./execute-result";
 //
 // Executes TEAL code and returns a result.
 //
-export function execute(tealCode: string, config?: ITealInterpreterConfig): IExecuteResult {
+export async function execute(tealCode: string, config?: ITealInterpreterConfig): Promise<IExecuteResult> {
 
     const interpreter = new TealInterpreter();
     interpreter.load(tealCode, config);
 
-    while (interpreter.step()) {
+    while (await interpreter.step()) {
         // Step until done.
     }
 

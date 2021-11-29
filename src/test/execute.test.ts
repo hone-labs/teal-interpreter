@@ -1,24 +1,24 @@
 import { execute } from "../lib/execute";
 import dedent = require("dedent");
 
-describe("teal interpreter", () => {
+describe("teal interpreter", ()  => {
 
-    it("executing empty file results in empty stack", () => {
+    it("executing empty file results in empty stack", async ()  => {
 
-        const result = execute("");
+        const result = await execute("");
         expect(result.stack).toEqual([]);
     });
 
-    it("can push 1 on stack", ()  => {
+    it("can push 1 on stack", async ()  => {
 
-        const result = execute("int 1");
+        const result = await execute("int 1");
         expect(result.stack.length).toEqual(1);
         expect(Number(result.stack[0]?.value)).toEqual(1);
     });
 
-    it("can add numbers", ()  => {
+    it("can add numbers", async ()  => {
 
-        const result = execute(dedent(`
+        const result = await execute(dedent(`
             int 2
             int 3
             +
@@ -27,14 +27,14 @@ describe("teal interpreter", () => {
         expect(Number(result.stack[0]?.value)).toEqual(5);
     });
 
-    it("unrecognised opcode throws", () => {
+    it("unrecognised opcode throws", async ()  => {
 
-        expect(() => execute("foobar")).toThrow();
+        await expect(() => execute("foobar")).rejects.toThrow();
     });
 
-    it("can execute multiple instructions", () => {
+    it("can execute multiple instructions", async ()  => {
 
-        const result = execute(dedent(`
+        const result = await execute(dedent(`
             int 4
             int 5
         `));            
@@ -44,16 +44,16 @@ describe("teal interpreter", () => {
         expect(Number(result.stack[1]?.value)).toEqual(5);
     });
 
-    it("can pop a value from the stack", () => {
-        const result = execute(dedent(`
+    it("can pop a value from the stack", async ()  => {
+        const result = await execute(dedent(`
             int 10
             pop
         `));     
         expect(result.stack).toEqual([]);       
     });
 
-    it("can execute version pragma", () => {
-        const result = execute(dedent(`
+    it("can execute version pragma", async ()  => {
+        const result = await execute(dedent(`
             #pragma version 4
         `));
         expect(result.version).toEqual(4);

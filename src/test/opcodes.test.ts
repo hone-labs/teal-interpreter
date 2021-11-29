@@ -10,8 +10,8 @@ describe("opcode integration tests", () => {
     //
     // Evaluates TEAL code and return true for approval or false for rejection.
     //
-    function evaluate(tealCode: string): boolean {
-        const result = execute(tealCode);
+    async function evaluate(tealCode: string): Promise<boolean> {
+        const result = await execute(tealCode);
         if (result.stack.length !== 1) {
             return false;
         }
@@ -27,8 +27,8 @@ describe("opcode integration tests", () => {
     //
     // Evaluates TEAL code and throws an exception on rejection.
     //
-    function succeeds(tealCode: string) {
-        const result = execute(tealCode);
+    async function succeeds(tealCode: string): Promise<void> {
+        const result = await execute(tealCode);
         if (result.stack.length !== 1) {
             throw new Error(`Expected 1 result left on the stack, got ${result.stack.length}\r\nStack:\r\n${result.stack.toString()}`);
         }
@@ -44,10 +44,9 @@ describe("opcode integration tests", () => {
     //
     // Evaluates TEAL code and throws an exception on approval.
     //
-    function fails(tealCode: string) {
+    async function fails(tealCode: string): Promise<void> {
         try {
-            const result = execute(tealCode);
-   
+            const result = await execute(tealCode);   
             if (result.stack.length === 0 && 
                 result.stack[0].type === "bigint" &&
                 result.stack[0].value === BigInt(0)) {
@@ -62,39 +61,39 @@ describe("opcode integration tests", () => {
         // Success.
     }
 
-    it("invalid program (empty)", () => {
-        expect(evaluate("")).toEqual(false);
+    it("invalid program (empty)", async () => {
+        expect(await evaluate("")).toEqual(false);
     });
 
-    it("simple math", () => {
-        succeeds("int  2; int 3; + ;int  5;==");
-        succeeds("int 22; int 3; - ;int 19;==");
-        succeeds("int  8; int 7; * ;int 56;==");
-        succeeds("int 21; int 7; / ;int  3;==");
+    it("simple math", async () => {
+        await succeeds("int  2; int 3; + ;int  5;==");
+        await succeeds("int 22; int 3; - ;int 19;==");
+        await succeeds("int  8; int 7; * ;int 56;==");
+        await succeeds("int 21; int 7; / ;int  3;==");
     });
 
-    it("u64 math", () => {
-        succeeds("int 0x1234567812345678; int 0x100000000; /; int 0x12345678; ==");
+    it("u64 math", async () => {
+        await succeeds("int 0x1234567812345678; int 0x100000000; /; int 0x12345678; ==");
     });
 
-    it("itob", () => {
-        succeeds("byte 0x1234567812345678; int 0x1234567812345678; itob; ==")
+    it("itob", async () => {
+        await succeeds("byte 0x1234567812345678; int 0x1234567812345678; itob; ==")
     });
 
-    it("btoi", () => {
-        succeeds("int 0x1234567812345678; byte 0x1234567812345678; btoi; ==");
-        succeeds("int 0x34567812345678; byte 0x34567812345678; btoi; ==");
-        succeeds("int 0x567812345678; byte 0x567812345678; btoi; ==");
-        succeeds("int 0x7812345678; byte 0x7812345678; btoi; ==");
-        succeeds("int 0x12345678; byte 0x12345678; btoi; ==");
-        succeeds("int 0x345678; byte 0x345678; btoi; ==");
-        succeeds("int 0; byte b64(); btoi; ==");
+    it("btoi", async () => {
+        await succeeds("int 0x1234567812345678; byte 0x1234567812345678; btoi; ==");
+        await succeeds("int 0x34567812345678; byte 0x34567812345678; btoi; ==");
+        await succeeds("int 0x567812345678; byte 0x567812345678; btoi; ==");
+        await succeeds("int 0x7812345678; byte 0x7812345678; btoi; ==");
+        await succeeds("int 0x12345678; byte 0x12345678; btoi; ==");
+        await succeeds("int 0x345678; byte 0x345678; btoi; ==");
+        await succeeds("int 0; byte b64(); btoi; ==");
         
-        fails("int 0x1234567812345678; byte 0x1234567812345678aa; btoi; ==");
+        await fails("int 0x1234567812345678; byte 0x1234567812345678aa; btoi; ==");
     });
 
-    it("bnz", () => {
-        succeeds(`
+    it("bnz", async () => {
+        await succeeds(`
             int 1
             dup
             bnz safe
@@ -104,7 +103,7 @@ describe("opcode integration tests", () => {
             +
         `);
 
-        succeeds(`
+        await succeeds(`
             int 1
             int 2
             int 1
@@ -122,12 +121,12 @@ describe("opcode integration tests", () => {
         `);
     });
 
-    it("sub underflow", () => {
-        fails("int 1; int 10; -; pop; int 1");
+    it("sub underflow", async () => {
+        await fails("int 1; int 10; -; pop; int 1");
     });
 
-    it("sha256", () => { // Adapted from Go code.
-        succeeds(`
+    it("sha256", async () => { // Adapted from Go code.
+        await succeeds(`
             byte base64 PTCXU4VI6ZFC/ds7MfVarmM/rvJJkwgSlKp+BgiEOWI= //comment
             sha256
             byte base64 5rZMNsevs5sULO+54aN+OvU6lQ503z2X+SSYUABIx7E=
@@ -135,16 +134,16 @@ describe("opcode integration tests", () => {
         `);
     });
 
-    it("keccak256", () => {
-        succeeds(`
+    it("keccak256", async () => {
+        await succeeds(`
             byte 0x666E6F7264; keccak256
             byte 0xc195eca25a6f4c82bfba0287082ddb0d602ae9230f9cf1f1a40b68f8e2c41567; ==
         `)
     });
 
-    it("ed25519verify", () => {
+    it("ed25519verify", async () => {
         // FROM: https://forum.algorand.org/t/need-syntax-example-to-use-ed25519verify-inside-teal/1203
-        fails(`
+        await fails(`
             byte base64 iZWMx72KvU6Bw6sPAWQFL96YH+VMrBA0XKWD9XbZOZI=
             byte base64 if8ooA+32YZc4SQBvIDDY8tgTatPoq4IZ8Kr+We1t38LR2RuURmaVu9D4shbi4VvND87PUqq5/0vsNFEGIIEDA==
             addr 7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224
@@ -152,21 +151,21 @@ describe("opcode integration tests", () => {
         `);
     });
 
-    it("intcblock", () => {
-        succeeds("intcblock 5; intc 0; int 5; ==");
-        succeeds("intcblock 1 2 3 4; intc 2; int 3; ==");
-        succeeds("intcblock 1 2 3 4; intc_0; int 1; ==");
-        succeeds("intcblock 1 2 3 4; intc_1; int 2; ==");
-        succeeds("intcblock 1 2 3 4; intc_2; int 3; ==");
-        succeeds("intcblock 1 2 3 4; intc_3; int 4; ==");
+    it("intcblock", async () => {
+        await succeeds("intcblock 5; intc 0; int 5; ==");
+        await succeeds("intcblock 1 2 3 4; intc 2; int 3; ==");
+        await succeeds("intcblock 1 2 3 4; intc_0; int 1; ==");
+        await succeeds("intcblock 1 2 3 4; intc_1; int 2; ==");
+        await succeeds("intcblock 1 2 3 4; intc_2; int 3; ==");
+        await succeeds("intcblock 1 2 3 4; intc_3; int 4; ==");
     });
 
-    it("mulw", () => {
-        succeeds("int 1; int 2; mulw; int 2; ==; assert; int 0; ==");
-        succeeds("int 0x111111111; int 0x222222222; mulw; int 0x468acf130eca8642; ==; assert; int 2; ==");
-        succeeds("int 1; int 0; mulw; int 0; ==; assert; int 0; ==");
-        succeeds("int 0xFFFFFFFFFFFFFFFF; int 0xFFFFFFFFFFFFFFFF; mulw; int 1; ==; assert; int 0xFFFFFFFFFFFFFFFe; ==");
-        succeeds(`
+    it("mulw", async () => {
+        await succeeds("int 1; int 2; mulw; int 2; ==; assert; int 0; ==");
+        await succeeds("int 0x111111111; int 0x222222222; mulw; int 0x468acf130eca8642; ==; assert; int 2; ==");
+        await succeeds("int 1; int 0; mulw; int 0; ==; assert; int 0; ==");
+        await succeeds("int 0xFFFFFFFFFFFFFFFF; int 0xFFFFFFFFFFFFFFFF; mulw; int 1; ==; assert; int 0xFFFFFFFFFFFFFFFe; ==");
+        await succeeds(`
             int 0x111111111
             int 0x222222222
             mulw

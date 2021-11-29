@@ -11,7 +11,7 @@ async function main(): Promise<void> {
 
     const tealFilePath = argv._[0];
     const tealCode = await fs.readFile(tealFilePath, "utf8");
-    const result = execute(tealCode);
+    const result = await execute(tealCode);
 
     console.log(`== RESULT ==`);
     console.log(`Stack:`);
