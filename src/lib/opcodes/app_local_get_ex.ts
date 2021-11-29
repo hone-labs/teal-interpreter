@@ -4,16 +4,11 @@ import { decodeAddress } from "../convert";
 
 export class AppLocalGetEx extends Opcode {
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
         const localName = Buffer.from(this.popBytes(context)).toString();
         const appId = Number(this.popInt(context)).toString();
         const accountName = decodeAddress(this.popBytes(context));
-
-        const account = context.accounts[accountName];
-        if (account === undefined) {
-            throw new Error(`Account "${accountName}" not found, please add field "accounts.${accountName}" to your configuration.`);
-        }
-
+        const account = await context.requireAccount(accountName, this.token.opcode);
         const appLocals = account.appLocals[appId];
         if (appLocals !== undefined) {
             const value = appLocals[localName];

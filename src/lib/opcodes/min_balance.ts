@@ -4,12 +4,9 @@ import { decodeAddress } from "../convert";
 
 export class MinBalance extends Opcode {
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
         const accountName = decodeAddress(this.popBytes(context));
-        const account = context.accounts[accountName];
-        if (account === undefined) {
-            throw new Error(`Account "${accountName}" not found, please add this to "accounts" in your configuration.`);
-        }
+        const account = await context.requireAccount(accountName, this.token.opcode);
         if (account.minBalance === undefined) {
             throw new Error(`"minBalance" not set for account "${accountName}", please add field "minBalance" to this account in your configuration.`);
         }

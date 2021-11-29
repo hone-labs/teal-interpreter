@@ -15,15 +15,11 @@ export class AssetHoldingGet extends Opcode {
         this.fieldName = this.token.operands[0];
     }
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
 
         const assetId = Number(this.popInt(context)).toString();
         const accountName = decodeAddress(this.popBytes(context));
-        const account = context.accounts[accountName];
-        if (account === undefined) {
-            throw new Error(`Account "${accountName}" not found, please add this account to your configuration.`);
-        }
-
+        const account = await context.requireAccount(accountName, this.token.opcode);
         const assetHoldings = account.assetHoldings[assetId];
         if (assetHoldings === undefined) {
             // Asset not found.

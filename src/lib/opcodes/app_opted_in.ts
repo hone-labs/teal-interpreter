@@ -4,14 +4,10 @@ import { decodeAddress } from "../convert";
 
 export class AppOptedIn extends Opcode {
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
         const appId = Number(this.popInt(context));
         const accountName = decodeAddress(this.popBytes(context));
-        const account = context.accounts[accountName];
-        if (account === undefined) {
-            throw new Error(`Account "${accountName}" not found, please add this to "accounts" in your configuration.`);
-        }
-
+        const account = await context.requireAccount(accountName, this.token.opcode);
         if (account.appsOptedIn.has(appId.toString())) {
             this.pushInt(context, BigInt(1));
         }
