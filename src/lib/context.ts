@@ -6,9 +6,21 @@ import { IBranchTargetMap } from "./parser";
 //
 // A default values for context fields.
 //
-const defaultContextValue: any = {
-    globals: 0,
-    txn: 0,
+const defaultContextValue = {
+    accounts: {
+        new: () => ({}),
+        "*": {
+            appLocals: {
+                "*": 0,
+            },
+        }
+    },
+    globals: {
+        "*": 0,
+    },
+    txn: {
+        "*": 0,
+    }
 };
 
 //
@@ -475,19 +487,45 @@ export class ExecutionContext implements IExecutionContext {
     // Finds the default value for a particular path.
     //
     private getDefaultValue(fieldPath: string): any {
+        let working: any = defaultContextValue;
         const parts = fieldPath.split(".");
-        let defaultValue = defaultContextValue;
+        const fieldName = parts.pop()!;
 
         for (const part of parts) {
-            const nextDefaultValue = defaultValue[part];
-            if (nextDefaultValue === undefined) {
-                break;                
+            if (working[part] !== undefined) {
+                working = working[part];
+                continue;
             }
 
-            defaultValue = nextDefaultValue;
+            if (working["*"] !== undefined) {
+                working = working["*"];
+                continue;
+            }
+
+            break;
         }
 
-        return defaultValue;
+        const exactMatch = working[fieldName];
+        if (exactMatch !== undefined) {
+            if (typeof(exactMatch) === "function") {
+                return exactMatch();
+            }
+            else {
+                return exactMatch;
+            }
+        }
+
+        const wildcardMatch = working;
+        if (wildcardMatch !== undefined) {
+            if (typeof(wildcardMatch) === "function") {
+                return wildcardMatch();
+            }
+            else {
+                return wildcardMatch;
+            }
+        }
+
+        throw new Error(`Failed to find default for ${fieldPath}`);
     }
     
     //

@@ -8,13 +8,8 @@ describe("app_local_get opcode", () => {
     it ("can execute", async () => {
 
         const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
-        const account = {
-            appLocals: {
-                "0": {
-                    aLocal: makeBigInt(BigInt(3)),
-                },
-            },
-        };        
+        const localName = "aLocal";
+        const account = {};        
         const token: any = {};
         const opcode = new AppLocalGet(token, opcodeDefs.app_local_get);
 
@@ -23,9 +18,14 @@ describe("app_local_get opcode", () => {
                 expect(accountName).toEqual(addr);
                 return account;
             },
+            requestValue: async (fieldPath: string) => {
+                expect(fieldPath).toEqual(`accounts.${addr}.appLocals.0.${localName}`);
+
+                return makeBigInt(BigInt(3));
+            },
             stack: [                
                 makeBytes(encodeAddress(addr)),
-                makeBytes(new Uint8Array(Buffer.from("aLocal"))),
+                makeBytes(new Uint8Array(Buffer.from(localName))),
             ],
         };
         await opcode.execute(context);
