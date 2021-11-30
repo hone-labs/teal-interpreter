@@ -17,9 +17,9 @@
         "build:watch": "tsc  --incremental --watch",
         "prepublishOnly": "npm test && npm run clean && tsc",
         "t": "npm run test",
-        "test": "jest --runInBand",
+        "test": "jest",
         "tw": "npm run test:watch",
-        "test:watch": "jest --watch --runInBand"
+        "test:watch": "jest --watch"
     },
     "bin": {
         "teal": "./bin/cli"
