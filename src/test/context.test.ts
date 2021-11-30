@@ -7,11 +7,11 @@ describe("context", () => {
     });
 
     it("raises event when account is not found", async () => {
-        const account ="anAccount";
+        const account = "anAccount";
         const context = new ExecutionContext({}, {});
         let eventRaised = false;
-        context.onAccountNotFound = async (accountName) => {
-            expect(accountName).toEqual(account);
+        context.onConfigNotFound = async (fieldPath) => {
+            expect(fieldPath).toEqual(`accounts.${account}`);
             eventRaised = true;
         };
 
@@ -23,6 +23,25 @@ describe("context", () => {
         const account = "anAccount";
         const context = new ExecutionContext({}, {});
         await expect(() => context.requireAccount(account, "test")).rejects.toThrow();
+    });
+
+    it("raises event when value is not found", async () => {
+        const testFieldPath = `globals.something`;
+        const context = new ExecutionContext({}, {});
+        let eventRaised = false;
+        context.onConfigNotFound = async (fieldPath) => {
+            expect(fieldPath).toEqual(testFieldPath);
+            eventRaised = true;
+        };
+
+        await context.requestValue(testFieldPath);
+        expect(eventRaised).toEqual(true);
+    });
+
+    it("throws when required value is not found", async () => {
+        const testFieldPath = `globals.something`;
+        const context = new ExecutionContext({}, {});
+        await expect(() => context.requireValue(testFieldPath, "test")).rejects.toThrow();
     });
 
     it("can construct account with no details", () => {

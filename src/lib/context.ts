@@ -255,14 +255,25 @@ export interface IExecutionContext {
     requestAccount(accountName: string): Promise<IAccount | undefined>;
 
     //
-    // Event raised when an account is not found, allowing the account to be generated on demand.
+    // Event raised when a configuration field is not found, allowing the configuration to be generated on demand.
     //
-    onAccountNotFound?: (accoutName: string) => Promise<void>;
+    onConfigNotFound?: (fieldPath: string) => Promise<void>;
 
     //
     // Require an account and throw if it doesn't exist.
     //
-    requireAccount(accoutnName: string, forOpcode: string): Promise<IAccount>;
+    requireAccount(accountName: string, forOpcode: string): Promise<IAccount>;
+
+    //
+    // Requests a value from the configuration.
+    // Returns undefined when the specified field is not found in the configuration.
+    //
+    requestValue(fieldPath: string): Promise<ITypedValue | undefined>;
+
+    //
+    // Requires a value from the configuration. Throws when the request field is not found.
+    //
+    requireValue(fieldPath: string, forOpcode: string): Promise<ITypedValue>;
 
     //
     // Converts the context back to a configuration.
@@ -405,9 +416,9 @@ export class ExecutionContext implements IExecutionContext {
     async requestAccount(accountName: string): Promise<IAccount | undefined> {
         let account = this.accounts[accountName];
         if (!account) {
-            if (this.onAccountNotFound) {
+            if (this.onConfigNotFound) {
                 // Allows the requested account to be automatically generated.
-                await this.onAccountNotFound(accountName);
+                await this.onConfigNotFound(`accounts.${accountName}`);
 
                 // Try and get the account again.
                 account = this.accounts[accountName];
@@ -418,9 +429,9 @@ export class ExecutionContext implements IExecutionContext {
     }
 
     //
-    // Event raised when an account is not found, allowing the account to be generated on demand.
+    // Event raised when a configuration field is not found, allowing the configuration to be generated on demand.
     //
-    onAccountNotFound?: (accoutName: string) => Promise<void>;
+    onConfigNotFound?: (fieldPath: string) => Promise<void>;
 
     //
     // Require an account and throw if it doesn't exist.
@@ -432,6 +443,68 @@ export class ExecutionContext implements IExecutionContext {
         }
 
         return account;
+    }
+
+    //
+    // Finds value in the configuration at a specified path.
+    //
+    private findValue<T>(fieldPath: string): T | undefined {
+        let working = this as any;
+        const parts = fieldPath.split(".");
+
+        for (const part of parts) {
+            working = working[part];
+
+            if (working == undefined) {
+                // Value not found!
+                return undefined;
+            }
+        }
+
+        return working as T;
+    }
+
+
+    //
+    // Requests a value from the configuration.
+    // Returns undefined when the specified field is not found in the configuration.
+    //
+    async requestValue<T>(fieldPath: string): Promise<T | undefined> {
+
+        const value = this.findValue<T>(fieldPath);
+        if (value !== undefined) {
+            // Got it!
+            return value;
+        }
+
+        //
+        // Value not found!
+        //
+        if (this.onConfigNotFound) {
+            // Allows the requested value to be automatically generated.
+            await this.onConfigNotFound(fieldPath);
+            
+            // Then try again.
+            const value = this.findValue<T>(fieldPath);
+            if (value !== undefined) {
+                // Got it!
+                return value;
+            }
+        }
+
+        return undefined;
+    }
+
+    //
+    // Requires a value from the configuration. Throws when the request field is not found.
+    //
+    async requireValue<T>(fieldPath: string, forOpcode: string): Promise<T> {
+        const value = await this.requestValue<T>(fieldPath);
+        if (value === undefined) {
+            throw new Error(`Configuration field "${fieldPath}" has not been provided, please adjust your configuration to include this field.`)   
+        }
+
+        return value;
     }
 
     //
