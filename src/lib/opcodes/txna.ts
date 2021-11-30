@@ -20,13 +20,9 @@ export class Txna extends Opcode {
         this.fieldArrayIndex = this.parseIntOperand(1);
     }
     
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext): Promise<void> {
 
-        const value = context.txn[this.fieldName];
-        if (value === undefined) {
-            throw new Error(`Array field "${this.fieldName}" not found under "txn.${this.fieldArrayIndex}", please adjust your configuration to include this field.`)
-        }
-
+        const value = await context.requireValue(`txn.${this.fieldName}`, this.token.opcode)
         if (!Array.isArray(value)) {
             throw new Error(`Expected field "${this.fieldName}" to be an array when used with opcode ${this.token.opcode}.`);
         }

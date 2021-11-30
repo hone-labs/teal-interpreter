@@ -8,7 +8,7 @@ import { IBranchTargetMap } from "./parser";
 //
 const defaultContextValue: any = {
     globals: 0,
-
+    txn: 0,
 };
 
 //
