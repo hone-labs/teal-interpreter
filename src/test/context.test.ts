@@ -1,4 +1,4 @@
-import { Account, ExecutionContext } from "../lib/context";
+import { ExecutionContext } from "../lib/context";
 
 describe("context", () => {
 
@@ -44,58 +44,85 @@ describe("context", () => {
         await expect(() => context.requireValue(testFieldPath, "test")).rejects.toThrow();
     });
 
-    it("can construct account with no details", () => {
-        new Account({});
+    it("can configure an account", () => {
+
+        const context = new ExecutionContext({}, {
+            accounts: {
+                john: {},
+            },
+        });
+        expect(context.accounts.john).toBeDefined();
     });
 
-    it("can construct account with details", () => {
-        const account = new Account({
-            balance: 5,
-            minBalance: 2,
-            appLocals: {
-                "1": {
-                    aLocal: 12,
-                },
-            },
-            appsOptedIn: [
-                "1",
-            ],
-            assetHoldings: {
-                "2": {
-                    Something: 8,
+    it("can configure an account with details", () => {
+
+        const context = new ExecutionContext({}, {
+            accounts: {
+                john: {
+                    balance: 5,
+                    minBalance: 2,
+                    appLocals: {
+                        "1": {
+                            aLocal: 12,
+                        },
+                    },
+                    appsOptedIn: [
+                        "1",
+                    ],
+                    assetHoldings: {
+                        "2": {
+                            Something: 8,
+                        },
+                    },
                 },
             },
         });
-        
+
+        const account = context.accounts.john;
         expect(account.balance).toEqual(5);
         expect(account.minBalance).toEqual(2);
         expect(Number(account.appLocals["1"].aLocal.value)).toEqual(12);
-        expect(account.appsOptedIn.has("1")).toEqual(true);
+        expect(account.appsOptedIn).toEqual([ "1" ]);
         expect(Number(account.assetHoldings["2"].Something.value)).toEqual(8);
     });
 
-    it("can serialize account", () => {
+    it("can serialize an account under the context", () => {
 
-        const account = new Account({
-            balance: 5,
-            minBalance: 2,
-            appLocals: {
-                "1": {
-                    aLocal: 12,
-                },
+        const context = new ExecutionContext({}, {
+            accounts: {
+                john: {},
             },
-            appsOptedIn: [
-                "1",
-            ],
-            assetHoldings: {
-                "2": {
-                    Something: 8,
+        });
+        const serialized = context.serialize();
+        expect(serialized.accounts?.john).toBeDefined();
+    });
+
+    it("can serialize an account with details", () => {
+
+        const context = new ExecutionContext({}, {
+            accounts: {
+                john: {
+                    balance: 5,
+                    minBalance: 2,
+                    appLocals: {
+                        "1": {
+                            aLocal: 12,
+                        },
+                    },
+                    appsOptedIn: [
+                        "1",
+                    ],
+                    assetHoldings: {
+                        "2": {
+                            Something: 8,
+                        },
+                    },
                 },
             },
         });
-
-        const serialized = account.serialize();
-        expect(serialized).toEqual({
+        const serialized = context.serialize();
+        const serializedAccount = serialized.accounts!.john!;
+        expect(serializedAccount).toEqual({
             balance: 5,
             minBalance: 2,
             appLocals: {
@@ -110,27 +137,6 @@ describe("context", () => {
                 },
             },
         });
-
     });
 
-    it("can configure an account", () => {
-
-        const context = new ExecutionContext({}, {
-            accounts: {
-                john: {},
-            },
-        });
-        expect(context.accounts.john).toBeDefined();
-    });
-
-    it("can serialize an account under the context", () => {
-
-        const context = new ExecutionContext({}, {
-            accounts: {
-                john: {},
-            },
-        });
-        const serialized = context.serialize();
-        expect(serialized.accounts?.john).toBeDefined();
-    });
 });

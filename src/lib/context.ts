@@ -1,6 +1,7 @@
 
+import { serialize } from "superagent";
 import { IAccountDef, ITable, ITealInterpreterConfig, ValueDef } from "./config";
-import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValueTable } from "./convert";
+import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValue, serializeValueTable } from "./convert";
 import { IBranchTargetMap } from "./parser";
 
 //
@@ -74,69 +75,12 @@ export interface IAccount {
     //
     // Set of applications (IDs) this account has opted into.
     //
-    appsOptedIn: Set<string>;
+    appsOptedIn: string[];
 
     //
     // Asset holdings for this account.
     //
     assetHoldings: ITable<ITable<ITypedValue>>;
-
-    //
-    // Serialize the account for saving in configuration.
-    //
-    serialize(): IAccountDef;
-}
-
-//
-// Represents an Algorand account.
-//
-export class Account implements IAccount {
-    
-    //
-    // The balance of the account (in microalgos).
-    //
-    balance?: number | bigint;
-
-    //
-    // The minimum balance of the account (in microalgos).
-    //
-    minBalance?: number | bigint;
-
-    //
-    // Storage for local variables per application.
-    //
-    appLocals: ITable<ITable<ITypedValue>>;
-
-    //
-    // Set of applications (IDs) this account has opted into.
-    //
-    appsOptedIn: Set<string>;
-
-    //
-    // Asset holdings for this account.
-    //
-    assetHoldings: ITable<ITable<ITypedValue>>;
-
-    constructor(accountDef: IAccountDef) {
-        this.balance = accountDef.balance || 0;
-        this.minBalance = accountDef.minBalance || 0;
-        this.appLocals = loadTable(accountDef.appLocals, loadValueTable);
-        this.appsOptedIn = new Set<string>(accountDef.appsOptedIn ? accountDef.appsOptedIn.map(appId => appId.toString()) : []);
-        this.assetHoldings = loadTable(accountDef.assetHoldings, loadValueTable);
-    }
-
-    //
-    // Serialize the account for saving in configuration.
-    //
-    serialize(): IAccountDef {
-        return {
-            balance: this.balance,
-            minBalance: this.minBalance,
-            appLocals: loadTable(this.appLocals, serializeValueTable),
-            appsOptedIn: Array.from(this.appsOptedIn.values()),
-            assetHoldings: loadTable(this.assetHoldings, serializeValueTable),
-        };
-    }
 }
 
 //
@@ -394,7 +338,15 @@ export class ExecutionContext implements IExecutionContext {
         this.appGlobals = loadTable(config?.appGlobals, loadValueTable);
         this.assetParams = loadTable(config?.assetParams, loadValueTable);
         this.appParams = loadTable(config?.appParams, loadValueTable);
-        this.accounts = loadTable(config?.accounts, accountDef => new Account(accountDef));
+        this.accounts = loadTable(config?.accounts, accountDef => {
+            return {
+                balance: accountDef.balance || 0,
+                minBalance: accountDef.minBalance || 0,
+                appLocals: loadTable(accountDef.appLocals, loadValueTable),
+                appsOptedIn: accountDef.appsOptedIn || [],
+                assetHoldings: loadTable(accountDef.assetHoldings, loadValueTable),
+            };
+        });
         this.branchTargets = branchTargets;
         this.callstack = [];
         this.stack = [];
@@ -508,12 +460,53 @@ export class ExecutionContext implements IExecutionContext {
     }
 
     //
+    // Serialize a value.
+    //
+    private serializeValue(value: any): any {
+        if (Array.isArray(value)) {
+            const outputArray: any[] = [];
+
+            for (const element of value) {
+                outputArray.push(this.serializeValue(element));
+            }
+
+            return outputArray;
+        }
+        else {
+            const valueType = typeof(value);
+            if (valueType === "object") {
+                const isTypedValue = "type" in value && "value" in value;
+                if (isTypedValue) {
+                    return serializeValue(value as ITypedValue);
+                }
+                else {
+                    const output: any = {};
+                    this.internalSerialize(value, output);
+                    return output;
+                }
+            }
+            else {
+                return value;
+            }
+        }
+    }
+
+    //
+    // Internal (recursive) serialization function.
+    //
+    private internalSerialize(input: any, output: any): void {
+        for (const [key, value] of Object.entries<any>(input)) {
+            output[key] = this.serializeValue(value);
+        }
+    }
+
+    //
     // Converts the context back to a configuration.
     //
     serialize(): ITealInterpreterConfig {
-        return {
-            accounts: loadTable(this.accounts, account => account.serialize())
-        };
+        const output: any = {};
+        this.internalSerialize(this, output);
+        return output;
     }
 }
 

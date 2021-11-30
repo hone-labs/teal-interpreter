@@ -52,7 +52,7 @@ export interface IAccountDef {
     //
     // List of applications (IDs) this account has opted into.
     //
-    appsOptedIn?: (number | string)[];
+    appsOptedIn?: string[];
 
     //
     // Asset holdings for this account.
