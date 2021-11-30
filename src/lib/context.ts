@@ -1,8 +1,15 @@
 
-import { serialize } from "superagent";
-import { IAccountDef, ITable, ITealInterpreterConfig, ValueDef } from "./config";
-import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValue, serializeValueTable } from "./convert";
+import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
+import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValue } from "./convert";
 import { IBranchTargetMap } from "./parser";
+
+//
+// A default values for context fields.
+//
+const defaultContextValue: any = {
+    globals: 0,
+
+};
 
 //
 // Represents a value in the Algorand virtual machine.
@@ -218,6 +225,11 @@ export interface IExecutionContext {
     // Requires a value from the configuration. Throws when the request field is not found.
     //
     requireValue(fieldPath: string, forOpcode: string): Promise<ITypedValue>;
+
+    //
+    // Automatically creates a missing field in the context.
+    //
+    autoCreateField(fieldPath: string): void;
 
     //
     // Converts the context back to a configuration.
@@ -457,6 +469,42 @@ export class ExecutionContext implements IExecutionContext {
         }
 
         return value;
+    }
+
+    //
+    // Finds the default value for a particular path.
+    //
+    private getDefaultValue(fieldPath: string): any {
+        const parts = fieldPath.split(".");
+        let defaultValue = defaultContextValue;
+
+        for (const part of parts) {
+            const nextDefaultValue = defaultValue[part];
+            if (nextDefaultValue === undefined) {
+                break;                
+            }
+
+            defaultValue = nextDefaultValue;
+        }
+
+        return defaultValue;
+    }
+    
+    //
+    // Automatically creates a missing field in the context.
+    //
+    autoCreateField(fieldPath: string): void {
+        const parts = fieldPath.split(".");
+        const fieldName = parts.pop()!;
+        let working = this as any;
+        for (const part of parts) {
+            if (working[part] === undefined) {
+                working[part] = {};
+            }
+            working = working[part];
+        }
+
+        working[fieldName] = this.getDefaultValue(fieldPath);
     }
 
     //
