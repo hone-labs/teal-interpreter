@@ -8,7 +8,7 @@ export class AppOptedIn extends Opcode {
         const appId = Number(this.popInt(context));
         const accountName = decodeAddress(this.popBytes(context));
         const account = await context.requireAccount(accountName, this.token.opcode);
-        if (account.appsOptedIn.has(appId.toString())) {
+        if (account.appsOptedIn.includes(appId.toString())) {
             this.pushInt(context, BigInt(1));
         }
         else {

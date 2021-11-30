@@ -9,7 +9,7 @@ describe("app_opted_in opcode", () => {
 
         const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
         const account = {
-            appsOptedIn: new Set<string>(["2"]),
+            appsOptedIn: ["2"],
         };        
         const token: any = {};
         const opcode = new AppOptedIn(token, opcodeDefs.app_opted_in);
@@ -34,7 +34,7 @@ describe("app_opted_in opcode", () => {
 
         const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
         const account = {
-            appsOptedIn: new Set<string>(),
+            appsOptedIn: [],
         };        
         const token: any = {};
         const opcode = new AppOptedIn(token, opcodeDefs.app_opted_in);
