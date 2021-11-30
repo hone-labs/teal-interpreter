@@ -14,13 +14,9 @@ export class Global extends Opcode {
         this.globalName = this.token.operands[0];
     }
     
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext): Promise<void> {
         
-        const value = context.globals[this.globalName];
-        if (value === undefined) {
-            throw new Error(`Global "${this.globalName}" has not been provided, please adjust your configuration to include this global field.`)
-        }
-
+        const value = await context.requireValue(`globals.${this.globalName}`, this.token.opcode)
         context.stack.push(value);
     }
 }

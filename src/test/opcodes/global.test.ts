@@ -4,7 +4,7 @@ import { Global } from "../../lib/opcodes/global";
 
 describe("global opcode", () => {
 
-    it ("can execute", () => {
+    it ("can execute", async () => {
 
         const token: any = {
             operands: [
@@ -13,36 +13,19 @@ describe("global opcode", () => {
         };
         const context: any = {
             stack: [],
-            globals: {
-                MinBalance: makeBigInt(BigInt(18)),
+            requireValue: (fieldPath: string) => {
+                expect(fieldPath).toEqual(`globals.MinBalance`);
+
+                return makeBigInt(BigInt(18));               
             },
         };
         
         const opcode = new Global(token, opcodeDefs.global);
         opcode.validateOperand(); // Parses the operand.
-        opcode.execute(context);
+        await opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
         expect(Number(context.stack[0]?.value)).toEqual(18);
-    });
-
-    it("throws when global does not exist", () => {
-
-        const token: any = {
-            operands: [
-                "xxx"
-            ],
-        };
-        const opcode = new Global(token, opcodeDefs.global);
-        opcode.validateOperand();
-
-        const context: any = {
-            global: {
-                // No globals.
-            },
-        };
-     
-        expect(() => opcode.execute(context)).toThrow();
     });
 
 });
