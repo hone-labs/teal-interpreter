@@ -43,3 +43,4 @@ export function getDefaultValue(fieldPath: string, defaultValueSpec: any): any {
 
     throw new Error(`Failed to find default for ${fieldPath}`);
 }
+

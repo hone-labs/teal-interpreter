@@ -1,4 +1,5 @@
 
+import { autoCreateField } from "./auto-field";
 import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
 import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValue } from "./convert";
 import { getDefaultValue } from "./default-value";
@@ -488,17 +489,7 @@ export class ExecutionContext implements IExecutionContext {
     // Automatically creates a missing field in the context.
     //
     autoCreateField(fieldPath: string): void {
-        const parts = fieldPath.split(".");
-        const fieldName = parts.pop()!;
-        let working = this as any;
-        for (const part of parts) {
-            if (working[part] === undefined) {
-                working[part] = {};
-            }
-            working = working[part];
-        }
-
-        working[fieldName] = getDefaultValue(fieldPath, defaultValueSpec);
+        return autoCreateField(this, fieldPath, defaultValueSpec);
     }
 
     //
