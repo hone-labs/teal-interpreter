@@ -1,46 +1,27 @@
-import { makeBytes } from "../../lib/context";
+import { makeBigInt, makeBytes } from "../../lib/context";
 import { opcodeDefs } from "../../lib/opcodes";
 import { Arg_X } from "../../lib/opcodes/arg_X";
 
-describe("argx opcode", () => {
+describe("arg_X opcode", () => {
 
-    it("can push arg 0 on stack", () => {
+    it("can push arg on stack", async () => {
 
+        const argIndex = 0;
         const token: any = {};
-        const opcode = new Arg_X(token, opcodeDefs.arg_0, 0);
+        const opcode = new Arg_X(token, opcodeDefs.arg_X, argIndex);
 
         const context: any = {
+            requireValue: (fieldPath: string) => {
+                expect(fieldPath).toEqual(`args.${argIndex}`);
+                return makeBigInt(BigInt(12));
+            },
             stack : [],
-            args: [
-                makeBytes(new Uint8Array([1, 2])),
-            ],
         };
 
-        opcode.execute(context);
+        await opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0]?.value)).toEqual([
-            1, 2
-        ]);
-    });
-
-    it("can push arg 1 on stack", () => {
-
-        const token: any = {};
-        const opcode = new Arg_X(token, opcodeDefs.arg_1, 1);
-
-        const context: any = {
-            stack : [],
-            args: [
-                makeBytes(new Uint8Array([1, 2])),
-                makeBytes(new Uint8Array([3, 4])),
-            ],
-        };
-
-        opcode.execute(context);
-
-        expect(context.stack.length).toEqual(1);
-        expect(Array.from(context.stack[0]?.value)).toEqual([3, 4,]);
+        expect(Number(context.stack[0]?.value)).toEqual(12);
     });
 
 });

@@ -9,7 +9,8 @@ export class Arg_X extends Opcode {
         super(token, opcodeDef);
     }
     
-    execute(context: IExecutionContext): void {
-        context.stack.push(context.args[this.constantIndex]);
+    async execute(context: IExecutionContext) {
+        const value = await context.requireValue(`args.${this.constantIndex}`, this.token.opcode);
+        context.stack.push(value);
     }
 }
