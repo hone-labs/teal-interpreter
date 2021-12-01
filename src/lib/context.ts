@@ -1,12 +1,13 @@
 
 import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
 import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValue } from "./convert";
+import { getDefaultValue } from "./default-value";
 import { IBranchTargetMap } from "./parser";
 
 //
 // A default values for context fields.
 //
-const defaultContextValue = {
+const defaultValueSpec = {
     accounts: {
         new: () => ({}),
         "*": {
@@ -482,52 +483,7 @@ export class ExecutionContext implements IExecutionContext {
 
         return value;
     }
-
-    //
-    // Finds the default value for a particular path.
-    //
-    private getDefaultValue(fieldPath: string): any {
-        let working: any = defaultContextValue;
-        const parts = fieldPath.split(".");
-        const fieldName = parts.pop()!;
-
-        for (const part of parts) {
-            if (working[part] !== undefined) {
-                working = working[part];
-                continue;
-            }
-
-            if (working["*"] !== undefined) {
-                working = working["*"];
-                continue;
-            }
-
-            break;
-        }
-
-        const exactMatch = working[fieldName];
-        if (exactMatch !== undefined) {
-            if (typeof(exactMatch) === "function") {
-                return exactMatch();
-            }
-            else {
-                return exactMatch;
-            }
-        }
-
-        const wildcardMatch = working;
-        if (wildcardMatch !== undefined) {
-            if (typeof(wildcardMatch) === "function") {
-                return wildcardMatch();
-            }
-            else {
-                return wildcardMatch;
-            }
-        }
-
-        throw new Error(`Failed to find default for ${fieldPath}`);
-    }
-    
+  
     //
     // Automatically creates a missing field in the context.
     //
@@ -542,7 +498,7 @@ export class ExecutionContext implements IExecutionContext {
             working = working[part];
         }
 
-        working[fieldName] = this.getDefaultValue(fieldPath);
+        working[fieldName] = getDefaultValue(fieldPath, defaultValueSpec);
     }
 
     //
