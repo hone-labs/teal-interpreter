@@ -14,20 +14,15 @@ export class AppParamsGet extends Opcode {
         this.fieldName = this.token.operands[0];
     }
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
         
         const appId = this.popInt(context).toString();
-        const appParams = context.appParams[appId];
-        if (appParams === undefined) {
+        const value = await context.requestValue(`appParams.${appId}.${this.fieldName}`);
+        if (value === undefined) {
             // App not found.
             this.pushInt(context, BigInt(0));
             this.pushInt(context, BigInt(0));
             return;
-        }
-
-        const value = appParams[this.fieldName];
-        if (value === undefined) {
-            throw new Error(`Expected value "${this.fieldName}" under asset "appParams.${appId}.${this.fieldName}" in your configuration.`);
         }
 
         context.stack.push(value);
