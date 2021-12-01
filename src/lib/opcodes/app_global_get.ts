@@ -3,19 +3,9 @@ import { IExecutionContext } from "../context";
 
 export class AppGlobalGet extends Opcode {
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
         const globalName = Buffer.from(this.popBytes(context)).toString();
-
-        const appGlobals = context.appGlobals["0"];
-        if (appGlobals === undefined) {
-            throw new Error(`Expected "appGlobals.0" (the "current" application) field to be set in your configuration.`);
-        }
-
-        const value = appGlobals[globalName];
-        if (value === undefined) {
-            throw new Error(`Application global "${globalName}" not set, please add "${globalName}" field under the "application.globals" in your configuration.`);
-        }
-
+        const value = await context.requireValue(`appGlobals.0.${globalName}`, this.token.opcode);
         context.stack.push(value);
     }
 }

@@ -25,18 +25,4 @@ describe("app_global_del opcode", () => {
         expect(context.appGlobals["0"].aGlobal).not.toBeDefined();
     });
 
-    it("throws when application is not found", () => {
-
-        const token: any = {};
-        const opcode = new AppGlobalDel(token, opcodeDefs.app_global_del);
-
-        const context: any = {
-            // No application.
-            stack: [                
-                makeBytes(new Uint8Array(Buffer.from("aGlobal"))),
-            ],
-        };
-        expect(() => opcode.execute(context)).toThrow();
-    });
-
 });

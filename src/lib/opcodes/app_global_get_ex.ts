@@ -3,18 +3,10 @@ import { IExecutionContext } from "../context";
 
 export class AppGlobalGetEx extends Opcode {
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
         const globalName = Buffer.from(this.popBytes(context)).toString();
         const appId = Number(this.popInt(context));
-
-        const appGlobals = context.appGlobals[appId.toString()];
-        if (appGlobals === undefined) {
-            // Application not found.
-            throw new Error(`Expected "appGlobals.${appId}" field to be set in your configuration.`);
-
-        }
-
-        const value = appGlobals[globalName];
+        const value = await context.requestValue(`appGlobals.${appId}.${globalName}`);
         if (value === undefined) {
             // The value doesn't exist.
             this.pushInt(context, BigInt(0));

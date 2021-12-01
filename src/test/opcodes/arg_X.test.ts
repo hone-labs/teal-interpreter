@@ -1,4 +1,4 @@
-import { makeBigInt, makeBytes } from "../../lib/context";
+import { makeBigInt } from "../../lib/context";
 import { opcodeDefs } from "../../lib/opcodes";
 import { Arg_X } from "../../lib/opcodes/arg_X";
 
