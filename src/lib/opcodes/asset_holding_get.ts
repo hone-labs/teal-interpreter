@@ -19,18 +19,12 @@ export class AssetHoldingGet extends Opcode {
 
         const assetId = Number(this.popInt(context)).toString();
         const accountName = decodeAddress(this.popBytes(context));
-        const account = await context.requireAccount(accountName, this.token.opcode);
-        const assetHoldings = account.assetHoldings[assetId];
-        if (assetHoldings === undefined) {
+        const value = await context.requestValue(`accounts.${accountName}.assetHoldings.${assetId}.${this.fieldName}`);
+        if (value === undefined) {
             // Asset not found.
             this.pushInt(context, BigInt(0));
             this.pushInt(context, BigInt(0));
             return;
-        }
-
-        const value = assetHoldings[this.fieldName];
-        if (value === undefined) {
-            throw new Error(`Failed to find asset field "${this.fieldName}" under "assets.${assetId}.fields", under account "accounts.${accountName}" in your configuration. Please add this field.`);
         }
 
         context.stack.push(value);

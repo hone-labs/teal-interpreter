@@ -8,17 +8,14 @@ export class AppLocalGetEx extends Opcode {
         const localName = Buffer.from(this.popBytes(context)).toString();
         const appId = Number(this.popInt(context)).toString();
         const accountName = decodeAddress(this.popBytes(context));
-        const account = await context.requireAccount(accountName, this.token.opcode);
-        const appLocals = account.appLocals[appId];
-        if (appLocals !== undefined) {
-            const value = appLocals[localName];
-            if (value !== undefined) {
-                context.stack.push(value);
-                this.pushInt(context, BigInt(1));
-                return;
-            }
+        const value = await context.requestValue(`accounts.${accountName}.appLocals.${appId}.${localName}`);
+        if (value !== undefined) {
+            context.stack.push(value);
+            this.pushInt(context, BigInt(1));
+            return;
         }
 
+        // Not found.
         this.pushInt(context, BigInt(0));
         this.pushInt(context, BigInt(0));
     }
