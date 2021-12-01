@@ -28,10 +28,7 @@ export class Txnas extends Opcode {
     
     async execute(context: IExecutionContext): Promise<void> {
 
-        const value = await context.requireValue(`txn.${this.fieldName}`, this.token.opcode)
-        if (!Array.isArray(value)) {
-            throw new Error(`Expected field "${this.fieldName}" to be an array when used with opcode ${this.token.opcode}.`);
-        }
+        const value = await context.requireValueArray(`txn.${this.fieldName}`, this.token.opcode)
 
         if (this.fieldArrayIndex < 0) {
             throw new Error(`Field index should >= 0, instead found ${this.fieldArrayIndex}`);

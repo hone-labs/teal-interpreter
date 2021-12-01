@@ -4,76 +4,32 @@ import { Gtxns } from "../../lib/opcodes/gtxns";
 
 describe("gtxns opcode", () => {
 
-    it ("can execute", () => {
+    it ("can execute", async () => {
 
         const token: any = {
             operands: [
-                "Fee"
+                "Something"
             ],
         };
         const opcode = new Gtxns(token, opcodeDefs.gtxns);
         opcode.validateOperand();
 
         const context: any = {
+            requireValue: (fieldPath: string) => {
+                expect(fieldPath).toEqual(`gtxn.0.Something`);
+
+                return makeBigInt(BigInt(42));
+            },
             stack: [
                 makeBigInt(BigInt(0)),
             ],
-            gtxn: [
-                {
-                    Fee: makeBigInt(BigInt(42)),
-                },
-            ],
         };
         opcode.validateContext(context);
-        opcode.execute(context);
+        await opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
         expect(Number(context.stack[0]?.value)).toEqual(42);
     });
 
-    it("throws when specified transaction does not exist", () => {
-
-        const token: any = {
-            operands: [
-                "Fee",
-            ],
-        };
-        const opcode = new Gtxns(token, opcodeDefs.gtxns);
-        opcode.validateOperand();
-
-        const context: any = {
-            stack: [
-                makeBigInt(BigInt(0)),
-            ],
-            gtxn: [
-                // No txns.
-            ],
-        };     
-        expect(() => opcode.validateContext(context)).toThrow();
-    });
-
-    it("throws when field does not exist in specified transaction", () => {
-
-        const token: any = {
-            operands: [
-                "xxx",
-            ],
-        };
-        const opcode = new Gtxns(token, opcodeDefs.gtxns);
-        opcode.validateOperand();
-
-        const context: any = {
-            stack: [
-                makeBigInt(BigInt(0)),
-            ],
-            gtxn: [
-                {
-                    // No fields.
-                },
-            ],
-        };
-        opcode.validateContext(context);
-        expect(() => opcode.execute(context)).toThrow();
-    });
 
 });

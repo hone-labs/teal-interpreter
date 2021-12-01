@@ -15,7 +15,7 @@ describe("txnas opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            requireValue: (fieldPath: string) => {
+            requireValueArray: (fieldPath: string) => {
                 expect(fieldPath).toEqual(`txn.Something`);
 
                 return [
@@ -44,7 +44,7 @@ describe("txnas opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            requireValue: (fieldPath: string) => {
+            requireValueArray: (fieldPath: string) => {
                 expect(fieldPath).toEqual(`txn.Something`);
 
                 return [

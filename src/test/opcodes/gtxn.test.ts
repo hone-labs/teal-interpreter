@@ -4,27 +4,27 @@ import { Gtxn } from "../../lib/opcodes/gtxn";
 
 describe("gtxn opcode", () => {
 
-    it ("can execute", () => {
+    it ("can execute", async () => {
 
         const token: any = {
             operands: [
                 "0",
-                "Fee",
+                "Something",
             ],
         };
         const opcode = new Gtxn(token, opcodeDefs.gtxn);
 
-        opcode.validateOperand(); // Parses the operands.
+        opcode.validateOperand();
 
         const context: any = {
+            requireValue: (fieldPath: string) => {
+                expect(fieldPath).toEqual(`gtxn.0.Something`);
+
+                return makeBigInt(BigInt(42));
+            },
             stack: [],
-            gtxn: [
-                {
-                    Fee: makeBigInt(BigInt(42)),
-                },
-            ],
         };
-        opcode.execute(context);
+        await opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
         expect(Number(context.stack[0]?.value)).toEqual(42);
@@ -40,48 +40,6 @@ describe("gtxn opcode", () => {
         };
         const opcode = new Gtxn(token, opcodeDefs.gtxn);
         expect(() => opcode.validateOperand()).toThrow();
-    });
-
-    it("throws when there is no transaction for specified index", () => {
-
-        const token: any = {
-            operands: [
-                "0",
-                "Fee",
-            ],
-        };
-        const opcode = new Gtxn(token, opcodeDefs.gtxn);
-        opcode.validateOperand();
-
-        const context: any = {
-            stack : [],
-            gtxn: [
-                // No transactions.
-            ],
-        };
-        expect(() => opcode.execute(context)).toThrow();
-    });
-
-    it("throws when field does not exist in specified transaction", () => {
-
-        const token: any = {
-            operands: [
-                "0",
-                "xxx"
-            ],
-        };
-
-        const opcode = new Gtxn(token, opcodeDefs.gtxn);
-        opcode.validateOperand();
-
-        const context: any = {
-            txn: [
-                {
-                    // No fields.
-                },
-            ],
-        };     
-        expect(() => opcode.execute(context)).toThrow();
     });
 
 });

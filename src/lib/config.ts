@@ -98,7 +98,7 @@ export interface ITealInterpreterConfig {
     //
     // The current transaction group.
     //
-    gtxn?: ITable<ValueDef | ValueDef[]>[];
+    gtxn?: ITable<ITable<ValueDef | ValueDef[]>>;
 
     //
     // Scratch space corresponding to transactions in a group.

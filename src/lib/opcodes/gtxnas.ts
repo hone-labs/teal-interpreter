@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, ITypedValue } from "../context";
 
 export class Gtxnas extends Opcode {
 
@@ -31,34 +31,26 @@ export class Gtxnas extends Opcode {
 
     validateContext(context: IExecutionContext) {
         super.validateContext(context);
-
-        if (this.txnIndex >= context.gtxn.length) {
-            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.gtxn.length} transactions provided in your configuration. Please add "txns" array to your configuration containing at least ${this.txnIndex+1} transactions.`);
-        }
-
         this.fieldArrayIndex = Number(this.popInt(context));
     }
     
-    execute(context: IExecutionContext): void {
-        
-        const txn = context.gtxn[this.txnIndex];        
-        const value = txn[this.fieldName];
-        if (value === undefined) {
-            throw new Error(`Field "${this.fieldName}" not found in with transaction ${this.txnIndex}, please add field "txns.${this.txnIndex}.${this.fieldName}" to your configuration to include this field.`)
+    async execute(context: IExecutionContext): Promise<void> {
+
+        if (this.txnIndex < 0) {
+            throw new Error(`Transaction index should >= 0, instead found ${this.txnIndex}`);
         }
 
-        if (!Array.isArray(value)) {
-            throw new Error(`Expected field "${this.fieldName}" to be an array when used with opcode ${this.token.opcode}.`);
-        }
+        const fieldPath = `gtxn.${this.txnIndex}.${this.fieldName}`;
+        const array = await context.requireValueArray(fieldPath, this.token.opcode);
 
         if (this.fieldArrayIndex < 0) {
             throw new Error(`Field array index should be greater than 0, instead found ${this.fieldArrayIndex}.`);
         }
 
-        if (this.fieldArrayIndex >= value.length) {
-            throw new Error(`Field array index is outside the bounds of the array. Expected an index less than ${value.length}, instead found ${this.fieldArrayIndex}.`);
+        if (this.fieldArrayIndex >= array.length) {
+            throw new Error(`Field array index is outside the bounds of the array. Expected an index less than ${array.length}, instead found ${this.fieldArrayIndex}.`);
         }
 
-        context.stack.push(value[this.fieldArrayIndex]);
+        context.stack.push(array[this.fieldArrayIndex]);
     }
 }

@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IExecutionContext, ITypedValue } from "../context";
 
 export class Gtxn extends Opcode {
 
@@ -20,26 +20,14 @@ export class Gtxn extends Opcode {
         this.fieldName = this.token.operands[1];
     }
     
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext): Promise<void> {
 
         if (this.txnIndex < 0) {
             throw new Error(`Transaction index for ${this.opcodeDef} is ${this.txnIndex}, it should be zero or greater.`);
         }
 
-        if (this.txnIndex >= context.gtxn.length) {
-            throw new Error(`Transaction index ${this.txnIndex}, is outside the range of ${context.gtxn.length} transactions provided in your configuration. Please add "txns" array to your configuration containing at least ${this.txnIndex+1} transactions.`);
-        }
-
-        const txn = context.gtxn[this.txnIndex];
-        const value = txn[this.fieldName];
-        if (value === undefined) {
-            throw new Error(`Field "${this.fieldName}" not found in current transaction, please add field "txn.${this.fieldName}" to your configuration to include this field.`)
-        }
-
-        if (Array.isArray(value)) {
-            throw new Error(`Expected field "${this.fieldName}" not to be an array when used with opcode ${this.token.opcode}.`);
-        }
-
+        const fieldPath = `gtxn.${this.txnIndex}.${this.fieldName}`;
+        const value = await context.requireValue(fieldPath, this.token.opcode);
         context.stack.push(value);
     }
 }

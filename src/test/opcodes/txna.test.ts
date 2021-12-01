@@ -15,7 +15,7 @@ describe("txna opcode", () => {
         const opcode = new Txna(token, opcodeDefs.txna);
 
         const context: any = {
-            requireValue: (fieldPath: string) => {
+            requireValueArray: (fieldPath: string) => {
                 expect(fieldPath).toEqual(`txn.Something`);
 
                 return [

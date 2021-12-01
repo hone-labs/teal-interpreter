@@ -16,7 +16,7 @@ export class Txn extends Opcode {
     
     async execute(context: IExecutionContext): Promise<void> {
 
-        const value = await context.requireValue(`txn.${this.fieldName}`, this.token.opcode)
+        const value = await context.requireValue(`txn.${this.fieldName}`, this.token.opcode);
         if (Array.isArray(value)) {
             throw new Error(`Expected field "${this.fieldName}" not to be an array when used with opcode ${this.token.opcode}.`);
         }

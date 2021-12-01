@@ -167,7 +167,7 @@ export interface IExecutionContext {
     //
     // The current transaction group.
     //
-    gtxn: ITable<ITypedValue | ITypedValue[]>[];
+    gtxn: ITable<ITable<ITypedValue | ITypedValue[]>>;
 
     //
     // The current inner transaction.
@@ -233,12 +233,17 @@ export interface IExecutionContext {
     // Requests a value from the configuration.
     // Returns undefined when the specified field is not found in the configuration.
     //
-    requestValue(fieldPath: string): Promise<ITypedValue | undefined>;
+    requestValue<T = ITypedValue>(fieldPath: string): Promise<T | undefined>;
 
     //
     // Requires a value from the configuration. Throws when the request field is not found.
     //
-    requireValue(fieldPath: string, forOpcode: string): Promise<ITypedValue>;
+    requireValue<T = ITypedValue>(fieldPath: string, forOpcode: string): Promise<T>;
+
+    //
+    // Requires an array of values from the configuration. Throws when the request field is not found.
+    //
+    requireValueArray<T = ITypedValue>(fieldPath: string, forOpcode: string): Promise<T[]>;
 
     //
     // Automatically creates a missing field in the context.
@@ -311,7 +316,7 @@ export class ExecutionContext implements IExecutionContext {
     //
     // The current transaction group.
     //
-    gtxn: ITable<ITypedValue | ITypedValue[]>[];
+    gtxn: ITable<ITable<ITypedValue | ITypedValue[]>>;
 
     //
     // The current inner transaction.
@@ -378,7 +383,7 @@ export class ExecutionContext implements IExecutionContext {
         this.stack = [];
         this.args = config?.args !== undefined ? loadValues(config.args) : [];
         this.txn = loadValueTableWithArrays(config?.txn);
-        this.gtxn = config?.gtxn ? config.gtxn.map(loadValueTableWithArrays) : [];
+        this.gtxn = loadTable(config?.gtxn, txn => loadValueTableWithArrays(txn))
         this.txnSideEffects = loadTable(config?.txnSideEffects, loadValueTable);
         this.gaid = loadValueTable(config?.gaid);
         this.globals = loadValueTable(config?.globals);
@@ -479,11 +484,32 @@ export class ExecutionContext implements IExecutionContext {
     async requireValue<T>(fieldPath: string, forOpcode: string): Promise<T> {
         const value = await this.requestValue<T>(fieldPath);
         if (value === undefined) {
-            throw new Error(`Configuration field "${fieldPath}" has not been provided, please adjust your configuration to include this field.`)   
+            throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode}.`)   
+        }
+
+        if (!Array.isArray(value)) {
+            throw new Error(`Expected configuration field "${fieldPath}" to NOT be an array when used with opcode ${forOpcode}.`);
         }
 
         return value;
     }
+
+    //
+    // Requires an array of values from the configuration. Throws when the request field is not found.
+    //
+    async requireValueArray<T>(fieldPath: string, forOpcode: string): Promise<T[]> {
+        const value = await this.requestValue<T[]>(fieldPath);
+        if (value === undefined) {
+            throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode}.`)   
+        }
+
+        if (!Array.isArray(value)) {
+            throw new Error(`Expected configuration field "${fieldPath}" to be an array when used with opcode ${forOpcode}.`);
+        }
+
+        return value;
+    }
+
   
     //
     // Automatically creates a missing field in the context.
