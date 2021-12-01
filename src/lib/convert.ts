@@ -76,21 +76,7 @@ export function loadValue(valueDef: ValueDef): ITypedValue {
         }
     }
 
-    if (valueDef.type === "array") {
-        return makeBytes(new Uint8Array(valueDef.value), valueDef);
-    }
-    else if (valueDef.type === "int") {
-        return makeBigInt(BigInt(valueDef.value), valueDef);
-    }
-    else if (valueDef.type === "string") {
-        return makeBytes(new Uint8Array(Buffer.from(valueDef.value)), valueDef);
-    }
-    else if (valueDef.type === "addr") {
-        return makeBytes(encodeAddress(valueDef.value), valueDef);
-    }
-    else {
-        throw new Error(`Unexpected arg type ${valueDef.type}.`);
-    }
+    throw new Error(`Unexpected value "${valueDef}"".`);
 }
 
 //
@@ -106,24 +92,66 @@ export function serializeValue(value: ITypedValue): any {
 }
 
 //
-// Load an array of values.
+// Loads a lookup table of values.
 //
-export function loadValues(values: ValueDef[]): ITypedValue[] {
-    return values.map(loadValue);
+// export function loadValueTable<InputT, OutputT>(valueDefTable?: ITable<InputT>): ITable<OutputT> {
+//     const valueMap: ITable<ITypedValue> = {};
+//     if (valueDefTable) {
+//         for (const [key, valueDef] of Object.entries(valueDefTable)) {
+//             if (typeof(valueDef) === "object") {
+//                 const nested: ITable<ITypedValue> = {};
+//                 // 
+//                 // Allow one nested level.
+//                 //
+//                 for (const [nestedKey, nestedValueDef] of Object.entries<ValueDef>(valueDef as any)) {
+//                     nested[nestedKey] = loadValue(nestedValueDef);
+//                 }
+//             }
+//             else {
+//                 valueMap[key] = loadValue(valueDef as any as ValueDef);
+//             }
+//         }    
+//     }
+
+//     return valueMap;
+// }
+
+//
+// Load a lookup table from config.
+//
+export function loadTable<FromT, ToT>(obj: ITable<FromT> | undefined, loader: (config: FromT) => ToT): ITable<ToT> {
+    const loaded: ITable<ToT> = {};
+    if (obj) {
+        for (const [key, value] of Object.entries(obj)) {
+            loaded[key] = loader(value);
+        }
+    }
+
+    return loaded;
 }
 
 //
-// Loads a lookup table of values.
+// Load a lookup table from config with potentially nested tables.
 //
-export function loadValueTable(valueDefTable?: ITable<ValueDef>): ITable<ITypedValue> {
-    const valueMap: ITable<ITypedValue> = {};
-    if (valueDefTable) {
-        for (const key of Object.keys(valueDefTable)) {
-            valueMap[key] = loadValue(valueDefTable[key]);
-        }    
+export function loadNestedTable<FromT, ToT>(obj: ITable<FromT | ITable<FromT>> | undefined, loader: (config: FromT) => ToT): ITable<ToT | ITable<ToT>> {
+    const loaded: ITable<ToT | ITable<ToT>> = {};
+    if (obj) {
+        for (const [key, value] of Object.entries(obj)) {
+            if (typeof(value) === "object") {
+                // Allowing nesting to one level.
+                const nested: ITable<ToT> = {};
+                for (const [nestedKey, nestedValue] of Object.entries(value)) {
+                    nested[nestedKey] = loader(nestedValue);
+                }                
+                loaded[key] = nested;
+            }
+            else {
+                loaded[key] = loader(value);
+            }
+        }
     }
 
-    return valueMap;
+    return loaded;
 }
 
 //
@@ -132,29 +160,11 @@ export function loadValueTable(valueDefTable?: ITable<ValueDef>): ITable<ITypedV
 export function serializeValueTable(valueTable: ITable<ITypedValue>): ITable<ValueDef> {
     const valueMap: ITable<ValueDef> = {};
     for (const key of Object.keys(valueTable)) {
+        //TODO: Need to serialize next level as well.
         valueMap[key] = serializeValue(valueTable[key]);
     }    
 
     return valueMap;
 }
 
-//
-// Loads a lookup table of values (allowing arrays of values).
-//
-export function loadValueTableWithArrays(valueDefTable?: ITable<ValueDef | ValueDef[]>): ITable<ITypedValue | ITypedValue[]> {
-    const valueMap: ITable<ITypedValue | ITypedValue[]> = {};
-    if (valueDefTable) {
-        for (const key of Object.keys(valueDefTable)) {
-            const valueDef = valueDefTable[key];
-            if (Array.isArray(valueDef)) {
-                valueMap[key] = valueDef.map(loadValue);
-            }
-            else {
-                valueMap[key] = loadValue(valueDef);
-            }
-        }    
-    }
-
-    return valueMap;
-}
 

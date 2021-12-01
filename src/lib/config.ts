@@ -10,25 +10,9 @@ export interface ITable<T> {
 }
 
 //
-// Unencoded value for an argument.
-//
-export interface IValueDef {
-
-    //
-    // The type of the value.
-    //
-    readonly type: "array" | "int" | "string" | "addr";
-
-    //
-    // The value of the value.
-    //
-    readonly value: any;
-}
-
-//
 // Extended value definition.
 //
-export type ValueDef = bigint | number | string | IValueDef;
+export type ValueDef = bigint | number | string;
 
 //
 // Defines an account in the configuration.
@@ -93,12 +77,12 @@ export interface ITealInterpreterConfig {
     //
     // The current transaction.
     //
-    txn?: ITable<ValueDef | ValueDef[]>;
+    txn?: ITable<ValueDef | ITable<ValueDef>>;
 
     //
     // The current transaction group.
     //
-    gtxn?: ITable<ITable<ValueDef | ValueDef[]>>;
+    gtxn?: ITable<ITable<ValueDef | ITable<ValueDef>>>;
 
     //
     // Scratch space corresponding to transactions in a group.
@@ -113,6 +97,6 @@ export interface ITealInterpreterConfig {
     //
     // Array of arguments.
     //
-    readonly args?: ValueDef[];
+    args?: ITable<ValueDef>;
 
 }

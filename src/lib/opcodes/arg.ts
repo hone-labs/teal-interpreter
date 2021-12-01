@@ -14,11 +14,9 @@ export class Arg extends Opcode {
         this.argIndex = this.parseIntOperand(0);
     }
     
-    execute(context: IExecutionContext): void {
-        if (this.argIndex < 0 || this.argIndex >= context.args.length) {
-            throw new Error(`Invalid index "${this.argIndex}" provided to "arg" opcode. It is outside the range of ${context.args.length} arguments.`);
-        }
+    async execute(context: IExecutionContext) {
 
-        context.stack.push(context.args[this.argIndex]);
+        const value = await context.requireValue(`args.${this.argIndex}`, this.token.opcode);
+        context.stack.push(value);
     }
 }

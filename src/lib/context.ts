@@ -1,8 +1,7 @@
 
 import { autoCreateField } from "./auto-field";
 import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
-import { loadValues, loadValueTable, loadValueTableWithArrays, serializeValue } from "./convert";
-import { getDefaultValue } from "./default-value";
+import { loadNestedTable, loadTable, loadValue, serializeValue } from "./convert";
 import { IBranchTargetMap } from "./parser";
 
 //
@@ -49,6 +48,15 @@ export interface ITypedValue {
     // This can be a hint to the debugger on how to display the value.
     //
     from?: ValueDef;
+}
+
+//
+// Returns true if the input value is determined to be a "typed value" object.
+//
+export function isTypedValue(value: any): boolean {
+    return typeof(value) === "object"
+        && "type" in value 
+        && "value" in value;
 }
 
 //
@@ -162,12 +170,12 @@ export interface IExecutionContext {
     //
     // The current transaction.
     //
-    txn: ITable<ITypedValue | ITypedValue[]>;
+    txn: ITable<ITypedValue | ITable<ITypedValue>>;
 
     //
     // The current transaction group.
     //
-    gtxn: ITable<ITable<ITypedValue | ITypedValue[]>>;
+    gtxn: ITable<ITable<ITypedValue | ITable<ITypedValue>>>;
 
     //
     // The current inner transaction.
@@ -207,12 +215,12 @@ export interface IExecutionContext {
     //
     // The compute stack used for execution.
     //
-    readonly stack: ITypedValue[];
+    stack: ITypedValue[];
 
     //
     // Array of arguments.
     //
-    readonly args: ITypedValue[];
+    args: ITable<ITypedValue>;
 
     //
     // Request an account from the configuration returning undefined if the account is not found.
@@ -311,12 +319,12 @@ export class ExecutionContext implements IExecutionContext {
     //
     // The current transaction.
     //
-    txn: ITable<ITypedValue | ITypedValue[]>;
+    txn: ITable<ITypedValue | ITable<ITypedValue>>;
 
     //
     // The current transaction group.
     //
-    gtxn: ITable<ITable<ITypedValue | ITypedValue[]>>;
+    gtxn: ITable<ITable<ITypedValue | ITable<ITypedValue>>>;
 
     //
     // The current inner transaction.
@@ -356,37 +364,37 @@ export class ExecutionContext implements IExecutionContext {
     //
     // The compute stack used for execution.
     //
-    readonly stack: ITypedValue[];
+    stack: ITypedValue[];
 
     //
     // Array of arguments.
     //
-    readonly args: ITypedValue[];
+    args: ITable<ITypedValue>;
 
     constructor(branchTargets: IBranchTargetMap, config?: ITealInterpreterConfig) {
         this.version = 1;
         this.curInstructionIndex = 0;
-        this.appGlobals = loadTable(config?.appGlobals, loadValueTable);
-        this.assetParams = loadTable(config?.assetParams, loadValueTable);
-        this.appParams = loadTable(config?.appParams, loadValueTable);
+        this.appGlobals = loadTable(config?.appGlobals, appGlobals => loadTable(appGlobals, loadValue));
+        this.assetParams = loadTable(config?.assetParams, assetParams => loadTable(assetParams, loadValue));
+        this.appParams = loadTable(config?.appParams, appParams => loadTable(appParams, loadValue));
         this.accounts = loadTable(config?.accounts, accountDef => {
             return {
                 balance: accountDef.balance || 0,
                 minBalance: accountDef.minBalance || 0,
-                appLocals: loadTable(accountDef.appLocals, loadValueTable),
+                appLocals: loadTable(accountDef.appLocals, appLocals => loadTable(appLocals, loadValue)),
                 appsOptedIn: accountDef.appsOptedIn || [],
-                assetHoldings: loadTable(accountDef.assetHoldings, loadValueTable),
+                assetHoldings: loadTable(accountDef.assetHoldings, assetHoldings => loadTable(assetHoldings, loadValue)),
             };
         });
         this.branchTargets = branchTargets;
         this.callstack = [];
         this.stack = [];
-        this.args = config?.args !== undefined ? loadValues(config.args) : [];
-        this.txn = loadValueTableWithArrays(config?.txn);
-        this.gtxn = loadTable(config?.gtxn, txn => loadValueTableWithArrays(txn))
-        this.txnSideEffects = loadTable(config?.txnSideEffects, loadValueTable);
-        this.gaid = loadValueTable(config?.gaid);
-        this.globals = loadValueTable(config?.globals);
+        this.args = loadTable(config?.args, loadValue);
+        this.txn = loadNestedTable(config?.txn, loadValue);
+        this.gtxn = loadTable(config?.gtxn, txn => loadNestedTable(txn, loadValue));
+        this.txnSideEffects = loadTable(config?.txnSideEffects, txn => loadTable(txn, loadValue));
+        this.gaid = loadTable(config?.gaid, loadValue);
+        this.globals = loadTable(config?.globals, loadValue);
         this.scratch = new Array<ITypedValue>(255).fill(makeBigInt(BigInt(0)));
         this.intcblock = [];
         this.bytecblock = [];
@@ -532,10 +540,8 @@ export class ExecutionContext implements IExecutionContext {
             return outputArray;
         }
         else {
-            const valueType = typeof(value);
-            if (valueType === "object") {
-                const isTypedValue = "type" in value && "value" in value;
-                if (isTypedValue) {
+            if (typeof(value) === "object") {
+                if (isTypedValue(value)) {
                     return serializeValue(value as ITypedValue);
                 }
                 else {
@@ -567,19 +573,5 @@ export class ExecutionContext implements IExecutionContext {
         this.internalSerialize(this, output);
         return output;
     }
-}
-
-//
-// Load a lookup table from config.
-//
-function loadTable<FromT, ToT>(obj: ITable<FromT> | undefined, loader: (config: FromT) => ToT): ITable<ToT> {
-    const loaded: ITable<ToT> = {};
-    if (obj) {
-        for (const key of Object.keys(obj)) {
-            loaded[key] = loader(obj[key]);
-        }
-    }
-
-    return loaded;
 }
 
