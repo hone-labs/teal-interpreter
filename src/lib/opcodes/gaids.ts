@@ -17,13 +17,9 @@ export class Gaids extends Opcode {
         }
     }
 
-    execute(context: IExecutionContext): void {
+    async execute(context: IExecutionContext) {
 
-        const value = context.gaid[this.txnIndex.toString()];
-        if (value === undefined) {
-            throw new Error(`Expected "gaid.${this.txnIndex}" in your configuration."`);
-        }
-
+        const value = await context.requireValue(`gaid.${this.txnIndex}`, this.token.opcode);
         context.stack.push(value);
     }
 }

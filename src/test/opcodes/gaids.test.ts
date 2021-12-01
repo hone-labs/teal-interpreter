@@ -4,20 +4,26 @@ import { Gaids } from "../../lib/opcodes/gaids";
 
 describe("gaids opcode", () => {
 
-    it ("can execute", () => {
+    it ("can execute", async () => {
 
-        const token: any = {};
+        const txnIndex = 0;
+        const token: any = {
+            operands: [
+                txnIndex.toString(),
+            ],
+        };
+        const opcode = new Gaids(token, opcodeDefs.gaids);
         const context: any = {
+            requireValue: (fieldPath: string) => {
+                expect(fieldPath).toEqual(`gaid.${txnIndex}`);
+                return makeBigInt(BigInt(3));
+            },
             stack: [
                 makeBigInt(BigInt(0)),
             ],
-            gaid: {
-                "0": makeBigInt(BigInt(3)),
-            },
         };
-        const opcode = new Gaids(token, opcodeDefs.gaids);
         opcode.validateContext(context);
-        opcode.execute(context);
+        await opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
         expect(Number(context.stack[0]?.value)).toEqual(3);
