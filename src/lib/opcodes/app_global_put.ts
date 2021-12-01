@@ -8,8 +8,7 @@ export class AppGlobalPut extends Opcode {
         const globalName = Buffer.from(this.popBytes(context)).toString();
         let appGlobals = context.appGlobals["0"];
         if (appGlobals === undefined) {
-            appGlobals = context.appGlobals["0"] = {
-            };
+            appGlobals = context.appGlobals["0"] = {};
         }
 
         appGlobals[globalName] = value;
