@@ -12,16 +12,18 @@ const defaultValueSpec = {
         new: () => ({}),
         "*": {
             appLocals: {
-                "*": 0,
+                "*": {
+                    "*": 0,
+                }
             },
-        }
+        },
     },
     globals: {
         "*": 0,
     },
     txn: {
         "*": 0,
-    }
+    },
 };
 
 //
