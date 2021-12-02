@@ -82,4 +82,25 @@ describe("default value", () => {
         expect(value).toEqual(27);
     });
 
+    it("can get nested value by function", () => {
+
+        const value = getDefaultValue("a.b.c", {
+            "a": {
+                "b": {
+                    "c": () => 21,
+                },
+            },
+        });
+        expect(value).toEqual(21);
+    });
+
+    it("can use constructor function to create default value", () => {
+
+        const value = getDefaultValue("something", {
+            "something": () => 15,
+        });
+        expect(value).toEqual(15);        
+    });
+
+
 });

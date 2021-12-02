@@ -25,6 +25,10 @@ export function getDefaultValue(fieldPath: string, defaultValueSpec: any): any {
     }
 
     if (working !== undefined) {
+        if (working.new !== undefined) {
+            working = working.new;
+        } 
+
         if (typeof(working) === "function") {
             return working();
         }
