@@ -1,5 +1,5 @@
 import { Opcode } from "../opcode";
-import { IExecutionContext } from "../context";
+import { IAccount, IExecutionContext } from "../context";
 import { decodeAddress } from "../convert";
 
 export class AppLocalPut extends Opcode {
@@ -8,7 +8,7 @@ export class AppLocalPut extends Opcode {
         const value = context.stack.pop()!;
         const localName = Buffer.from(this.popBytes(context)).toString();
         const accountName = decodeAddress(this.popBytes(context));
-        const account = await context.requireAccount(accountName, this.token.opcode);
+        const account = await context.requireValue<IAccount>(`accounts.${accountName}`, this.token.opcode);
         let appLocals = account.appLocals["0"];
         if (appLocals === undefined) {
             appLocals = account.appLocals["0"] = {};            

@@ -7,7 +7,7 @@ describe("app_local_del opcode", () => {
 
     it ("can execute", async () => {
 
-        const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
+        const addr = "john";
         const account = {
             appLocals: {
                 "0": {
@@ -19,8 +19,8 @@ describe("app_local_del opcode", () => {
         const opcode = new AppLocalDel(token, opcodeDefs.app_local_del);
 
         const context: any = {
-            requireAccount: async (accountName: string) => {
-                expect(accountName).toEqual(addr);
+            requireValue: async (fieldPath: string) => {
+                expect(fieldPath).toEqual(`accounts.${addr}`);
                 return account;
             },
             stack: [                
