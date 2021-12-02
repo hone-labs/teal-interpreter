@@ -9,13 +9,28 @@ import { IBranchTargetMap } from "./parser";
 //
 const defaultValueSpec = {
     accounts: {
-        new: () => ({}),
         "*": {
+            new: (): IAccount => ({
+                appLocals: {},
+                appsOptedIn: [],
+                assetHoldings: {},
+            }),
+            "*": 0,
             appLocals: {
                 "*": {
                     "*": 0,
                 }
             },
+            assetHoldings: {
+                "*": {
+                    "*": 0,
+                },
+            }
+        },
+    },
+    appGlobals: {
+        "*": {
+            "*": 0,
         },
     },
     globals: {
@@ -23,7 +38,30 @@ const defaultValueSpec = {
     },
     txn: {
         "*": 0,
+        "Sender": "john",
     },
+    gtxn: {
+        "*": {
+            "*": 0,
+            "Sender": "john",
+        },
+    },
+    appParams: {
+        "*": {
+            "*": 0,
+        },
+    },
+    assetParams: {
+        "*": {
+            "*": 0,
+        },
+    },
+    args: {
+        "*": 0,
+    },
+    gaid: {
+        "*": 0,
+    }
 };
 
 //
