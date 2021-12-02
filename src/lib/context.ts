@@ -457,7 +457,7 @@ export class ExecutionContext implements IExecutionContext {
             throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode}.`)   
         }
 
-        if (!Array.isArray(value)) {
+        if (Array.isArray(value)) {
             throw new Error(`Expected configuration field "${fieldPath}" to NOT be an array when used with opcode ${forOpcode}.`);
         }
 
