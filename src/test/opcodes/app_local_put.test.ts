@@ -7,7 +7,7 @@ describe("app_local_put opcode", () => {
 
     it ("can execute", async () => {
 
-        const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
+        const addr = "john";
         const account = {
             appLocals: {
                 "0": {
@@ -18,8 +18,8 @@ describe("app_local_put opcode", () => {
         const opcode = new AppLocalPut(token, opcodeDefs.app_local_put);
 
         const context: any = {
-            requireAccount: async (accountName: string) => {
-                expect(accountName).toEqual(addr);
+            requireValue: async (fieldPath: string) => {
+                expect(fieldPath).toEqual(`accounts.${addr}`);
                 return account;
             },
             stack: [                
@@ -36,7 +36,7 @@ describe("app_local_put opcode", () => {
 
     it("creates app when not found", async () => {
         
-        const addr = "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224";
+        const addr = "john";
         const account = {
             appLocals: {} as any,
         };
@@ -44,8 +44,8 @@ describe("app_local_put opcode", () => {
         const opcode = new AppLocalPut(token, opcodeDefs.app_local_put);
 
         const context: any = {
-            requireAccount: async (accountName: string) => {
-                expect(accountName).toEqual(addr);
+            requireValue: async (fieldPath: string) => {
+                expect(fieldPath).toEqual(`accounts.${addr}`);
                 return account;
             },
             stack: [                

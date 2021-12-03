@@ -9,13 +9,28 @@ import { IBranchTargetMap } from "./parser";
 //
 const defaultValueSpec = {
     accounts: {
-        new: () => ({}),
         "*": {
+            new: (): IAccount => ({
+                appLocals: {},
+                appsOptedIn: [],
+                assetHoldings: {},
+            }),
+            "*": 0,
             appLocals: {
                 "*": {
                     "*": 0,
                 }
             },
+            assetHoldings: {
+                "*": {
+                    "*": 0,
+                },
+            }
+        },
+    },
+    appGlobals: {
+        "*": {
+            "*": 0,
         },
     },
     globals: {
@@ -23,7 +38,30 @@ const defaultValueSpec = {
     },
     txn: {
         "*": 0,
+        "Sender": "john",
     },
+    gtxn: {
+        "*": {
+            "*": 0,
+            "Sender": "john",
+        },
+    },
+    appParams: {
+        "*": {
+            "*": 0,
+        },
+    },
+    assetParams: {
+        "*": {
+            "*": 0,
+        },
+    },
+    args: {
+        "*": 0,
+    },
+    gaid: {
+        "*": 0,
+    }
 };
 
 //
@@ -225,19 +263,9 @@ export interface IExecutionContext {
     args: ITable<ITypedValue>;
 
     //
-    // Request an account from the configuration returning undefined if the account is not found.
-    //
-    requestAccount(accountName: string): Promise<IAccount | undefined>;
-
-    //
     // Event raised when a configuration field is not found, allowing the configuration to be generated on demand.
     //
     onConfigNotFound?: (fieldPath: string) => Promise<void>;
-
-    //
-    // Require an account and throw if it doesn't exist.
-    //
-    requireAccount(accountName: string, forOpcode: string): Promise<IAccount>;
 
     //
     // Requests a value from the configuration.
@@ -404,39 +432,9 @@ export class ExecutionContext implements IExecutionContext {
     }
 
     //
-    // Request an account from the configuration returning undefined if the account is not found.
-    //
-    async requestAccount(accountName: string): Promise<IAccount | undefined> {
-        let account = this.accounts[accountName];
-        if (!account) {
-            if (this.onConfigNotFound) {
-                // Allows the requested account to be automatically generated.
-                await this.onConfigNotFound(`accounts.${accountName}`);
-
-                // Try and get the account again.
-                account = this.accounts[accountName];
-            }
-        }
-
-        return account;
-    }
-
-    //
     // Event raised when a configuration field is not found, allowing the configuration to be generated on demand.
     //
     onConfigNotFound?: (fieldPath: string) => Promise<void>;
-
-    //
-    // Require an account and throw if it doesn't exist.
-    //
-    async requireAccount(accountName: string, forOpcode: string): Promise<IAccount> {
-        const account = await this.requestAccount(accountName);
-        if (!account) {
-            throw new Error(`Account "${accountName}" not found, required by opcode "${forOpcode}", please add this account to your configuration.`);
-        }
-
-        return account;
-    }
 
     //
     // Finds value in the configuration at a specified path.
@@ -497,7 +495,7 @@ export class ExecutionContext implements IExecutionContext {
             throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode}.`)   
         }
 
-        if (!Array.isArray(value)) {
+        if (Array.isArray(value)) {
             throw new Error(`Expected configuration field "${fieldPath}" to NOT be an array when used with opcode ${forOpcode}.`);
         }
 

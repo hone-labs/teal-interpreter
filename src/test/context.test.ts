@@ -6,25 +6,6 @@ describe("context", () => {
         new ExecutionContext({}, {});
     });
 
-    it("raises event when account is not found", async () => {
-        const account = "anAccount";
-        const context = new ExecutionContext({}, {});
-        let eventRaised = false;
-        context.onConfigNotFound = async (fieldPath) => {
-            expect(fieldPath).toEqual(`accounts.${account}`);
-            eventRaised = true;
-        };
-
-        await context.requestAccount(account);
-        expect(eventRaised).toEqual(true);
-    });
-
-    it("throws when required account is not found", async () => {
-        const account = "anAccount";
-        const context = new ExecutionContext({}, {});
-        await expect(() => context.requireAccount(account, "test")).rejects.toThrow();
-    });
-
     it("raises event when value is not found", async () => {
         const testFieldPath = `globals.something`;
         const context = new ExecutionContext({}, {});
