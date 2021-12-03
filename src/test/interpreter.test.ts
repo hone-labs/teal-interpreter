@@ -118,4 +118,40 @@ describe("teal interpreter", () => {
         expect(await interpreter.step()).toEqual(false);
     });
 
+    it("can run entire program", async () => {
+
+        const interpreter = new TealInterpreter();
+        interpreter.load(dedent(`
+            int 1
+            int 2
+        `));
+
+        expect(interpreter.isFinished()).toEqual(false);
+        expect(interpreter.getCurLineNo()).toEqual(1);
+
+        expect(await interpreter.continue()).toEqual(false);
+
+        expect(interpreter.isFinished()).toEqual(true);
+        expect(interpreter.getCurLineNo()).toEqual(undefined);
+    });
+
+    it("can run stop at breakpoint", async () => {
+
+        const interpreter = new TealInterpreter();
+        interpreter.load(dedent(`
+            int 1
+            int 2
+        `));
+
+        interpreter.setBreakpoints([ 2 ]);
+
+        expect(interpreter.isFinished()).toEqual(false);
+        expect(interpreter.getCurLineNo()).toEqual(1);
+
+        expect(await interpreter.continue()).toEqual(true);
+
+        expect(interpreter.isFinished()).toEqual(false);
+        expect(interpreter.getCurLineNo()).toEqual(2);
+    });
+
 });

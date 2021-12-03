@@ -27,15 +27,33 @@ export interface ITealInterpreter {
     getCurLineNo(): number | undefined;
 
     //
+    // Set breakpoints at the specified line numbers.
+    // Clears previously set breakpoints.
+    //
+    setBreakpoints(lines: number[]): void;
+
+    //
     // Loads TEAL code into the interpreter.
     //
     load(tealCode: string, config?: ITealInterpreterConfig): void;
 
     //
+    // Returns true if the program has run to completion.
+    //
+    isFinished(): boolean;
+
+    //
     // Step to the next instruction.
-    // Returns true if able to continue.
+    // Returns true if able to step again, returns false when execution is done.
     //
     step(): Promise<boolean>;
+
+    //
+    // Continue running until program ends or we hit a breakpoint.
+    // Returns true if able to continue again, returns false when execution is done.
+    //
+    continue(): Promise<boolean>;
+
 }
 
 export class TealInterpreter implements ITealInterpreter {
@@ -49,6 +67,12 @@ export class TealInterpreter implements ITealInterpreter {
     // The context for execution of TEAL code.
     //
     private _context: IExecutionContext = new ExecutionContext({}, {});
+    
+    // 
+    // Break points that have been set.
+    // The "continue" function stop executing when it hits a break point.
+    //
+    private breakpointLines: number[] = [];
 
     //
     // Index of the instruction we are currently stopped at
@@ -83,6 +107,14 @@ export class TealInterpreter implements ITealInterpreter {
             return undefined;
         }
     }
+
+    //
+    // Set breakpoints at the specified line numbers.
+    // Clears previously set breakpoints.
+    //
+    setBreakpoints(lines: number[]): void {
+        this.breakpointLines = lines.slice(); // Copy the array so it can't be modified.
+    }
     
     //
     // Loads TEAL code into the interpreter.
@@ -94,14 +126,22 @@ export class TealInterpreter implements ITealInterpreter {
     }
 
     //
+    // Returns true if the program has run to completion.
+    //
+    isFinished(): boolean {
+        return this.context.finished 
+            || this.curInstructionIndex > this.instructions.length - 1;
+    }
+
+    //
     // Step to the next instruction.
     // Returns true if able to continue.
     //
     async step(): Promise<boolean> {
-        if (this.context.finished 
-            || this.curInstructionIndex > this.instructions.length - 1) {
+
+        if (this.isFinished()) {
             //
-            // Don't step beyond the end.
+            // Don't step beyond the end, terminates execution.
             //
             return false;
         }
@@ -124,5 +164,24 @@ export class TealInterpreter implements ITealInterpreter {
         // Move to next instruction.
         this.context.curInstructionIndex += 1;
         return !this.context.finished;
+    }
+
+    //
+    // Continue running until program ends or we hit a breakpoint.
+    //
+    async continue(): Promise<boolean> {
+        while (await this.step()) {
+            // Continue until we need to stop.
+            const curLineNo = this.getCurLineNo();
+            if (curLineNo !== undefined) {
+                if (this.breakpointLines.includes(curLineNo)) {
+                    // Stop on breakpoint, but don't terminate execution.
+                    return true; 
+                }            
+            }
+        }
+
+        // Program ended, terminates execution.
+        return false;
     }
 }
