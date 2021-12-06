@@ -2,6 +2,7 @@
 import { autoCreateField } from "./auto-field";
 import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
 import { loadNestedTable, loadTable, loadValue, serializeValue } from "./convert";
+import { getDefaultValue } from "./default-value";
 import { IBranchTargetMap } from "./parser";
 
 //
@@ -295,9 +296,14 @@ export interface IExecutionContext {
     requireValue<T = ITypedValue>(fieldPath: string, forOpcode: string): Promise<T>;
 
     //
+    // Gets the default value for a field.
+    //
+    getDefaultValue(fieldPath: string): any;
+
+    //
     // Automatically creates a missing field in the context.
     //
-    autoCreateField(fieldPath: string): void;
+    autoCreateField(fieldPath: string, value: ITypedValue): void;
 
     //
     // Converts the context back to a configuration.
@@ -510,10 +516,17 @@ export class ExecutionContext implements IExecutionContext {
     }
 
     //
+    // Gets the default value for a field.
+    //
+    getDefaultValue(fieldPath: string): any {
+        return getDefaultValue(fieldPath, defaultValueSpec);
+    }
+
+    //
     // Automatically creates a missing field in the context.
     //
-    autoCreateField(fieldPath: string): void {
-        return autoCreateField(this, fieldPath, defaultValueSpec);
+    autoCreateField(fieldPath: string, value: ITypedValue): void {
+        return autoCreateField(this, fieldPath, value);
     }
 
     //

@@ -1,10 +1,10 @@
 
-import { getDefaultValue } from "./default-value";
+import { ITypedValue } from "./context";
 
 //
 // Automatically creates a missing field in the context.
 //
-export function autoCreateField(container: any, fieldPath: string, defaultValueSpec: any): void {
+export function autoCreateField(container: any, fieldPath: string, value: ITypedValue): void {
     const parts = fieldPath.split(".");
     const fieldName = parts.pop()!;
     let working = container;
@@ -15,5 +15,5 @@ export function autoCreateField(container: any, fieldPath: string, defaultValueS
         working = working[part];
     }
 
-    working[fieldName] = getDefaultValue(fieldPath, defaultValueSpec);
+    working[fieldName] = value;
 }
