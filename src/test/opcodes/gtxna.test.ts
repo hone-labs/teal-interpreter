@@ -16,10 +16,10 @@ describe("gtxna opcode", () => {
         const opcode = new Gtxna(token, opcodeDefs.gtxna);
 
         const context: any = {
-            requireValueArray: (fieldPath: string) => {
-                expect(fieldPath).toEqual(`gtxn.0.Something`);
+            requireValue: (fieldPath: string) => {
+                expect(fieldPath).toEqual(`gtxn.0.Something.0`);
 
-                return [ makeBigInt(BigInt(42)) ];
+                return makeBigInt(BigInt(42));
             },
             stack: [],
         };

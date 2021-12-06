@@ -283,11 +283,6 @@ export interface IExecutionContext {
     requireValue<T = ITypedValue>(fieldPath: string, forOpcode: string): Promise<T>;
 
     //
-    // Requires an array of values from the configuration. Throws when the request field is not found.
-    //
-    requireValueArray<T = ITypedValue>(fieldPath: string, forOpcode: string): Promise<T[]>;
-
-    //
     // Automatically creates a missing field in the context.
     //
     autoCreateField(fieldPath: string): void;
@@ -499,30 +494,9 @@ export class ExecutionContext implements IExecutionContext {
             throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode}.`)   
         }
 
-        if (Array.isArray(value)) {
-            throw new Error(`Expected configuration field "${fieldPath}" to NOT be an array when used with opcode ${forOpcode}.`);
-        }
-
         return value;
     }
 
-    //
-    // Requires an array of values from the configuration. Throws when the request field is not found.
-    //
-    async requireValueArray<T>(fieldPath: string, forOpcode: string): Promise<T[]> {
-        const value = await this.requestValue<T[]>(fieldPath);
-        if (value === undefined) {
-            throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode}.`)   
-        }
-
-        if (!Array.isArray(value)) {
-            throw new Error(`Expected configuration field "${fieldPath}" to be an array when used with opcode ${forOpcode}.`);
-        }
-
-        return value;
-    }
-
-  
     //
     // Automatically creates a missing field in the context.
     //

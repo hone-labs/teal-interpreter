@@ -28,16 +28,11 @@ export class Txnas extends Opcode {
     
     async execute(context: IExecutionContext): Promise<void> {
 
-        const value = await context.requireValueArray(`txn.${this.fieldName}`, this.token.opcode)
-
         if (this.fieldArrayIndex < 0) {
             throw new Error(`Field index should >= 0, instead found ${this.fieldArrayIndex}`);
         }
 
-        if (this.fieldArrayIndex >= value.length) {
-            throw new Error(`Field index ${this.fieldArrayIndex}, is outside the range of ${value.length}, please adjust your configuration to include this field index.`);
-        }
-
-        context.stack.push(value[this.fieldArrayIndex]);
+        const value = await context.requireValue(`txn.${this.fieldName}.${this.fieldArrayIndex}`, this.token.opcode)
+        context.stack.push(value);
     }
 }

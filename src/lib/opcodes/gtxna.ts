@@ -32,18 +32,12 @@ export class Gtxna extends Opcode {
             throw new Error(`Transaction index should >= 0, instead found ${this.txnIndex}`);
         }
 
-        const fieldPath = `gtxn.${this.txnIndex}.${this.fieldName}`;
-        const array = await context.requireValueArray(fieldPath, this.token.opcode);
-
         if (this.fieldIndex < 0) {
             throw new Error(`Field index should be greater than 0, instead got ${this.fieldIndex}.`);
         }
 
-        if (this.fieldIndex >= array.length) {
-            throw new Error(`Field index should be within the boundary of the array. Expected less than ${array.length}, instead got ${this.fieldIndex}.`);
-        }
-
-        const value = array[this.fieldIndex];
+        const fieldPath = `gtxn.${this.txnIndex}.${this.fieldName}.${this.fieldIndex}`;
+        const value = await context.requireValue(fieldPath, this.token.opcode);
         context.stack.push(value);
     }
 }
