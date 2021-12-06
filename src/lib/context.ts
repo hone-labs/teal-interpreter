@@ -39,15 +39,27 @@ const defaultValueSpec = {
     txn: {
         "*": 0,
         "Sender": "john",
-        "ApplicationArgs": () => ({}),
-        "Accounts": () => ({}),
+        "ApplicationArgs": {
+            new: () => ({}),
+            "*": 0,
+        },
+        "Accounts": {
+            new: () => ({}),
+            "*": "john",
+        },
     },
     gtxn: {
         "*": {
             "*": 0,
             "Sender": "john",
-            "ApplicationArgs": () => ({}),
-            "Accounts": () => ({}),
+            "ApplicationArgs": {
+                new: () => ({}),
+                "*": 0,
+            },
+            "Accounts": {
+                new: () => ({}),
+                "*": "john",
+            },
         },
     },
     appParams: {
