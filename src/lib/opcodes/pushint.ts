@@ -11,7 +11,7 @@ export class PushInt extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        this.value = this.parseBigIntOperand(0);
+        this.value = this.parseIntOperand(0);
     }
 
     execute(context: IExecutionContext): void {

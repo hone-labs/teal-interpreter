@@ -21,7 +21,7 @@ export class Gtxnas extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        this.txnIndex = this.parseIntOperand(0);
+        this.txnIndex = Number(this.parseIntOperand(0));
         if (this.txnIndex < 0) {
             throw new Error(`Transaction index should >= 0, instead found ${this.txnIndex}`);
         }

@@ -102,6 +102,68 @@ describe("opcode validation failures", () => {
         opcode.validateContext(context);
      });
 
+     it("can parse int operand", () => {
 
+        const token: any = {
+            opcode: "something",
+            operands: [
+                "5"
+            ],
+        };
+        const opcodeDef: any = {
+            operands: 1,
+            stack: 0,
+        };
+        let parsedOperand: bigint | undefined = undefined;
+
+        class TestOpcode extends Opcode {
+
+            validateOperand(): void {
+                super.validateOperand();
+
+                parsedOperand = this.parseIntOperand(0);
+            }
+
+            execute(context: IExecutionContext): void {
+                throw new Error("Method not implemented.");
+            }        
+        }
+        
+        const opcode = new TestOpcode(token, opcodeDef);
+        opcode.validateOperand();
+        expect(Number(parsedOperand)).toEqual(5);
+    });
+
+    it("can parse named int contant operand", () => {
+
+        const token: any = {
+            opcode: "something",
+            operands: [
+                "ClearState"
+            ],
+        };
+        const opcodeDef: any = {
+            operands: 1,
+            stack: 0,
+        };
+        let parsedOperand: bigint | undefined = undefined;
+
+        class TestOpcode extends Opcode {
+
+            validateOperand(): void {
+                super.validateOperand();
+
+                parsedOperand = this.parseIntOperand(0);
+            }
+
+            execute(context: IExecutionContext): void {
+                throw new Error("Method not implemented.");
+            }        
+        }
+        
+        const opcode = new TestOpcode(token, opcodeDef);
+        opcode.validateOperand();
+        expect(Number(parsedOperand)).toEqual(3);
+    });
 
 });

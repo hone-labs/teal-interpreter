@@ -11,7 +11,7 @@ export class Gaid extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        this.txnIndex = this.parseIntOperand(0);
+        this.txnIndex = Number(this.parseIntOperand(0));
         if (this.txnIndex < 0) {
             throw new Error(`Transaction group index operand of opcode ${this.token.operands} cannot be less than 0.`);
         }

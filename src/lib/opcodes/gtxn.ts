@@ -16,7 +16,7 @@ export class Gtxn extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        this.txnIndex = this.parseIntOperand(0);
+        this.txnIndex = Number(this.parseIntOperand(0));
         this.fieldName = this.token.operands[1];
     }
     

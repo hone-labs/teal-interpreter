@@ -21,9 +21,9 @@ export class Gtxna extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        this.txnIndex = this.parseIntOperand(0);
+        this.txnIndex = Number(this.parseIntOperand(0));
         this.fieldName = this.token.operands[1];
-        this.fieldIndex = this.parseIntOperand(2);
+        this.fieldIndex = Number(this.parseIntOperand(2));
     }
     
     async execute(context: IExecutionContext): Promise<void> {

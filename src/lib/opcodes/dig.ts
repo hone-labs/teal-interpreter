@@ -11,7 +11,7 @@ export class Dig extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        this.stackPosition = this.parseIntOperand(0);
+        this.stackPosition = Number(this.parseIntOperand(0));
     }
 
     validateContext(context: IExecutionContext) {

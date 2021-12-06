@@ -11,7 +11,7 @@ export class Intc extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        this.blockIndex = this.parseIntOperand(0);
+        this.blockIndex = Number(this.parseIntOperand(0));
     }    
 
     execute(context: IExecutionContext): void {

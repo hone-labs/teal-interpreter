@@ -11,7 +11,7 @@ export class Arg extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        this.argIndex = this.parseIntOperand(0);
+        this.argIndex = Number(this.parseIntOperand(0));
     }
     
     async execute(context: IExecutionContext) {

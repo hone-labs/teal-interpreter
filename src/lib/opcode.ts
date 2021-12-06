@@ -1,4 +1,4 @@
-import { isArray } from "util";
+import { constants } from "./constants";
 import { IExecutionContext, makeBigInt, makeBytes } from "./context";
 import { IExecuteResult } from "./execute-result";
 import { IOpcodeDef } from "./opcodes";
@@ -91,27 +91,20 @@ export abstract class Opcode implements IOpcode {
     abstract execute(context: IExecutionContext): number | void | Promise<number | void>;
 
     //
-    // Parses a number from an operand.
+    // Parses an int from an operand.
     //
-    protected parseIntOperand(operandIndex: number): number {
-        let operand = this.token.operands[operandIndex];
-        let base = 10;
-        if (operand.startsWith("0x")) {
-            base = 16;
-            operand = operand.slice(2);
+    protected parseIntOperand(operandIndex: number): bigint {
+        if (operandIndex > this.token.operands.length - 1) {
+            throw new Error(`Operand ${operandIndex} not found. Only ${this.token.operands.length} operands supplied to opcode ${this.token.opcode}.`)
         }
-        const value = parseInt(operand, base);
-        if (Number.isNaN(value)) {
-            throw new Error(`Failed to pass integer "${operand}" from operand ${operandIndex} for opcode "${this.token.opcode}".`);
-        }
-        return value;
-    }
 
-    //
-    // Parses a bigint from an operand.
-    //
-    protected parseBigIntOperand(operandIndex: number): bigint {
-        return BigInt(this.token.operands[operandIndex]);
+        const operand = this.token.operands[operandIndex];
+        const constantValue = constants[operand];
+        if (constantValue !== undefined) {
+            return BigInt(constantValue);
+        }
+
+        return BigInt(operand);
     }
 
     //

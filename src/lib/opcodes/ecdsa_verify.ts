@@ -12,7 +12,7 @@ export class Ecdsa_verify extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        this.curveIndex = this.parseIntOperand(0);
+        this.curveIndex = Number(this.parseIntOperand(0));
     }
     
     execute(context: IExecutionContext): void {

@@ -11,7 +11,7 @@ export class Store extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        this.position = this.parseIntOperand(0);
+        this.position = Number(this.parseIntOperand(0));
         if (this.position < 0 || this.position >= 255) {
             throw new Error(`Invalid position ${this.position} in scratch spaced was requested, this value should be 0 or greater and less than 255.`);
         }

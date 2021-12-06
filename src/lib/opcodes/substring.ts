@@ -16,8 +16,8 @@ export class Substring extends Opcode {
     validateOperand() {
         super.validateOperand();
 
-        this.position = this.parseIntOperand(0);
-        this.end = this.parseIntOperand(1);
+        this.position = Number(this.parseIntOperand(0));
+        this.end = Number(this.parseIntOperand(1));
     }
 
     execute(context: IExecutionContext): void {

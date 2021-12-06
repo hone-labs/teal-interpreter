@@ -16,12 +16,12 @@ export class Gload extends Opcode {
     validateOperand(): void {
         super.validateOperand();
 
-        this.txnIndex = this.parseIntOperand(0);
+        this.txnIndex = Number(this.parseIntOperand(0));
         if (this.txnIndex < 0) {
             throw new Error(`Transaction group index operand of opcode ${this.token.operands} cannot be less than 0.`);
         }
 
-        this.position = this.parseIntOperand(1);
+        this.position = Number(this.parseIntOperand(1));
         if (this.position < 0 || this.position >= 255) {
             throw new Error(`Invalid position ${this.position} in scratch spaced was requested, this value should be 0 or greater and less than 255.`);
         }

@@ -17,7 +17,7 @@ export class Itxna extends Opcode {
         super.validateOperand();
 
         this.fieldName = this.token.operands[0];
-        this.fieldArrayIndex = this.parseIntOperand(1);
+        this.fieldArrayIndex = Number(this.parseIntOperand(1));
     }
     
     execute(context: IExecutionContext): void {
