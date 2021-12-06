@@ -120,6 +120,23 @@ describe("context", () => {
         });
     });
 
-    
+    it("various fields in the context are not serialized", () => {
+
+        const context = new ExecutionContext({}, {});
+        const serialized = context.serialize();
+        expect(serialized).toEqual( {
+            appGlobals: {},
+            assetParams: {},
+            appParams: {},
+            accounts: {},
+            args: {},
+            txn: {},
+            gtxn: {},
+            txnSideEffects: {},
+            gaid: {},
+            globals: {}
+        });
+    });
+  
 
 });

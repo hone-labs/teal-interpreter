@@ -556,11 +556,35 @@ export class ExecutionContext implements IExecutionContext {
     }
 
     //
+    // Internal fields that should be deleted before exporting a configuration.
+    //
+    private readonly blacklistedFields = [
+        "blacklistedFields", // This field!
+        "scratch",
+        "stack",
+        "branchTargets",
+        "bytecblock",
+        "callstack",
+        "curInstructionIndex",
+        "finished",
+        "intcblock",
+        "version",
+    ];
+
+    //
     // Converts the context back to a configuration.
     //
     serialize(): ITealInterpreterConfig {
+        const input: any = Object.assign({}, this);
+
+        // Remove fields that are blacklisted from the configuration.
+        for (const blacklistedField of this.blacklistedFields) {
+            delete input[blacklistedField];
+        }
+
         const output: any = {};
-        this.internalSerialize(this, output);
+
+        this.internalSerialize(input, output);
         return output;
     }
 }
