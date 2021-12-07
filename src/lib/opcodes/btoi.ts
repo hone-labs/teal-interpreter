@@ -5,7 +5,7 @@ import { Opcode } from "../opcode";
 export class Btoi extends Opcode {
     
     execute(context: IExecutionContext): void {
-        const value = context.stack.pop()?.value as Uint8Array;
+        const value = this.popBytes(context);
         if (value.length > 8) {
             throw new Error(`Input byte array is too long at ${value.length}, expected length is between 0 and 8.`);
         }
