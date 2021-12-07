@@ -17,19 +17,6 @@ describe("convert", () => {
         expect(Number(converted.value)).toEqual(2);
     });
 
-    //fio:
-    // it("string arg is converted", () => {
-
-    //     const converted = loadValue({
-    //         type: "string",
-    //         value: "hello",
-    //     });
-    //     expect(converted.type).toEqual("byte[]");
-    //     expect(Array.from(converted.value as Uint8Array)).toEqual([
-    //         104, 101, 108, 108, 111
-    //     ]);
-    // });
-
     it("encoded string arg is converted", () => {
 
         const converted = loadValue("string:hello");
@@ -48,23 +35,14 @@ describe("convert", () => {
         ]);
     });
 
-    //fio:
-    // it("addr arg is converted", () => {
+    it("array is converted", () => {
 
-    //     const converted = loadValue({
-    //         type: "addr",
-    //         value: "7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224",
-    //     });
-
-    //     expect(converted.type).toEqual("byte[]");
-    //     expect(Array.from(converted.value as Uint8Array)).toEqual([
-    //         55, 74, 79, 80, 86, 69, 80, 51, 65, 66, 74, 85,
-    //         87, 53, 89, 90, 53, 87, 70, 73, 79, 78, 76, 80,
-    //         87, 84, 90, 53, 77, 89, 88, 53, 72, 70, 75, 52,
-    //         75, 55, 74, 76, 71, 83, 73, 65, 71, 55, 82, 82,
-    //         66, 52, 50, 77, 78, 76, 81, 50, 50, 52
-    //     ]);
-    // });
+        const converted = loadValue([1, 2, 3, 4]);
+        expect(converted.type).toEqual("byte[]");
+        expect(Array.from(converted.value as Uint8Array)).toEqual([
+            1, 2, 3, 4
+        ]);
+    });
 
     it("encoded base64 arg is converted", () => {
 
