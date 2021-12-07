@@ -54,8 +54,11 @@ export function loadValue(valueDef: ValueDef): ITypedValue {
     if (typeof valueDef === "bigint") {
         return makeBigInt(valueDef, valueDef);
     }
-    if (typeof valueDef === "number") {
+    else if (typeof valueDef === "number") {
         return makeBigInt(BigInt(valueDef), valueDef);
+    }
+    else if (Array.isArray(valueDef)) {
+        return makeBytes(new Uint8Array(valueDef));
     }
     else if (typeof valueDef === "string") {
         if (valueDef.startsWith("int:")) {
