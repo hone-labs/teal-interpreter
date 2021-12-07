@@ -92,31 +92,6 @@ export function serializeValue(value: ITypedValue): any {
 }
 
 //
-// Loads a lookup table of values.
-//
-// export function loadValueTable<InputT, OutputT>(valueDefTable?: ITable<InputT>): ITable<OutputT> {
-//     const valueMap: ITable<ITypedValue> = {};
-//     if (valueDefTable) {
-//         for (const [key, valueDef] of Object.entries(valueDefTable)) {
-//             if (typeof(valueDef) === "object") {
-//                 const nested: ITable<ITypedValue> = {};
-//                 // 
-//                 // Allow one nested level.
-//                 //
-//                 for (const [nestedKey, nestedValueDef] of Object.entries<ValueDef>(valueDef as any)) {
-//                     nested[nestedKey] = loadValue(nestedValueDef);
-//                 }
-//             }
-//             else {
-//                 valueMap[key] = loadValue(valueDef as any as ValueDef);
-//             }
-//         }    
-//     }
-
-//     return valueMap;
-// }
-
-//
 // Load a lookup table from config.
 //
 export function loadTable<FromT, ToT>(obj: ITable<FromT> | undefined, loader: (config: FromT) => ToT): ITable<ToT> {
