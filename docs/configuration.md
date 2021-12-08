@@ -33,14 +33,14 @@ To specify an Algorand address use the `addr` prefix:
 "addr:7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224"
 ```
 
-In certain cases (see below) you can also provide arrays of values, for example:
+In certain cases (see below) you can also provide arrays of values. An array must be formatted as JavaScript/JSON table with the array index as the key:
 
 ```javascript
-[
-    "addr:7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224",
-    "addr:a-different-address",
-    "addr:some-other-address"
-]
+{
+    "0": "addr:7JOPVEP3ABJUW5YZ5WFIONLPWTZ5MYX5HFK4K7JLGSIAG7RRB42MNLQ224",
+    "1": "addr:a-different-address",
+    "2": "addr:some-other-address"
+}
 ```
 
 If you need to specify the contents of a byte[] explicitly you can use an array of numbers and it will be translated into a byte array where each number converts to a single byte:
@@ -127,17 +127,17 @@ You can then access transactions by index and fields by name using [`gtxn`](http
 
 The [`arg`](https://developer.algorand.org/docs/get-details/dapps/avm/teal/opcodes/#arg-n) opcode (and friends) reads "arguments" that have been provided to the TEAL program.
 
-You can configure the array arguments like this:
+You can configure the array arguments as a table keyed by the array index:
 
 ```javascript
 {
-    "args": [        
-        "addr:7JOPVEP3AB...",
-        15,
-        "Hello world",
+    "args": {
+        "0": "addr:7JOPVEP3AB...",
+        "1": 15,
+        "2": "Hello world",
 
         /* As many arguments as you need ... */
-    ]
+    }
 }
 ```
 
@@ -361,15 +361,15 @@ Here's a more complete example configuration:
 {
     "txn": {
         "ApplicationID": 5,
-        "Accounts": [
-            "addr:john"
-        ]
+        "Accounts": {
+            "0": "addr:john"
+        }
     },
     "gtxn": [
         {
-            "ApplicationArgs": [
-                "addr:john"
-            ]
+            "ApplicationArgs": {
+                "0": "addr:john"
+            }
         }
     ],
     "appGlobals": {
