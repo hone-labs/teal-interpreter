@@ -8,6 +8,16 @@ describe("teal tokenizer", () => {
         expect(tokenize("")).toEqual([]);
     });
 
+    it("can parse program with blank line 1", () => {
+
+        expect(tokenize("\n")).toEqual([]);
+    });
+
+    it("can parse program with blank line 2", () => {
+
+        expect(tokenize("\r\n")).toEqual([]);
+    });
+
     it("can parse opcode with no operands", ()  => {
 
         const tokens = tokenize("return");

@@ -9,6 +9,18 @@ describe("teal interpreter", ()  => {
         expect(result.stack).toEqual([]);
     });
 
+    it("can execute code with blank line 1", async ()  => {
+
+        const result = await execute("\n");
+        expect(result.stack).toEqual([]);
+    });
+
+    it("can execute code with blank line 2", async ()  => {
+
+        const result = await execute("\r\n");
+        expect(result.stack).toEqual([]);
+    });
+
     it("can push 1 on stack", async ()  => {
 
         const result = await execute("int 1");
@@ -23,6 +35,13 @@ describe("teal interpreter", ()  => {
             int 3
             +
         `));
+        expect(result.stack.length).toEqual(1);
+        expect(Number(result.stack[0]?.value)).toEqual(5);
+    });
+
+    it("can add numbers with Windows style line endings", async ()  => {
+
+        const result = await execute(dedent(`int 2\r\nint 3\r\n+`));
         expect(result.stack.length).toEqual(1);
         expect(Number(result.stack[0]?.value)).toEqual(5);
     });

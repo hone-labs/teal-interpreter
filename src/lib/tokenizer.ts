@@ -99,9 +99,10 @@ export class Tokenizer implements ITokenizer {
     private skipWhiteSpace(): void {
         while (this.curOffset < this.tealCode.length) {
             const ch = this.tealCode[this.curOffset];
-            if (ch === " " ||
-                ch === "\t") {
-                    this.curOffset += 1;
+            if (ch === " "
+                || ch === "\t"
+                || ch === "\r") {
+                this.curOffset += 1;
             }
             else {
                 break;
