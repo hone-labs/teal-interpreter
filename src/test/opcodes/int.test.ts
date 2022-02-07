@@ -69,4 +69,24 @@ describe("int opcode", () => {
         expect(() => opcode.validateOperand()).toThrow();
     });
 
+    it("can handle a named constant", () => {
+
+        const token: any = {
+            operands: [
+                "axfer"
+            ],
+        };
+        
+        const opcode = new Int(token, opcodeDefs.int);
+        opcode.validateOperand(); // Parses the operand.
+
+        const context: any = {
+            stack: [],
+        };
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(1);
+        expect(Number(context.stack[0].value)).toEqual(4);
+    });
+
 });
