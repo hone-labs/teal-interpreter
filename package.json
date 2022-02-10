@@ -1,6 +1,5 @@
 {
     "name": "teal-interpreter",
-    "version": "0.0.25",
     "description": "An interpreter for the TEAL assembly language that simulates the Algorand virtual machine.",
     "main": "build/index.js",
     "types": "build/index.d.ts",
