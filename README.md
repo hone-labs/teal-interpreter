@@ -44,45 +44,6 @@ The configuration allows you to provide values for global and local state and de
 
 Please see the [Configuration documentation](./docs/configuration.md) to learn more about configuring the TEAL interpreter.
 
-## Run in development
+## Development
 
-Clone this repo.
-
-Install dependencies:
-
-```bash
-cd teal-interpreter
-npm install
-```
-
-Run once off (with example/test.teal) as input:
-
-```bash
-npm start
-```
-
-Or run in watch mode with live reload:
-
-```bash
-npm run start:dev
-```
-
-Full command:
-
-```bash
-npx ts-node ./src/cli.ts ./examples/test.teal
-```
-
-## Testing
-
-Install dependencies as above, then run tests:
-
-```bash
-npm test
-```
-
-Or run tests in watch mode with live reload:
-
-```bash
-npm run test:watch
-```
+See [the development guide](docs/DEVELOPMENT.md) for instructions on development of the TEAL interpreter.
