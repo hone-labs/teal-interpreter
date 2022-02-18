@@ -1,6 +1,5 @@
 import { constants } from "./constants";
 import { IExecutionContext, makeBigInt, makeBytes } from "./context";
-import { IExecuteResult } from "./execute-result";
 import { IOpcodeDef } from "./opcodes";
 import { IToken } from "./token";
 
@@ -23,7 +22,7 @@ export interface IOpcode {
     // Validate the opcode against the current context.
     // This is invoked right before this particular opcode is executed.
     //    
-    validateContext(context: IExecuteResult): void;
+    validateContext(context: IExecutionContext): void;
 
     //
     // Executes the opcode.
@@ -80,7 +79,7 @@ export abstract class Opcode implements IOpcode {
         }
     }
 
-    validateContext(context: IExecuteResult): void {
+    validateContext(context: IExecutionContext): void {
         if (this.opcodeDef.stack !== undefined) {
             if (context.stack.length < this.opcodeDef.stack) {
                 throw new Error(`${this.token.lineNo} - Expected ${this.opcodeDef.stack} stack-based arguments on the stack for opcode ${this.token.opcode}, found only ${context.stack.length} values on the stack.`);
@@ -126,7 +125,7 @@ export abstract class Opcode implements IOpcode {
     //
     // Pushes an int on the stakc.
     //
-    protected pushInt(context: IExecuteResult, value: bigint): void {
+    protected pushInt(context: IExecutionContext, value: bigint): void {
         context.stack.push(makeBigInt(value, value));
     }
 
@@ -149,7 +148,7 @@ export abstract class Opcode implements IOpcode {
     //
     // Pushes a byte array on the stack.
     //
-    protected pushBytes(context: IExecuteResult, value: Uint8Array): void {
+    protected pushBytes(context: IExecutionContext, value: Uint8Array): void {
         context.stack.push(makeBytes(value));
     }
 }
