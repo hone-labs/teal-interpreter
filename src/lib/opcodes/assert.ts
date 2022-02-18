@@ -1,4 +1,3 @@
-import { IToken } from "../token";
 import { Opcode } from "../opcode";
 import { IExecutionContext } from "../context";
 
