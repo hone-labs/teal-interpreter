@@ -70,11 +70,11 @@ export abstract class Opcode implements IOpcode {
                     }
                 }
     
-                throw new Error(`Opcode ${this.token.opcode} expects a number of operands equal to one of ${this.opcodeDef.operands.join(", ")}, instead found ${this.token.operands.length} operands.`);
+                throw new Error(`${this.token.lineNo} - Opcode ${this.token.opcode} expects a number of operands equal to one of ${this.opcodeDef.operands.join(", ")}, instead found ${this.token.operands.length} operands.`);
             }
             else {
                 if (this.token.operands.length !== this.opcodeDef.operands) {
-                    throw new Error(`Opcode ${this.token.opcode} expects ${this.opcodeDef.operands} operands, instead found ${this.token.operands.length} operands.`);
+                    throw new Error(`${this.token.lineNo} - Opcode ${this.token.opcode} expects ${this.opcodeDef.operands} operands, instead found ${this.token.operands.length} operands.`);
                 }
             }
         }
@@ -83,7 +83,7 @@ export abstract class Opcode implements IOpcode {
     validateContext(context: IExecuteResult): void {
         if (this.opcodeDef.stack !== undefined) {
             if (context.stack.length < this.opcodeDef.stack) {
-                throw new Error(`Expected ${this.opcodeDef.stack} stack-based arguments on the stack for opcode ${this.token.opcode}, found only ${context.stack.length} values on the stack.`);
+                throw new Error(`${this.token.lineNo} - Expected ${this.opcodeDef.stack} stack-based arguments on the stack for opcode ${this.token.opcode}, found only ${context.stack.length} values on the stack.`);
             }
         }
     }
@@ -95,7 +95,7 @@ export abstract class Opcode implements IOpcode {
     //
     protected parseIntOperand(operandIndex: number): bigint {
         if (operandIndex > this.token.operands.length - 1) {
-            throw new Error(`Operand ${operandIndex} not found. Only ${this.token.operands.length} operands supplied to opcode ${this.token.opcode}.`)
+            throw new Error(`${this.token.lineNo} - Operand ${operandIndex} not found. Only ${this.token.operands.length} operands supplied to opcode ${this.token.opcode}.`)
         }
 
         const operand = this.token.operands[operandIndex];
@@ -112,12 +112,12 @@ export abstract class Opcode implements IOpcode {
     //
     protected popInt(context: IExecutionContext): bigint {
         if (context.stack.length === 0) {
-            throw new Error(`Want to pop uint64 from stack, but there is nothing on the stack!`);
+            throw new Error(`${this.token.lineNo} - Want to pop uint64 from stack, but there is nothing on the stack!`);
         }
 
         const value = context.stack.pop()!;
         if (value.type !== "bigint") {
-            throw new Error(`Expected to pop uint64 from stack, instead found ${value.type}.`);
+            throw new Error(`${this.token.lineNo} - Expected to pop uint64 from stack, instead found ${value.type}.`);
         }
 
         return value.value as bigint;
@@ -135,12 +135,12 @@ export abstract class Opcode implements IOpcode {
     //
     protected popBytes(context: IExecutionContext): Uint8Array {
         if (context.stack.length === 0) {
-            throw new Error(`Want to pop byte[] from stack, but there is nothing on the stack!`);
+            throw new Error(`${this.token.lineNo} - Want to pop byte[] from stack, but there is nothing on the stack!`);
         }
 
         const value = context.stack.pop()!;
         if (value.type !== "byte[]") {
-            throw new Error(`Expected to pop byte[] from stack, instead found ${value.type}.`);
+            throw new Error(`${this.token.lineNo} - Expected to pop byte[] from stack, instead found ${value.type}.`);
         }
 
         return value.value as Uint8Array;
