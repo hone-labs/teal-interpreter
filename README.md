@@ -46,4 +46,4 @@ Please see the [Configuration documentation](./docs/configuration.md) to learn m
 
 ## Development
 
-See [the development guide](docs/DEVELOPMENT.md) for instructions on development of the TEAL interpreter.
+See [the development guide](docs/development.md) for instructions on development of the TEAL interpreter.
