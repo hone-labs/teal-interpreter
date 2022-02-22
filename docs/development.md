@@ -1,4 +1,4 @@
-# Develoment doc for the TEAL interpeter
+# Development doc for the TEAL interpeter
 
 ## Run in development
 
