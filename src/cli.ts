@@ -5,7 +5,7 @@ import * as fs from "fs/promises";
 async function main(): Promise<void> {
     const argv = minimist(process.argv.slice(2));
     if (argv._.length === 0) {
-        console.log(`Usage: teali <teal-file>`);
+        console.log(`Usage: teal <teal-file>`);
         process.exit(1);
     }
 
