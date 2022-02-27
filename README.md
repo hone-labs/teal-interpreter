@@ -2,6 +2,45 @@
 
 An interpreter for the TEAL assembly language that simulates the Algorand virtual machine.
 
+## Use the CLI
+
+Install it globally:
+
+```bash
+npm install -g teal-interpreter
+```
+
+Run it from the terminal:
+
+```bash
+teal
+```
+
+Or install in your Node.js project:
+
+```bash
+npm install teal-interpreter
+```
+
+Run it:
+
+```bash
+npx teal
+```
+
+Execute a TEAL file:
+
+```bash
+npx teal my-code-file.teal
+```
+
+Execute and print code coverage:
+
+```bash
+npx teal my-code-file.teal --code-coverage
+```
+
+
 ## Use the API
 
 Install it in your Node.js project:
