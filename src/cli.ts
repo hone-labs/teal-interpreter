@@ -1,5 +1,5 @@
 import * as minimist from "minimist";
-import { execute } from ".";
+import { execute, ITealInterpreterConfig } from ".";
 import * as fs from "fs/promises";
 
 async function main(): Promise<void> {
@@ -9,9 +9,13 @@ async function main(): Promise<void> {
         process.exit(1);
     }
 
+    const config: ITealInterpreterConfig = {
+        showCodeCoverage: !!argv["code-coverage"],
+    };
+
     const tealFilePath = argv._[0];
     const tealCode = await fs.readFile(tealFilePath, "utf8");
-    const result = await execute(tealCode);
+    const result = await execute(tealCode, config);
 
     console.log(`== RESULT ==`);
     console.log(`Stack:`);

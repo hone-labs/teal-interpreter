@@ -12,5 +12,9 @@ export async function execute(tealCode: string, config?: ITealInterpreterConfig)
         // Step until done.
     }
 
+    if (config?.showCodeCoverage) {
+        interpreter.printCodeCoverage();
+    }
+
     return interpreter.context;
 }

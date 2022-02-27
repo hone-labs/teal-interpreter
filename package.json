@@ -4,7 +4,7 @@
     "main": "build/index.js",
     "types": "build/index.d.ts",
     "scripts": {
-        "start": "ts-node ./src/cli.ts ./examples/test.teal",
+        "start": "ts-node ./src/cli.ts ./examples/test.teal --code-coverage",
         "s": "npm run start",
         "start:dev": "nodemon",
         "sd": "nodemon",

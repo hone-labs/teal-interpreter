@@ -9,6 +9,21 @@ import { IToken } from "./token";
 export interface IOpcode {
 
     //
+    // Gets the token for this opcode.
+    //
+    getToken(): IToken;
+    
+    //
+    // Marks the opcode as having been executed.
+    //
+    markExecuted(): void;
+
+    //
+    // Gets the execution count for this opcode.
+    //
+    getExecutionCount(): number;
+
+    //
     // Gets the line number of the TEAL code where the opcode was loaded.
     //
     getLineNo(): number;
@@ -46,9 +61,35 @@ export abstract class Opcode implements IOpcode {
     //
     protected opcodeDef: IOpcodeDef;
 
+    //
+    // Counts the number of times this instruction has been executed.
+    //
+    private executionCount = 0;
+
     constructor(token: IToken, opcodeDef: IOpcodeDef) {
         this.token = token;
         this.opcodeDef = opcodeDef;
+    }
+
+    //
+    // Gets the token for this opcode.
+    //
+    getToken(): IToken {
+        return this.token;
+    }
+
+    //
+    // Marks the opcode as having been executed.
+    //
+    markExecuted(): void {
+        this.executionCount += 1;
+    }
+
+    //
+    // Gets the execution count for this opcode.
+    //
+    getExecutionCount(): number {
+        return this.executionCount;
     }
 
     //

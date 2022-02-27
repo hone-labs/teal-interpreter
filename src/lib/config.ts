@@ -99,4 +99,9 @@ export interface ITealInterpreterConfig {
     //
     args?: ITable<ValueDef>;
 
+    //
+    // Set to true to show code coverage details.
+    //
+    showCodeCoverage?: boolean;
+
 }

@@ -54,6 +54,11 @@ export interface ITealInterpreter {
     //
     continue(): Promise<boolean>;
 
+    //
+    // Prints code coverage.
+    //
+    printCodeCoverage(): void;
+
 }
 
 export class TealInterpreter implements ITealInterpreter {
@@ -149,6 +154,8 @@ export class TealInterpreter implements ITealInterpreter {
         const instruction = this.instructions[this.curInstructionIndex];
         instruction.validateContext(this.context);
         let result = instruction.execute(this.context);
+        instruction.markExecuted();
+
         if (result !== undefined) {
             if (typeof(result) !== "number") {
                 result = await result; // Assume its a promise for a result.
@@ -184,4 +191,18 @@ export class TealInterpreter implements ITealInterpreter {
         // Program ended, terminates execution.
         return false;
     }
+
+    //
+    // Prints code coverage.
+    //
+    printCodeCoverage(): void {
+        console.log(`==== CODE COVERAGE ====`);
+
+        for (const instruction of this.instructions) {
+            const token = instruction.getToken();
+            const line = `${token.lineNo}: ${token.opcode} ${token.operands.join(' ')}`;
+            console.log(`${line.padEnd(25)} (x${instruction.getExecutionCount()})`);
+        }
+    }
+
 }
