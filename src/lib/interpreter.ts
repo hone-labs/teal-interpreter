@@ -1,3 +1,4 @@
+import { Writable } from "stream";
 import { ITealInterpreterConfig } from "./config";
 import { IExecutionContext, ExecutionContext } from "./context";
 import { IOpcode } from "./opcode";
@@ -53,6 +54,11 @@ export interface ITealInterpreter {
     // Returns true if able to continue again, returns false when execution is done.
     //
     continue(): Promise<boolean>;
+
+    //
+    // Runs the loaded TEAL code to completion.
+    //
+    run(): Promise<void>;
 
     //
     // Prints code coverage.
@@ -190,6 +196,15 @@ export class TealInterpreter implements ITealInterpreter {
 
         // Program ended, terminates execution.
         return false;
+    }
+
+    //
+    // Runs the loaded TEAL code to completion.
+    //
+    async run(): Promise<void> {
+        while (await this.step()) {
+            // Step until done.
+        }
     }
 
     //
