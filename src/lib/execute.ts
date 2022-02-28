@@ -7,10 +7,8 @@ export async function execute(tealCode: string, config?: ITealInterpreterConfig)
 
     const interpreter = new TealInterpreter();
     interpreter.load(tealCode, config);
-
-    while (await interpreter.step()) {
-        // Step until done.
-    }
+    
+    await interpreter.run();
 
     if (config?.showCodeCoverage) {
         interpreter.printCodeCoverage();
