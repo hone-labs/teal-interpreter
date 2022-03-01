@@ -63,7 +63,7 @@ export interface ITealInterpreter {
     //
     // Prints code coverage.
     //
-    printCodeCoverage(): void;
+    printCodeCoverage(outputStream: Writable): void;
 
 }
 
@@ -210,8 +210,8 @@ export class TealInterpreter implements ITealInterpreter {
     //
     // Prints code coverage.
     //
-    printCodeCoverage(): void {
-        console.log(`==== CODE COVERAGE ====`);
+    printCodeCoverage(outputStream: Writable = process.stdout): void {
+        outputStream.write(`==== CODE COVERAGE ====`);
 
         let omittingLines = false;
 
@@ -275,15 +275,16 @@ export class TealInterpreter implements ITealInterpreter {
             }
 
             if (showLine) {
-                console.log(outputLine);
+                outputStream.write(outputLine);
                 blankLineCount = 0;
             }
             else {
                 if (blankLineCount < 1) {
-                    console.log(outputLine);
+                    outputStream.write(outputLine);
+                    outputStream.write(`\r\n`);
                 }
                 else if (blankLineCount === 1) {
-                    console.log(`...`);
+                    outputStream.write(`...\r\n`);
                 }
                 blankLineCount += 1;
             }
