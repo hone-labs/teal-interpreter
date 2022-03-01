@@ -236,34 +236,57 @@ export class TealInterpreter implements ITealInterpreter {
             maxLine = Math.max(maxLine, branchTargetLine);
         }
 
+        let blankLineCount = 0;
+
         for (let line = 1; line <= maxLine; ++line) {
 
-            const linePrefix = `${line}: `.padEnd(3);
-            process.stdout.write(linePrefix);
+            const linePrefix = `${line}: `.padEnd(4);
+            let outputLine = linePrefix;
+            let showLine = false;
+
+            const nextInstruction = instructionsByLine[line+1];
 
             const branch = branchesByLine[line];
             if (branch) {
+
                 //
                 // There is a branch at this line.
+                // Only need to show it if the next instruction has coverage.
                 //
-                process.stdout.write(`${branch}: `);                
+                if (nextInstruction && nextInstruction.getExecutionCount() > 0) {
+                    showLine = true;
+                    outputLine += `${branch}: `;
+                }
             }
 
             const instruction = instructionsByLine[line]; 
-            if (instruction) {
+            if (instruction) {                
                 //
                 // There is an instruction at this line.
                 //
                 const token = instruction.getToken();
                 const line = `${token.opcode} ${token.operands.join(' ')}`;
-                process.stdout.write(`${line.padEnd(35)} `);
+                outputLine += `${line.padEnd(35)} `;
 
                 if (instruction.getExecutionCount() > 0) {
-                    process.stdout.write(`(x${instruction.getExecutionCount()})`);
+                    showLine = true;
+                    outputLine += `(x${instruction.getExecutionCount()})`;
                 }
             }
 
-            process.stdout.write(`\r\n`);
+            if (showLine) {
+                console.log(outputLine);
+                blankLineCount = 0;
+            }
+            else {
+                if (blankLineCount < 1) {
+                    console.log(outputLine);
+                }
+                else if (blankLineCount === 1) {
+                    console.log(`...`);
+                }
+                blankLineCount += 1;
+            }
         }
     }
 }
