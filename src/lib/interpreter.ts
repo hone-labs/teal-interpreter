@@ -215,7 +215,8 @@ export class TealInterpreter implements ITealInterpreter {
 
         for (const instruction of this.instructions) {
             const token = instruction.getToken();
-            const line = `${token.lineNo}: ${token.opcode} ${token.operands.join(' ')}`;
+            const linePrefix = `${token.lineNo}:`.padEnd(3);
+            const line = `${linePrefix} ${token.opcode} ${token.operands.join(' ')}`;
             console.log(`${line.padEnd(25)} (x${instruction.getExecutionCount()})`);
         }
     }
