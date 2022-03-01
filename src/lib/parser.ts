@@ -2,11 +2,23 @@ import { IOpcode } from "./opcode";
 import { opcodeDefs } from "./opcodes";
 import { tokenize } from "./tokenizer";
 
+export interface IBranchTarget {
+    //
+    // The line number (1-based) where the label was parsed from.
+    //
+    branchLineNo: number;
+
+    //
+    // The index of the instruction that is being branched to.
+    //
+    targetInstructionIndex: number;
+}
+
 //
 // Converts a branch target to an instruction index.
 //
 export interface IBranchTargetMap {
-    [index: string]: number;
+    [index: string]: IBranchTarget;
 }
 
 //
@@ -37,7 +49,10 @@ export function parse(tealCode: string): IParseResult {
         if (token.opcode.endsWith(":")) {
             // It's a label, create branch target.
             const labelName = token.opcode.substring(0, token.opcode.length-1);
-            branchTargets[labelName] = instructions.length;
+            branchTargets[labelName] = {
+                branchLineNo: token.lineNo,
+                targetInstructionIndex: instructions.length,
+            };
         }
         else {
             const opcodeDef = opcodeDefs[token.opcode];

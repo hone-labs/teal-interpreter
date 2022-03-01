@@ -230,8 +230,9 @@ export class TealInterpreter implements ITealInterpreter {
         const branchesByLine: { [index: number]: string } = {};
 
         for (const branchTarget of Object.entries(this.context.branchTargets)) {
-            const branchTargetLine = branchTarget[1] + 1; // Add 1 because branch targets are 0-based and lines are 1-based.
-            branchesByLine[branchTargetLine] = branchTarget[0];
+            const labelName = branchTarget[0];
+            const branchTargetLine = branchTarget[1].branchLineNo
+            branchesByLine[branchTargetLine] = labelName;
             maxLine = Math.max(maxLine, branchTargetLine);
         }
 

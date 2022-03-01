@@ -22,6 +22,6 @@ export class Branch extends Opcode {
     }
     
     execute(context: IExecutionContext): number {
-        return context.branchTargets[this.targetName];
+        return context.branchTargets[this.targetName].targetInstructionIndex;
     }
 }

@@ -31,7 +31,7 @@ export class Bnz extends Opcode {
     execute(context: IExecutionContext): number | void {
         if (this.condition !== BigInt(0)) {
             // Branch if not zero.
-            return context.branchTargets[this.targetName];
+            return context.branchTargets[this.targetName].targetInstructionIndex;
         }
     }
 }

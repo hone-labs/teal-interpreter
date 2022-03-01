@@ -23,6 +23,6 @@ export class Callsub extends Opcode {
     
     execute(context: IExecutionContext): number {
         context.callstack.push(context.curInstructionIndex+1);
-        return context.branchTargets[this.targetName];
+        return context.branchTargets[this.targetName].targetInstructionIndex;
     }
 }
