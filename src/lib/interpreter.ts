@@ -213,11 +213,30 @@ export class TealInterpreter implements ITealInterpreter {
     printCodeCoverage(): void {
         console.log(`==== CODE COVERAGE ====`);
 
+        let omittingLines = false;
+
         for (const instruction of this.instructions) {
+
+            if (omittingLines) {
+                if (instruction.getExecutionCount() !== 0) {
+                    omittingLines = false;
+                }
+                else {
+                    continue;
+                }                
+            }
+
             const token = instruction.getToken();
             const linePrefix = `${token.lineNo}:`.padEnd(3);
             const line = `${linePrefix} ${token.opcode} ${token.operands.join(' ')}`;
-            console.log(`${line.padEnd(25)} (x${instruction.getExecutionCount()})`);
+
+            if (instruction.getExecutionCount() == 0) {
+                console.log(`...`);
+                omittingLines = true;
+            }
+            else {
+                console.log(`${line.padEnd(25)} (x${instruction.getExecutionCount()})`);
+            }
         }
     }
 
