@@ -215,29 +215,54 @@ export class TealInterpreter implements ITealInterpreter {
 
         let omittingLines = false;
 
+        let maxLine = 1;
+
+        //
+        // Organise instructions for lookup by line number.
+        //
+
+        const instructionsByLine: { [index: number]: IOpcode } = {};
         for (const instruction of this.instructions) {
+            instructionsByLine[instruction.getLineNo()] = instruction;
+            maxLine = Math.max(maxLine, instruction.getLineNo());
+        }
 
-            if (omittingLines) {
-                if (instruction.getExecutionCount() !== 0) {
-                    omittingLines = false;
+        const branchesByLine: { [index: number]: string } = {};
+
+        for (const branchTarget of Object.entries(this.context.branchTargets)) {
+            const branchTargetLine = branchTarget[1] + 1; // Add 1 because branch targets are 0-based and lines are 1-based.
+            branchesByLine[branchTargetLine] = branchTarget[0];
+            maxLine = Math.max(maxLine, branchTargetLine);
+        }
+
+        for (let line = 1; line <= maxLine; ++line) {
+
+            const linePrefix = `${line}: `.padEnd(3);
+            process.stdout.write(linePrefix);
+
+            const branch = branchesByLine[line];
+            if (branch) {
+                //
+                // There is a branch at this line.
+                //
+                process.stdout.write(`${branch}: `);                
+            }
+
+            const instruction = instructionsByLine[line]; 
+            if (instruction) {
+                //
+                // There is an instruction at this line.
+                //
+                const token = instruction.getToken();
+                const line = `${token.opcode} ${token.operands.join(' ')}`;
+                process.stdout.write(`${line.padEnd(35)} `);
+
+                if (instruction.getExecutionCount() > 0) {
+                    process.stdout.write(`(x${instruction.getExecutionCount()})`);
                 }
-                else {
-                    continue;
-                }                
             }
 
-            const token = instruction.getToken();
-            const linePrefix = `${token.lineNo}:`.padEnd(3);
-            const line = `${linePrefix} ${token.opcode} ${token.operands.join(' ')}`;
-
-            if (instruction.getExecutionCount() == 0) {
-                console.log(`...`);
-                omittingLines = true;
-            }
-            else {
-                console.log(`${line.padEnd(25)} (x${instruction.getExecutionCount()})`);
-            }
+            process.stdout.write(`\r\n`);
         }
     }
-
 }
