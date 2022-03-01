@@ -35,7 +35,9 @@ describe("callsub opcode", () => {
             curInstructionIndex: 12,
             callstack: [],
             branchTargets: {
-                "a-label": 32,
+                "a-label": {
+                    targetInstructionIndex: 32,
+                },
             },
         };
         opcode.validateOperand();

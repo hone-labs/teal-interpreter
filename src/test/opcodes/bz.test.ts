@@ -34,13 +34,15 @@ describe("bz opcode", () => {
 
         const context: any = {
             branchTargets: {
-                "a-label": 12,
+                "a-label": {
+                    targetInstructionIndex: 12,
+                },
             },
             stack: [
                 makeBigInt(BigInt(0)),
             ],
         };
-        opcode.validateContext(context);;
+        opcode.validateContext(context);
         expect(opcode.execute(context)).toEqual(12);
     });
 
@@ -56,7 +58,9 @@ describe("bz opcode", () => {
 
         const context: any = {
             branchTargets: {
-                "a-label": 12,
+                "a-label": {
+                    targetInstructionIndex: 12,
+                },
             },
             stack: [
                 makeBigInt(BigInt(15)),
