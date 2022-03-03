@@ -182,5 +182,54 @@ describe("opcode integration tests", () => {
             int 1                   // ret 1
         `);   
     });
+    
+    it("divmodw", async () => {
+
+        await succeeds(`
+            int 2; int 0; int 1; int 0; divmodw;
+            int 0; ==; assert;
+            int 0; ==; assert;
+            int 2; ==; assert;
+            int 0; ==; assert; int 1
+        `);
+
+        await succeeds(`
+            int 2; int 0; int 0; int 1; divmodw;
+            int 0; ==; assert;
+            int 0; ==; assert;
+            int 0; ==; assert;
+            int 2; ==; assert; int 1
+        `);
+
+        await succeeds(`
+            int 0; int 0; int 0; int 7; divmodw;
+            int 0; ==; assert;
+            int 0; ==; assert;
+            int 0; ==; assert;
+            int 0; ==; assert; int 1
+        `);
+
+        await succeeds( `
+            int 18446744073709551615; int 18446744073709551615; int 18446744073709551615; int 18446744073709551615;
+            divmodw;
+            int 0; ==; assert;
+            int 0; ==; assert;
+            int 1; ==; assert;
+            int 0; ==; assert; int 1
+        `);
+
+        await succeeds(`
+            int 0; int 7777; int 1; int 0; divmodw;
+            int 7777; ==; assert;
+            int 0; ==; assert;
+            int 0; ==; assert;
+            int 0; ==; assert; int 1
+        `);
+
+        await fails(`
+            int 10; int 0; int 0; int 0; divmodw;
+            pop; pop; pop; pop; int 1
+        `);
+    });
 
 });
