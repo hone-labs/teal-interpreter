@@ -322,4 +322,8 @@ describe("opcode integration tests", () => {
         await succeeds("int 1; int 0; pop");
     });
 
+    it("test stack left over", async () => {
+        await fails("int 1; int 1");
+    })
+
 });
