@@ -304,7 +304,10 @@ describe("opcode integration tests", () => {
         await succeeds("int 5; int 8; int 10; callsub muldiv; int 16; ==; return;" + muldiv);
         await fails("int 5; int 8; int 10; callsub muldiv; int 15; ==; return;" + muldiv);
         await succeeds("int 500000000000; int 80000000000; int 100000000000; callsub muldiv; int 16000000000; ==; return;" + muldiv);
+    });
 
+    it("test div zero", async () => {
+        await fails("int 0x11; int 0; /; pop; int 1");
     });
 
 });
