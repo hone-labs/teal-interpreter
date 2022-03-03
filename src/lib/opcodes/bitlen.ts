@@ -13,7 +13,16 @@ export class Bitlen extends Opcode {
         else {
             const array = value as Uint8Array;
             if (array.length > 0) {
-                this.pushInt(context, BigInt((array.length - 1) * 8 + array[0].toString(2).length));
+                const bits = array[0].toString(2);
+                if (bits === "0") {
+                    this.pushInt(context, BigInt(0));
+                }
+                else {
+                    this.pushInt(context, BigInt((array.length - 1) * 8 + array[0].toString(2).length));
+                }
+            }
+            else {
+                this.pushInt(context, BigInt(0));
             }
         }
     }

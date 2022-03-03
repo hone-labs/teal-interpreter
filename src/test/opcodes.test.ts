@@ -339,4 +339,23 @@ describe("opcode integration tests", () => {
         await fails("arg_1; btoi");
     });
 
+    it("bitlen", async () => {
+        await succeeds("int 0; bitlen; int 0; ==");
+        await succeeds("int 1; bitlen; int 1; ==");
+        await succeeds("int 2; bitlen; int 2; ==");
+        await succeeds("int 4; bitlen; int 3; ==");
+        await succeeds("int 5; bitlen; int 3; ==");
+        await succeeds("int 8; bitlen; int 4; ==");
+    
+        await succeeds("byte 0x; bitlen; int 0; ==");
+        await succeeds("byte 0x00; bitlen; int 0; ==");
+        await succeeds("byte 0x01; bitlen; int 1; ==");
+        await succeeds("byte 0x02; bitlen; int 2; ==");
+        await succeeds("byte 0x03; bitlen; int 2; ==");
+        await succeeds("byte 0x04; bitlen; int 3; ==");
+        await succeeds("byte 0xf0; bitlen; int 8; ==");
+        await succeeds("byte 0x0100; bitlen; int 9; ==");
+        await succeeds("byte 0x010001000100010001000100010001000100; bitlen; int 137; ==");    
+    });
+
 });
