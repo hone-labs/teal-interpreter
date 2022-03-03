@@ -3,7 +3,7 @@
 //  https://github.com/algorand/go-algorand/blob/master/data/transactions/logic/eval_test.go
 //
 
-import { execute } from "..";
+import { execute, IExecutionContext } from "..";
 
 describe("opcode integration tests", () => {
 
@@ -45,20 +45,24 @@ describe("opcode integration tests", () => {
     // Evaluates TEAL code and throws an exception on approval.
     //
     async function fails(tealCode: string): Promise<void> {
+        
+        let result: IExecutionContext | undefined;
         try {
-            const result = await execute(tealCode);   
-            if (result.stack.length === 0 && 
-                result.stack[0].type === "bigint" &&
-                result.stack[0].value === BigInt(0)) {
-                return; // Success.
-            }
-            throw new Error(`Expected a zero result on the stack, got ${result.stack[0].value.toString()} (${result.stack[0].type})`);
+            result = await execute(tealCode);   
         }
         catch {
-            // An error thrown is a succesful failure.
+            // An error thrown is a failure.
         }
 
-        // Success.
+        if (result && result.stack.length === 1) {
+            if (result.stack[0].type === "bigint" &&
+                result.stack[0].value !== BigInt(0)) {
+                // Success, but not what we expected!
+                throw new Error(`Expected a zero result on the stack, got ${result.stack[0].value.toString()} (${result.stack[0].type})`);
+            }
+        }
+
+        // Failed, what we expected!
     }
 
     it("invalid program (empty)", async () => {
