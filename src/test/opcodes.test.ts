@@ -236,4 +236,50 @@ describe("opcode integration tests", () => {
         `);
     });
 
+    function makeWideMathCode(v1: number, v2: number) {
+        return `
+            int ${v1}
+            dup
+            store 0
+            int ${v2}
+            dup
+            store 1
+            mulw
+            // add one less than the first number
+            load 0
+            int 1
+            -
+            addw
+            // stack is now [high word, carry bit, low word]
+            store 2
+            +				// combine carry and high
+            load 2
+            // now divmodw by the 1st given number (widened)
+            int 0
+            load 0
+            divmodw
+            // remainder should be one less that first number
+            load 0; int 1; -;  ==; assert
+            int 0; ==; assert		// (upper word)
+            // then the 2nd given number is left (widened)
+            load 1; ==; assert
+            int 0; ==; assert
+            // succeed
+            int 1
+        `;
+    }
+
+    it("test wide math", async () => {
+        await succeeds(makeWideMathCode(1000, 8192378));
+        await succeeds(makeWideMathCode(1082734200, 8192378));
+        await succeeds(makeWideMathCode(1000, 8129387292378));
+        await succeeds(makeWideMathCode(10278362800, 8192378));
+
+        for (let i = 1; i < 100; i++) {
+            for (let j = 1; i < 100; i++) {
+                await succeeds(makeWideMathCode(i+j<<40, (i*j)<<40+j));
+            }
+        }   
+    });
+
 });
