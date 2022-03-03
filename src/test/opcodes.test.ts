@@ -313,4 +313,9 @@ describe("opcode integration tests", () => {
     it("test mod zero", async () => {
         await fails("int 0x111111111; int 0; %; pop; int 1");
     });
+
+    it("test err", async () => {
+        await fails("err; int 1");
+    });
+
 });
