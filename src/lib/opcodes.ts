@@ -107,6 +107,7 @@ import { ItxnSubmit } from "./opcodes/itxn_submit";
 import { Itxn } from "./opcodes/itxn";
 import { Itxna } from "./opcodes/itxna";
 import { Divmodw } from "./opcodes/divmodw";
+import { Bitlen } from "./opcodes/bitlen";
 
 //
 // The static definiton of an opcode.
@@ -763,6 +764,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 1,
         factory: function (token) { return new Sqrt(token, this) },
+    },
+    "bitlen": {
+        version: 4,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Bitlen(token, this) },
     },
     "exp": {
         version: 4,
