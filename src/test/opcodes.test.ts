@@ -310,4 +310,7 @@ describe("opcode integration tests", () => {
         await fails("int 0x11; int 0; /; pop; int 1");
     });
 
+    it("test mod zero", async () => {
+        await fails("int 0x111111111; int 0; %; pop; int 1");
+    });
 });
