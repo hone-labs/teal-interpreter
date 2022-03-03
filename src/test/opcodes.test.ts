@@ -318,4 +318,8 @@ describe("opcode integration tests", () => {
         await fails("err; int 1");
     });
 
+    it("test pop", async () => {
+        await succeeds("int 1; int 0; pop");
+    });
+
 });
