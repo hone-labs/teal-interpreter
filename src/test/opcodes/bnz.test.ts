@@ -34,7 +34,9 @@ describe("bnz opcode", () => {
 
         const context: any = {
             branchTargets: {
-                "a-label": 12,
+                "a-label": {
+                    targetInstructionIndex: 12,
+                },
             },
             stack: [
                 makeBigInt(BigInt(15)),
@@ -56,7 +58,9 @@ describe("bnz opcode", () => {
 
         const context: any = {
             branchTargets: {
-                "a-label": 12,
+                "a-label": {
+                    targetInstructionIndex: 12,
+                },
             },
             stack: [
                 makeBigInt(BigInt(0)),

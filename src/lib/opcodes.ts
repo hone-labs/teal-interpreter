@@ -106,6 +106,7 @@ import { ItxnField } from "./opcodes/itxn_field";
 import { ItxnSubmit } from "./opcodes/itxn_submit";
 import { Itxn } from "./opcodes/itxn";
 import { Itxna } from "./opcodes/itxna";
+import { Divmodw } from "./opcodes/divmodw";
 
 //
 // The static definiton of an opcode.
@@ -775,7 +776,12 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         factory: function (token) { return new Expw(token, this) },
     },      
-    
+    "divmodw": {
+        version: 4,
+        operands: 0,
+        stack: 4,
+        factory: function (token) { return new Divmodw(token, this) },
+    },          
     
     // TEAL 5
     "ecdsa_verify":  {

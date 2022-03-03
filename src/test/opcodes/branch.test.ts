@@ -32,7 +32,9 @@ describe("branch opcode", () => {
 
         const context: any = {
             branchTargets: {
-                "a-label": 32,
+                "a-label": {
+                    targetInstructionIndex: 32,
+                },
             },
         };
         opcode.validateOperand();
