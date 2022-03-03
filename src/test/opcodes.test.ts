@@ -326,4 +326,8 @@ describe("opcode integration tests", () => {
         await fails("int 1; int 1");
     })
 
+    it("test bytes left over", async () => {
+        await fails("byte 0x10101010");
+    });
+
 });
