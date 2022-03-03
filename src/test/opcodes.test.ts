@@ -282,4 +282,29 @@ describe("opcode integration tests", () => {
         }   
     });
 
+    it("test mul div", async () => {
+
+        const muldiv = `
+            muldiv:
+            mulw				// multiply B*C. puts TWO u64s on stack
+            int 0				// high word of C as a double-word
+            dig 3				// pull C to TOS
+            divmodw
+            pop				// pop unneeded remainder low word
+            pop                             // pop unneeded remainder high word
+            swap
+            int 0
+            ==
+            assert				// ensure high word of quotient was 0
+            swap				// bring C to surface
+            pop				// in order to get rid of it
+            retsub
+        `;
+
+        await succeeds("int 5; int 8; int 10; callsub muldiv; int 16; ==; return;" + muldiv);
+        await fails("int 5; int 8; int 10; callsub muldiv; int 15; ==; return;" + muldiv);
+        await succeeds("int 500000000000; int 80000000000; int 100000000000; callsub muldiv; int 16000000000; ==; return;" + muldiv);
+
+    });
+
 });
