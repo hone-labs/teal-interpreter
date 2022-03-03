@@ -330,4 +330,8 @@ describe("opcode integration tests", () => {
         await fails("byte 0x10101010");
     });
 
+    it("test stack empty", async () => {
+        await fails("int 1; int 1; pop; pop");
+    });
+
 });
