@@ -4,6 +4,7 @@
 //
 
 import { execute, IExecutionContext } from "..";
+import { Itob } from "../lib/opcodes/itob";
 
 describe("opcode integration tests", () => {
 
@@ -332,6 +333,10 @@ describe("opcode integration tests", () => {
 
     it("test stack empty", async () => {
         await fails("int 1; int 1; pop; pop");
+    });
+
+    it("test arg too far", async () => {
+        await fails("arg_1; btoi");
     });
 
 });
