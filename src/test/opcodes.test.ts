@@ -4,7 +4,6 @@
 //
 
 import { execute, IExecutionContext } from "..";
-import { Itob } from "../lib/opcodes/itob";
 
 describe("opcode integration tests", () => {
 
@@ -26,17 +25,26 @@ describe("opcode integration tests", () => {
     }
 
     //
+    // Allows JSON.stringify to serialize a BigInt.
+    //
+    function serializeBigInt(key: string, value: any): any {
+        return typeof value === 'bigint'
+            ? value.toString()
+            : value // return everything else unchanged
+    };
+
+    //
     // Evaluates TEAL code and throws an exception on rejection.
     //
     async function succeeds(tealCode: string): Promise<void> {
         const result = await execute(tealCode);
         if (result.stack.length !== 1) {
-            throw new Error(`Expected 1 result left on the stack, got ${result.stack.length}\r\nStack:\r\n${result.stack.toString()}`);
+            throw new Error(`Expected 1 result left on the stack, got ${result.stack.length}\r\nStack:\r\n${JSON.stringify(result.stack, serializeBigInt, 4)}`);
         }
 
         if (result.stack[0].type !== "bigint" ||
             result.stack[0].value === BigInt(0)) {
-            throw new Error(`Expected a non-zero result on the stack, got ${result.stack[0].value.toString()} (${result.stack[0].type})`);
+            throw new Error(`Expected a non-zero result on the stack, got ${result.stack[0].value.toString()} (${result.stack[0].type})\r\nStack:\r\n${JSON.stringify(result.stack, serializeBigInt, 4)}`);
         }
 
         // Success.
