@@ -112,6 +112,7 @@ import { Log } from "./opcodes/Log";
 import { Ecdsa_pk_decompress } from "./opcodes/Ecdsa_pk_decompress";
 import { Ecdsa_pk_recover } from "./opcodes/Ecdsa_pk_recover";
 import { BZero } from "./opcodes/bzero";
+import { BInvert } from "./opcodes/binvert";
 
 //
 // The static definiton of an opcode.
@@ -787,6 +788,12 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         factory: function (token) { return new Expw(token, this) },
     },   
+    "b~":  {
+        version: 4,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new BInvert(token, this) },
+    },        
     "bzero":  {
         version: 4,
         operands: 0,
