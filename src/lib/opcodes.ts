@@ -109,6 +109,7 @@ import { Itxna } from "./opcodes/itxna";
 import { Divmodw } from "./opcodes/divmodw";
 import { Bitlen } from "./opcodes/bitlen";
 import { Log } from "./opcodes/Log";
+import { Ecdsa_pk_decompress } from "./opcodes/Ecdsa_pk_decompress";
 
 //
 // The static definiton of an opcode.
@@ -798,6 +799,13 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 5,
         factory: function (token) { return new Ecdsa_verify(token, this) },
+    },
+    "ecdsa_pk_decompress":  {
+        version: 5,
+        cost: 650,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Ecdsa_pk_decompress(token, this) },
     },
     "loads":  {
         version: 5,
