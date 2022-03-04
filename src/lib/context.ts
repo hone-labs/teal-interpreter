@@ -280,6 +280,11 @@ export interface IExecutionContext {
     args: ITable<ITypedValue>;
 
     //
+    // Data recorded from the 'log' opcode.
+    //
+    logState: Uint8Array[];
+
+    //
     // Event raised when a configuration field is not found, allowing the configuration to be generated on demand.
     //
     onConfigNotFound?: (fieldPath: string) => Promise<void>;
@@ -418,6 +423,11 @@ export class ExecutionContext implements IExecutionContext {
     //
     args: ITable<ITypedValue>;
 
+    //
+    // Data recorded from the 'log' opcode.
+    //
+    logState: Uint8Array[];
+
     constructor(branchTargets: IBranchTargetMap, config?: ITealInterpreterConfig) {
         this.version = 1;
         this.curInstructionIndex = 0;
@@ -446,6 +456,7 @@ export class ExecutionContext implements IExecutionContext {
         this.intcblock = [];
         this.bytecblock = [];
         this.finished = false;
+        this.logState = [];
     }
 
     //

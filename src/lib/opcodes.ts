@@ -108,6 +108,7 @@ import { Itxn } from "./opcodes/itxn";
 import { Itxna } from "./opcodes/itxna";
 import { Divmodw } from "./opcodes/divmodw";
 import { Bitlen } from "./opcodes/bitlen";
+import { Log } from "./opcodes/Log";
 
 //
 // The static definiton of an opcode.
@@ -815,8 +816,13 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 1,
         factory: function (token) { return new AppParamsGet(token, this) },
+    },       
+    "log":  {
+        version: 5,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new Log(token, this) },
     },        
-
     "itxn_begin":  {
         version: 5,
         operands: 0,

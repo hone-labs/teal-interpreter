@@ -134,7 +134,8 @@ describe("context", () => {
             gtxn: {},
             txnSideEffects: {},
             gaid: {},
-            globals: {}
+            globals: {},
+            logState: [],
         });
     });
   
