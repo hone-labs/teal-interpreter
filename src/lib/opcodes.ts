@@ -108,9 +108,9 @@ import { Itxn } from "./opcodes/itxn";
 import { Itxna } from "./opcodes/itxna";
 import { Divmodw } from "./opcodes/divmodw";
 import { Bitlen } from "./opcodes/bitlen";
-import { Log } from "./opcodes/Log";
-import { Ecdsa_pk_decompress } from "./opcodes/Ecdsa_pk_decompress";
-import { Ecdsa_pk_recover } from "./opcodes/Ecdsa_pk_recover";
+import { Log } from "./opcodes/log";
+import { Ecdsa_pk_decompress } from "./opcodes/ecdsa_pk_decompress";
+import { Ecdsa_pk_recover } from "./opcodes/ecdsa_pk_recover";
 
 //
 // The static definiton of an opcode.
