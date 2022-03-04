@@ -117,4 +117,26 @@ describe("byte opcode", () => {
             49, 50, 51, 52,
         ]);
     });        
+
+    it("empty byte", () => {
+        const token: any = {
+            operands: [
+                '0x00',
+            ],
+        };        
+
+        const opcode = new Byte(token, opcodeDefs.byte);
+        opcode.validateOperand(); // Parses the operand.
+
+        const context: any = {
+            stack: [],
+        };
+        opcode.execute(context);
+
+        expect(context.stack.length).toEqual(1);
+        expect(context.stack[0].type).toEqual("byte[]");
+        expect(Array.from(context.stack[0]?.value)).toEqual([
+            0
+        ]);
+    });
 });
