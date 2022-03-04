@@ -111,6 +111,7 @@ import { Bitlen } from "./opcodes/bitlen";
 import { Log } from "./opcodes/Log";
 import { Ecdsa_pk_decompress } from "./opcodes/Ecdsa_pk_decompress";
 import { Ecdsa_pk_recover } from "./opcodes/Ecdsa_pk_recover";
+import { BZero } from "./opcodes/bzero";
 
 //
 // The static definiton of an opcode.
@@ -785,7 +786,13 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new Expw(token, this) },
-    },      
+    },   
+    "bzero":  {
+        version: 4,
+        operands: 0,
+        stack: 1,
+        factory: function (token) { return new BZero(token, this) },
+    },        
     "divmodw": {
         version: 4,
         operands: 0,
