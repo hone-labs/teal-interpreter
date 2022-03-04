@@ -113,6 +113,7 @@ import { Ecdsa_pk_decompress } from "./opcodes/Ecdsa_pk_decompress";
 import { Ecdsa_pk_recover } from "./opcodes/Ecdsa_pk_recover";
 import { BZero } from "./opcodes/bzero";
 import { BInvert } from "./opcodes/binvert";
+import { BPlus } from "./opcodes/bplus";
 
 //
 // The static definiton of an opcode.
@@ -788,10 +789,18 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         factory: function (token) { return new Expw(token, this) },
     },   
+    "b+":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        cost: 10,
+        factory: function (token) { return new BPlus(token, this) },
+    },        
     "b~":  {
         version: 4,
         operands: 0,
         stack: 1,
+        cost: 4,
         factory: function (token) { return new BInvert(token, this) },
     },        
     "bzero":  {
