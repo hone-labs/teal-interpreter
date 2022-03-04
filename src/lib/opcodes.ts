@@ -110,6 +110,7 @@ import { Divmodw } from "./opcodes/divmodw";
 import { Bitlen } from "./opcodes/bitlen";
 import { Log } from "./opcodes/Log";
 import { Ecdsa_pk_decompress } from "./opcodes/Ecdsa_pk_decompress";
+import { Ecdsa_pk_recover } from "./opcodes/Ecdsa_pk_recover";
 
 //
 // The static definiton of an opcode.
@@ -806,6 +807,13 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 1,
         stack: 1,
         factory: function (token) { return new Ecdsa_pk_decompress(token, this) },
+    },
+    "ecdsa_pk_recover":  {
+        version: 5,
+        cost: 2000,
+        operands: 1,
+        stack: 4,
+        factory: function (token) { return new Ecdsa_pk_recover(token, this) },
     },
     "loads":  {
         version: 5,
