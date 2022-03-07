@@ -7,7 +7,7 @@ describe("bplus opcode", () => {
     it ("can execute", () => {
 
         const token: any = {};        
-        const opcode = new BPlus(token, opcodeDefs.bplus);
+        const opcode = new BPlus(token, opcodeDefs["b+"]);
 
         const context: any = {
             stack: [
@@ -15,6 +15,7 @@ describe("bplus opcode", () => {
                 makeBytes(Buffer.from("02", "hex")),
             ],
         };
+        opcode.validateContext(context);
         opcode.execute(context);
 
         expect(context.stack.length).toEqual(1);
