@@ -6,16 +6,17 @@ export abstract class ByteBinary extends Opcode {
     //
     // Arguments for the binary operator popped from the compute stack.
     //
-    protected a!: bigint;
-    protected b!: bigint;
+    protected bytesA!: Uint8Array;
+    protected bytesB!: Uint8Array;
+    protected intA!: bigint;
+    protected intB!: bigint;
 
     //
     // Pops bytes from the stack converts them to a int (possibly bigger than a 64 bit int).
     //
-    protected popBytesAsInt(context: IExecutionContext): bigint {
-        const bytes = this.popBytes(context);       
+    protected bytesToInt(bytes: Uint8Array): bigint {
         if (bytes.length === 0) { 
-            return BigInt(0); 
+            return BigInt(0);
         }
 
         const hex = Array.from(bytes).map(value => {
@@ -28,14 +29,13 @@ export abstract class ByteBinary extends Opcode {
 
         return BigInt('0x' + hex.join(''));
     }
-  
+
     //
     // Converts an int to bytes and pushes it on the stack.
     //
-    protected pushIntAsBytes(context: IExecutionContext, value: bigint): void {
+    protected intToBytes(value: bigint): Uint8Array {
         if (value === BigInt(0)) {
-            this.pushBytes(context, new Uint8Array([]));
-            return;
+            return new Uint8Array([]);
         };
 
         let hex = value.toString(16);
@@ -50,14 +50,24 @@ export abstract class ByteBinary extends Opcode {
             array[i] = parseInt(hex.slice(j, j + 2), 16);
         }
     
-        this.pushBytes(context, array);
+        return array;
+    }
+    
+    //
+    // Converts an int to bytes and pushes it on the stack.
+    //
+    protected pushIntAsBytes(context: IExecutionContext, value: bigint): void {
+        this.pushBytes(context, this.intToBytes(value));
     }
 
     validateContext(context: IExecutionContext) {
         super.validateContext(context);
 
-        this.b = this.popBytesAsInt(context);
-        this.a = this.popBytesAsInt(context);
+        this.bytesB = this.popBytes(context);
+        this.intB = this.bytesToInt(this.bytesB);
+
+        this.bytesA = this.popBytes(context);
+        this.intA = this.bytesToInt(this.bytesA);
     }
    
 }
