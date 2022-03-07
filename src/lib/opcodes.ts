@@ -116,6 +116,7 @@ import { BInvert } from "./opcodes/binvert";
 import { BPlus } from "./opcodes/bplus";
 import { BMinus } from "./opcodes/bminus";
 import { BDiv } from "./opcodes/bdiv";
+import { BMul } from "./opcodes/bmul";
 
 //
 // The static definiton of an opcode.
@@ -809,8 +810,15 @@ export const opcodeDefs: IOpcodeMap = {
         version: 4,
         operands: 0,
         stack: 2,
-        cost: 10,
+        cost: 20,
         factory: function (token) { return new BDiv(token, this) },
+    },        
+    "b*":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        cost: 20,
+        factory: function (token) { return new BMul(token, this) },
     },        
     "b~":  {
         version: 4,
