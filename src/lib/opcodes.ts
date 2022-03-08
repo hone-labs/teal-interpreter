@@ -122,6 +122,7 @@ import { ByteOr } from "./opcodes/byteor";
 import { ByteAnd } from "./opcodes/byteand";
 import { ByteXor } from "./opcodes/bytexor";
 import { Blt } from "./opcodes/blt";
+import { Bgt } from "./opcodes/bgt";
 
 //
 // The static definiton of an opcode.
@@ -823,6 +824,12 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new Blt(token, this) },
+    },        
+    "b>":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Bgt(token, this) },
     },        
     "b/":  {
         version: 4,
