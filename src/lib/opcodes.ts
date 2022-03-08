@@ -123,6 +123,12 @@ import { ByteAnd } from "./opcodes/byteand";
 import { ByteXor } from "./opcodes/bytexor";
 import { Blt } from "./opcodes/blt";
 import { Bgt } from "./opcodes/bgt";
+import { Blte } from "./opcodes/blte";
+import { Bgte } from "./opcodes/bgte";
+import { Beq } from "./opcodes/beq";
+import { Bne } from "./opcodes/bne";
+import { Extract } from "./opcodes/extract";
+import { Extract3 } from "./opcodes/extract3";
 
 //
 // The static definiton of an opcode.
@@ -831,6 +837,30 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         factory: function (token) { return new Bgt(token, this) },
     },        
+    "b<=":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Blte(token, this) },
+    },        
+    "b>=":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Bgte(token, this) },
+    },        
+    "b==":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Beq(token, this) },
+    },        
+    "b!=":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new Bne(token, this) },
+    },        
     "b/":  {
         version: 4,
         operands: 0,
@@ -919,6 +949,18 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new Stores(token, this) },
+    },    
+    "extract":  {
+        version: 5,
+        operands: 2,
+        stack: 1,
+        factory: function (token) { return new Extract(token, this) },
+    },    
+    "extract3":  {
+        version: 5,
+        operands: 0,
+        stack: 3,
+        factory: function (token) { return new Extract3(token, this) },
     },    
     "app_params_get":  {
         version: 5,
