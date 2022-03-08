@@ -129,6 +129,7 @@ import { Beq } from "./opcodes/beq";
 import { Bne } from "./opcodes/bne";
 import { Extract } from "./opcodes/extract";
 import { Extract3 } from "./opcodes/extract3";
+import { ExtractUint_X } from "./opcodes/extractuint_x";
 
 //
 // The static definiton of an opcode.
@@ -961,6 +962,24 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 3,
         factory: function (token) { return new Extract3(token, this) },
+    },    
+    "extract_uint16":  {
+        version: 5,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new ExtractUint_X(token, this, 2) },
+    },    
+    "extract_uint32":  {
+        version: 5,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new ExtractUint_X(token, this, 4) },
+    },    
+    "extract_uint64":  {
+        version: 5,
+        operands: 0,
+        stack: 2,
+        factory: function (token) { return new ExtractUint_X(token, this, 8) },
     },    
     "app_params_get":  {
         version: 5,
