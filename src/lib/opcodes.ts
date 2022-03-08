@@ -130,6 +130,8 @@ import { Bne } from "./opcodes/bne";
 import { Extract } from "./opcodes/extract";
 import { Extract3 } from "./opcodes/extract3";
 import { ExtractUint_X } from "./opcodes/extractuint_x";
+import { Cover } from "./opcodes/cover";
+import { Uncover } from "./opcodes/uncover";
 
 //
 // The static definiton of an opcode.
@@ -950,6 +952,18 @@ export const opcodeDefs: IOpcodeMap = {
         operands: 0,
         stack: 2,
         factory: function (token) { return new Stores(token, this) },
+    },    
+    "cover":  {
+        version: 5,
+        operands: 1,
+        stack: 1,
+        factory: function (token) { return new Cover(token, this) },
+    },    
+    "uncover":  {
+        version: 5,
+        operands: 1,
+        stack: undefined,
+        factory: function (token) { return new Uncover(token, this) },
     },    
     "extract":  {
         version: 5,
