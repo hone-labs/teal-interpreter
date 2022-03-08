@@ -119,6 +119,7 @@ import { BDiv } from "./opcodes/bdiv";
 import { BMul } from "./opcodes/bmul";
 import { BMod } from "./opcodes/bmod";
 import { ByteOr } from "./opcodes/byteor";
+import { ByteAnd } from "./opcodes/byteand";
 
 //
 // The static definiton of an opcode.
@@ -835,6 +836,13 @@ export const opcodeDefs: IOpcodeMap = {
         stack: 2,
         cost: 6,
         factory: function (token) { return new ByteOr(token, this) },
+    },        
+    "b&":  {
+        version: 4,
+        operands: 0,
+        stack: 2,
+        cost: 6,
+        factory: function (token) { return new ByteAnd(token, this) },
     },        
     "b~":  {
         version: 4,
