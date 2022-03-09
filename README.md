@@ -2,6 +2,10 @@
 
 An interpreter for the TEAL assembly language that simulates the Algorand virtual machine.
 
+Supports up to and including TEAL 5. Support for TEAL 6 is coming in the future.
+
+See [opcodes doc](docs/opcodes.md) to check the details of supported opcodes.
+
 ## Use the CLI
 
 Install it globally:
