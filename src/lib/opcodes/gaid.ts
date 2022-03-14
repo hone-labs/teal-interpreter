@@ -19,7 +19,7 @@ export class Gaid extends Opcode {
 
     async execute(context: IExecutionContext) {
 
-        const value = await context.requireValue(`gaid.${this.txnIndex}`, this.token.opcode);
+        const value = await context.requireValue(`gaid.${this.txnIndex}`, this.token);
         context.stack.push(value);
     }
 }

@@ -6,7 +6,7 @@ export class MinBalance extends Opcode {
 
     async execute(context: IExecutionContext) {
         const accountName = decodeAddress(this.popBytes(context));
-        const value = await context.requireValue(`accounts.${accountName}.minBalance`, this.token.opcode);
+        const value = await context.requireValue(`accounts.${accountName}.minBalance`, this.token);
         context.stack.push(value);
     }
 }

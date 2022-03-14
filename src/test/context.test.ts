@@ -22,7 +22,8 @@ describe("context", () => {
     it("throws when required value is not found", async () => {
         const testFieldPath = `globals.something`;
         const context = new ExecutionContext({}, {});
-        await expect(() => context.requireValue(testFieldPath, "test")).rejects.toThrow();
+        const token: any = { opcode: "test", lineNo: 20 };
+        await expect(() => context.requireValue(testFieldPath, token)).rejects.toThrow();
     });
 
     it("can configure an account", () => {

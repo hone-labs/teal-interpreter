@@ -41,7 +41,7 @@ export class Gtxnsas extends Opcode {
         }
 
         const fieldPath = `gtxn.${this.txnIndex}.${this.fieldName}.${this.fieldArrayIndex}`;
-        const value = await context.requireValue(fieldPath, this.token.opcode);
+        const value = await context.requireValue(fieldPath, this.token);
         context.stack.push(value);
     }
 }

@@ -16,7 +16,7 @@ export class Args extends Opcode {
     
     async execute(context: IExecutionContext) {
 
-        const value = await context.requireValue(`args.${this.argIndex}`, this.token.opcode);
+        const value = await context.requireValue(`args.${this.argIndex}`, this.token);
         context.stack.push(value);
     }
 }

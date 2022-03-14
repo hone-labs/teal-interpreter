@@ -1,9 +1,11 @@
 
+import { IOpcode } from "..";
 import { autoCreateField } from "./auto-field";
 import { ITable, ITealInterpreterConfig, ValueDef } from "./config";
 import { loadNestedTable, loadTable, loadValue, serializeValue } from "./convert";
 import { getDefaultValue } from "./default-value";
 import { IBranchTargetMap } from "./parser";
+import { IToken } from "./token";
 
 //
 // A default values for context fields.
@@ -298,7 +300,7 @@ export interface IExecutionContext {
     //
     // Requires a value from the configuration. Throws when the request field is not found.
     //
-    requireValue<T = ITypedValue>(fieldPath: string, forOpcode: string): Promise<T>;
+    requireValue<T = ITypedValue>(fieldPath: string, forOpcode: IToken): Promise<T>;
 
     //
     // Gets the default value for a field.
@@ -517,10 +519,10 @@ export class ExecutionContext implements IExecutionContext {
     //
     // Requires a value from the configuration. Throws when the request field is not found.
     //
-    async requireValue<T>(fieldPath: string, forOpcode: string): Promise<T> {
+    async requireValue<T>(fieldPath: string, forOpcode: IToken): Promise<T> {
         const value = await this.requestValue<T>(fieldPath);
         if (value === undefined) {
-            throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode}.`)   
+            throw new Error(`Configuration field "${fieldPath}" not found in your configuration. Required by ${forOpcode.opcode} (line: ${forOpcode.lineNo}).`);
         }
 
         return value;

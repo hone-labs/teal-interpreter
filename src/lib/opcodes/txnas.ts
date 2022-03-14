@@ -32,7 +32,7 @@ export class Txnas extends Opcode {
             throw new Error(`Field index should >= 0, instead found ${this.fieldArrayIndex}`);
         }
 
-        const value = await context.requireValue(`txn.${this.fieldName}.${this.fieldArrayIndex}`, this.token.opcode)
+        const value = await context.requireValue(`txn.${this.fieldName}.${this.fieldArrayIndex}`, this.token)
         context.stack.push(value);
     }
 }

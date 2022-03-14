@@ -16,7 +16,7 @@ export class Txn extends Opcode {
     
     async execute(context: IExecutionContext): Promise<void> {
 
-        const value = await context.requireValue(`txn.${this.fieldName}`, this.token.opcode);
+        const value = await context.requireValue(`txn.${this.fieldName}`, this.token);
         context.stack.push(value);
     }
 }

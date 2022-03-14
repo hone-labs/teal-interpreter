@@ -16,7 +16,7 @@ export class Global extends Opcode {
     
     async execute(context: IExecutionContext): Promise<void> {
         
-        const value = await context.requireValue(`globals.${this.globalName}`, this.token.opcode)
+        const value = await context.requireValue(`globals.${this.globalName}`, this.token)
         context.stack.push(value);
     }
 }
