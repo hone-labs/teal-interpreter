@@ -14,7 +14,7 @@ describe("balance opcode", () => {
         const context: any = {
             requireValue: async (fieldPath: string) => {
                 expect(fieldPath).toEqual(`accounts.${addr}.balance`);
-                return makeBigInt(BigInt(12));
+                return 12;
             },
             stack: [     
                 makeBytes(encodeAddress(addr)),
