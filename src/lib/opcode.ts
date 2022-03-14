@@ -2,6 +2,7 @@ import { constants } from "./constants";
 import { IExecutionContext, makeBigInt, makeBytes } from "./context";
 import { IOpcodeDef } from "./opcodes";
 import { IToken } from "./token";
+import { stringify } from "./utils";
 
 //
 // Represents validation and execution for an opcode.
@@ -155,11 +156,12 @@ export abstract class Opcode implements IOpcode {
             throw new Error(`${this.token.lineNo} - Want to pop uint64 from stack, but there is nothing on the stack!`);
         }
 
-        const value = context.stack.pop()!;
-        if (value.type !== "bigint") {
-            throw new Error(`${this.token.lineNo} - Expected to pop uint64 from stack, instead found ${value.type}.`);
+        const top = context.stack[context.stack.length - 1];
+        if (top.type !== "bigint") {
+            throw new Error(`${this.token.lineNo} - Expected to pop uint64 from stack, instead found ${top.type}.\r\nStack:\r\n${stringify(context.stack)}`);
         }
 
+        const value = context.stack.pop()!;
         return value.value as bigint;
     }
 
@@ -178,11 +180,12 @@ export abstract class Opcode implements IOpcode {
             throw new Error(`${this.token.lineNo} - Want to pop byte[] from stack, but there is nothing on the stack!`);
         }
 
-        const value = context.stack.pop()!;
-        if (value.type !== "byte[]") {
-            throw new Error(`${this.token.lineNo} - Expected to pop byte[] from stack, instead found ${value.type}.`);
+        const top = context.stack[context.stack.length - 1];
+        if (top.type !== "byte[]") {
+            throw new Error(`${this.token.lineNo} - Expected to pop byte[] from stack, instead found ${top.type}.\r\nStack:\r\n${stringify(context.stack)}`);
         }
 
+        const value = context.stack.pop()!;
         return value.value as Uint8Array;
     }
 
