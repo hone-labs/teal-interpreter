@@ -211,9 +211,7 @@ export class TealInterpreter implements ITealInterpreter {
     // Prints code coverage.
     //
     printCodeCoverage(outputStream: Writable = process.stdout): void {
-        outputStream.write(`==== CODE COVERAGE ====`);
-
-        let omittingLines = false;
+        outputStream.write(`==== CODE COVERAGE ====\r\n`);
 
         let maxLine = 1;
 
@@ -276,6 +274,7 @@ export class TealInterpreter implements ITealInterpreter {
 
             if (showLine) {
                 outputStream.write(outputLine);
+                outputStream.write(`\r\n`);
                 blankLineCount = 0;
             }
             else {
