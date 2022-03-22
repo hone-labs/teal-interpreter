@@ -8,10 +8,13 @@ export async function execute(tealCode: string, config?: ITealInterpreterConfig)
     const interpreter = new TealInterpreter();
     interpreter.load(tealCode, config);
     
-    await interpreter.run();
-
-    if (config?.showCodeCoverage) {
-        interpreter.printCodeCoverage();
+    try {
+        await interpreter.run();
+    }
+    finally {
+        if (config?.showCodeCoverage) {
+            interpreter.printCodeCoverage();
+        }
     }
 
     return interpreter.context;
