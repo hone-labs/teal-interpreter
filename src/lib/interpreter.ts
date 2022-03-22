@@ -140,10 +140,11 @@ export class TealInterpreter implements ITealInterpreter {
     //
     // Loads TEAL code into the interpreter.
     //
-    load(tealCode: string, config?: ITealInterpreterConfig): void {
+    load(tealCode: string): void {
         const parseResult = parse(tealCode);
         this._instructions = parseResult.instructions;
         this._branchTargets = parseResult.branchTargets;
+        this._context = new ExecutionContext(this._branchTargets);
     }
 
     //

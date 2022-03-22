@@ -6,7 +6,8 @@ import { IExecutionContext, ITealInterpreterConfig, TealInterpreter } from "..";
 export async function execute(tealCode: string, config?: ITealInterpreterConfig): Promise<IExecutionContext> {
 
     const interpreter = new TealInterpreter();
-    interpreter.load(tealCode, config);
+    interpreter.load(tealCode);
+    interpreter.configure(config);
     
     try {
         await interpreter.run();
