@@ -1,6 +1,6 @@
 import * as minimist from "minimist";
 import { execute, ITealInterpreterConfig } from ".";
-import * as fs from "fs/promises";
+import * as fs from "fs-extra";
 
 async function main(): Promise<void> {
     const argv = minimist(process.argv.slice(2));
@@ -9,11 +9,19 @@ async function main(): Promise<void> {
         process.exit(1);
     }
 
-    const config: ITealInterpreterConfig = {
-        showCodeCoverage: !!argv["code-coverage"],
-    };
-
     const tealFilePath = argv._[0];
+    const configFilePath = tealFilePath + ".json";
+    const configExists = await fs.pathExists(configFilePath);
+    let config: ITealInterpreterConfig = {};
+
+    if (configExists) {
+        console.log(`Loading config: ${configFilePath}`);
+
+        config = JSON.parse(await fs.readFile(configFilePath, "utf8"));
+    }
+
+    config.showCodeCoverage = !!argv["code-coverage"];
+
     const tealCode = await fs.readFile(tealFilePath, "utf8");
     const result = await execute(tealCode, config);
 
