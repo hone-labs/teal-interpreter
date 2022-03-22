@@ -18,4 +18,8 @@ export interface IToken {
     //
     operands: string[]
 
+    //
+    // The comment (if any) that follows the instruction.
+    //
+    comment?: string;
 }

@@ -100,13 +100,28 @@ describe("teal tokenizer", () => {
         expect(tokens[0].operands.length).toEqual(2);
     });
 
-    it("can strip comments", () => {
+    it("can strip # comments", () => {
         const tokens = tokenize(dedent(`
             int 5 # Push an int on the stack.
         `));
 
         expect(tokens.length).toEqual(1);
-        expect(tokens[0].operands.length).toEqual(1);
+
+        const token = tokens[0];
+        expect(token.operands.length).toEqual(1);
+        expect(token.comment).toEqual("Push an int on the stack.");
+    });
+
+    it("can strip // comments", () => {
+        const tokens = tokenize(dedent(`
+            int 5 // Push an int on the stack.
+        `));
+
+        expect(tokens.length).toEqual(1);
+
+        const token = tokens[0];
+        expect(token.operands.length).toEqual(1);
+        expect(token.comment).toEqual("Push an int on the stack.");
     });
 
     it("can parse version pragma", () => {

@@ -44,6 +44,7 @@ export class Tokenizer implements ITokenizer {
             const lineNo = this.curLineNo;
             const tokenStart = this.curOffset;
             let tokenEnd: number | undefined;
+            let commentStart: number | undefined;
     
             while (this.curOffset < this.tealCode.length) {
                 if (this.tealCode[this.curOffset] === '#') {
@@ -51,6 +52,7 @@ export class Tokenizer implements ITokenizer {
                         // A comment ends the token.
                         // Scan to end of line or end of input.
                         tokenEnd = this.curOffset; 
+                        commentStart = this.curOffset + 1;
                         this.skipToEndOfLine();
                         break;
                     }        
@@ -61,6 +63,7 @@ export class Tokenizer implements ITokenizer {
                     // A comment ends the token.
                     // Scan to end of line or end of input.
                     tokenEnd = this.curOffset; 
+                    commentStart = this.curOffset + 2;
                     this.skipToEndOfLine();
                     break;
                 }
@@ -88,7 +91,7 @@ export class Tokenizer implements ITokenizer {
             if (tokenEnd > tokenStart) {
                 // Have a token.
                 // Split into opcode and operands by whitespace.
-                return this.parseInstruction(tokenStart, tokenEnd, lineNo);
+                return this.parseInstruction(tokenStart, tokenEnd, lineNo, commentStart, this.curOffset);
             }
         }
     }
@@ -125,16 +128,21 @@ export class Tokenizer implements ITokenizer {
     //
     // Parse an instruction and returns the tokenized representation of it.
     //
-    private parseInstruction(tokenStart: number, tokenEnd: number, lineNo: number): IToken {
+    private parseInstruction(tokenStart: number, tokenEnd: number, lineNo: number, commentStart?: number, commentEnd?: number): IToken {
         const parts = this.tealCode.substring(tokenStart, tokenEnd)
             .trim()
             .split(" ")
             .filter(part => part.length > 0);
+        let comment: string | undefined;
+        if (commentStart !== undefined && commentEnd !== undefined) {
+            comment = this.tealCode.substring(commentStart, commentEnd).trim();
+        }
         const opcode = parts.shift()!;
         const token: IToken = {
             lineNo: lineNo,
             opcode: opcode,
             operands: parts,
+            comment: comment,
         };         
         return token;
     }
