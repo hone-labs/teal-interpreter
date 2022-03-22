@@ -1,5 +1,6 @@
 import { constants } from "./constants";
 import { IExecutionContext, makeBigInt, makeBytes } from "./context";
+import { InterpreterError } from "./error";
 import { IOpcodeDef } from "./opcodes";
 import { IToken } from "./token";
 import { stringify } from "./utils";
@@ -244,5 +245,12 @@ export abstract class Opcode implements IOpcode {
     //
     protected pushIntAsBytes(context: IExecutionContext, value: bigint): void {
         this.pushBytes(context, this.intToBytes(value));
+    }
+
+    //
+    // Raises an error relating to this instruction.
+    //
+    protected raiseError(msg: string): void {
+        throw new InterpreterError(msg, this.token);
     }
 }
