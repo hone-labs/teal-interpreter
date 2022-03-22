@@ -2,7 +2,7 @@ import { Writable } from "stream";
 import { ITealInterpreterConfig } from "./config";
 import { IExecutionContext, ExecutionContext } from "./context";
 import { IOpcode } from "./opcode";
-import { parse } from "./parser";
+import { IBranchTargetMap, parse } from "./parser";
 
 export interface ITealInterpreter {
 
@@ -36,7 +36,12 @@ export interface ITealInterpreter {
     //
     // Loads TEAL code into the interpreter.
     //
-    load(tealCode: string, config?: ITealInterpreterConfig): void;
+    load(tealCode: string): void;
+
+    //
+    // Configures the interpreter prior to running code.
+    //
+    configure(config?: ITealInterpreterConfig): void;
 
     //
     // Returns true if the program has run to completion.
@@ -73,6 +78,11 @@ export class TealInterpreter implements ITealInterpreter {
     // Instructions loaded in the TEAL interpreter.
     //
     private _instructions: IOpcode[] = [];
+
+    //
+    // Lookup table that records branch target locations.
+    //
+    private _branchTargets: IBranchTargetMap = {};
 
     //
     // The context for execution of TEAL code.
@@ -133,7 +143,14 @@ export class TealInterpreter implements ITealInterpreter {
     load(tealCode: string, config?: ITealInterpreterConfig): void {
         const parseResult = parse(tealCode);
         this._instructions = parseResult.instructions;
-        this._context = new ExecutionContext(parseResult.branchTargets, config);
+        this._branchTargets = parseResult.branchTargets;
+    }
+
+    //
+    // Configures the interpreter prior to running code.
+    //
+    configure(config?: ITealInterpreterConfig): void {
+        this._context = new ExecutionContext(this._branchTargets, config);
     }
 
     //
