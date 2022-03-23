@@ -21,9 +21,19 @@ export interface IOpcode {
     markExecuted(): void;
 
     //
+    // Resets the (non-accumulated) execution count.
+    //
+    resetExecutionCount(): void;
+
+    //
     // Gets the execution count for this opcode.
     //
     getExecutionCount(): number;
+
+    //
+    // Gets the accumualted execution count (across multiple test runs) for this opcode.
+    //
+    getAccumulatedExecutionCount(): number;
 
     //
     // Gets the line number of the TEAL code where the opcode was loaded.
@@ -64,6 +74,11 @@ export abstract class Opcode implements IOpcode {
     protected opcodeDef: IOpcodeDef;
 
     //
+    // Counts the accumulatede number of times this instruction has been executed.
+    //
+    private accumulatedExecutionCount = 0;
+
+    //
     // Counts the number of times this instruction has been executed.
     //
     private executionCount = 0;
@@ -84,7 +99,15 @@ export abstract class Opcode implements IOpcode {
     // Marks the opcode as having been executed.
     //
     markExecuted(): void {
+        this.accumulatedExecutionCount += 1;
         this.executionCount += 1;
+    }
+
+    //
+    // Resets the (non-accumulated) execution count.
+    //
+    resetExecutionCount(): void {
+        this.executionCount = 0;
     }
 
     //
@@ -92,6 +115,13 @@ export abstract class Opcode implements IOpcode {
     //
     getExecutionCount(): number {
         return this.executionCount;
+    }
+
+    //
+    // Gets the accumualted execution count (across multiple test runs) for this opcode.
+    //
+    getAccumulatedExecutionCount(): number {
+        return this.accumulatedExecutionCount;
     }
 
     //

@@ -44,6 +44,11 @@ export interface ITealInterpreter {
     configure(config?: ITealInterpreterConfig): void;
 
     //
+    // Resets the (non-accumulated) execution count for every instruction.
+    //
+    resetExecutionCount(): void;
+
+    //
     // Returns true if the program has run to completion.
     //
     isFinished(): boolean;
@@ -152,6 +157,15 @@ export class TealInterpreter implements ITealInterpreter {
     //
     configure(config?: ITealInterpreterConfig): void {
         this._context = new ExecutionContext(this._branchTargets, config);
+    }
+
+    //
+    // Resets the (non-accumulated) execution count for every instruction.
+    //
+    resetExecutionCount(): void {
+        for (const instruction of this._instructions) {
+            instruction.resetExecutionCount();
+        }
     }
 
     //
