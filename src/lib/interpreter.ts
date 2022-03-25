@@ -1,8 +1,10 @@
 import { Writable } from "stream";
 import { ITealInterpreterConfig } from "./config";
 import { IExecutionContext, ExecutionContext } from "./context";
+import { InterpreterError } from "./error";
 import { IOpcode } from "./opcode";
 import { IBranchTargetMap, parse } from "./parser";
+import { stringify } from "./utils";
 
 export interface ITealInterpreter {
 
@@ -190,25 +192,32 @@ export class TealInterpreter implements ITealInterpreter {
         }
 
         const instruction = this.instructions[this.curInstructionIndex];
-        instruction.validateContext(this.context);
-        let result = instruction.execute(this.context);
-        instruction.markExecuted();
+        try {
+            instruction.validateContext(this.context);
 
-        if (result !== undefined) {
-            if (typeof(result) !== "number") {
-                result = await result; // Assume its a promise for a result.
-            }
-
+            let result = instruction.execute(this.context);
+            instruction.markExecuted();
+    
             if (result !== undefined) {
-                // Branch to target instruction.
-                this.context.curInstructionIndex = result;
-                return !this.context.finished;
+                if (typeof(result) !== "number") {
+                    result = await result; // Assume its a promise for a result.
+                }
+    
+                if (result !== undefined) {
+                    // Branch to target instruction.
+                    this.context.curInstructionIndex = result;
+                    return !this.context.finished;
+                }
             }
+    
+            // Move to next instruction.
+            this.context.curInstructionIndex += 1;
+            return !this.context.finished;
         }
-
-        // Move to next instruction.
-        this.context.curInstructionIndex += 1;
-        return !this.context.finished;
+        catch (err: any) {
+            const token = instruction.getToken();
+            throw new InterpreterError(`${err.message} (line: ${token.lineNo})\r\nStack:\r\n${stringify(this.context.stack)}`, token);
+        }
     }
 
     //
