@@ -44,6 +44,15 @@ describe("convert", () => {
         ]);
     });
 
+    it("UInt8Array is converted", () => {
+
+        const converted = loadValue(new Uint8Array([1, 2, 3, 4]));
+        expect(converted.type).toEqual("byte[]");
+        expect(Array.from(converted.value as Uint8Array)).toEqual([
+            1, 2, 3, 4
+        ]);
+    });
+
     it("encoded base64 arg is converted", () => {
 
         const converted = loadValue("b64:iZWMx72KvU6Bw6sPAWQFL96YH+VMrBA0XKWD9XbZOZI=");
