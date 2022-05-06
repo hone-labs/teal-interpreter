@@ -145,7 +145,7 @@ This documents the list of opcodes supported by the TEAL interpreter.
 | itxn_submit | ✔️ | 5 |
 | itxn f | ✔️ | 5 |
 | itxna f i | ✔️ | 5 |
-| itxn_next | ✔️ | 5 |
+| itxn_next | ✔️ | 6 |
 | gitxn t f | ❌ | 6 |
 | gitxna t f i | ❌ | 6 |
 | txnas f | ✔️ | 5 |

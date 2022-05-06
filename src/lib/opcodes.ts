@@ -133,6 +133,7 @@ import { ExtractUint_X } from "./opcodes/extractuint_x";
 import { Cover } from "./opcodes/cover";
 import { Uncover } from "./opcodes/uncover";
 import { AccountParamsGet } from "./opcodes/acct_params_get";
+import { ItxnNext } from "./opcodes/itxn_next";
 
 //
 // The static definiton of an opcode.
@@ -1066,9 +1067,16 @@ export const opcodeDefs: IOpcodeMap = {
 
     // TEAL 6.
     "acct_params_get": {
-        version: 2,
+        version: 6,
         operands: 1,
         stack: 1,
         factory: function (token) { return new AccountParamsGet(token, this) },
     },
+    "itxn_next":  {
+        version: 6,
+        operands: 0,
+        stack: 0,
+        factory: function (token) { return new ItxnNext(token, this) },
+    },
+
 };
