@@ -9,7 +9,11 @@ export class ItxnSubmit extends Opcode {
             throw new Error(`Inner transaction not started with "itxn_begin".`);        
         }
 
-        context.lastItxn = context.itxn;
+        if (context.submittedItxns === undefined) {
+            context.submittedItxns = [];
+        }
+
+        context.submittedItxns.push(context.itxn);
         context.itxn = undefined;
     }
 }

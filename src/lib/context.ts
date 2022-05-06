@@ -242,9 +242,9 @@ export interface IExecutionContext {
     itxn?: ITable<ITypedValue | ITypedValue[]>;
 
     //
-    // The previously submitted inner transaciotn.
+    // Submitted inner transacitions.
     //
-    lastItxn?: ITable<ITypedValue | ITypedValue[]>;
+    submittedItxns?: ITable<ITypedValue | ITypedValue[]>[];
 
     //
     // Scratch space corresponding to transactions in a group.

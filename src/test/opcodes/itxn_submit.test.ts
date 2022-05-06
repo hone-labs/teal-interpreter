@@ -8,12 +8,15 @@ describe("itxn_submit opcode", () => {
         const token: any = {};
         const opcode = new ItxnSubmit(token, opcodeDefs.itxn_submit);
         
+        const itxnInProgress = {};
         const context: any = {
-            itxn: {},
+            itxn: itxnInProgress,
         };
         opcode.execute(context);
 
-        expect(context.lastItxn).toEqual({});
+        expect(context.submittedItxns.length).toEqual(1);
+        expect(context.submittedItxns[0]).toEqual(itxnInProgress);
+
         expect(context.itxn).toBeUndefined();
     });
 
@@ -25,6 +28,4 @@ describe("itxn_submit opcode", () => {
         const context: any = {};
         expect(() => opcode.execute(context)).toThrow();
     });
-
-
 });
