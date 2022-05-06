@@ -192,6 +192,11 @@ export interface IExecutionContext {
     assetParams: ITable<ITable<ITypedValue>>;
 
     //
+    // Account params that can be accessed from TEAL code.
+    //
+    accountParams: ITable<ITable<ITypedValue>>;
+
+    //
     // App params tath can be accessed from TEAL code.
     //
     appParams: ITable<ITable<ITypedValue>>;
@@ -336,6 +341,11 @@ export class ExecutionContext implements IExecutionContext {
     assetParams: ITable<ITable<ITypedValue>>;
 
     //
+    // Account params that can be accessed from TEAL code.
+    //
+    accountParams: ITable<ITable<ITypedValue>>;
+
+    //
     // App params tath can be accessed from TEAL code.
     //
     appParams: ITable<ITable<ITypedValue>>;
@@ -435,6 +445,7 @@ export class ExecutionContext implements IExecutionContext {
         this.curInstructionIndex = 0;
         this.appGlobals = loadTable(config?.appGlobals, appGlobals => loadTable(appGlobals, loadValue));
         this.assetParams = loadTable(config?.assetParams, assetParams => loadTable(assetParams, loadValue));
+        this.accountParams = loadTable(config?.accountParams, accountParams => loadTable(accountParams, loadValue));
         this.appParams = loadTable(config?.appParams, appParams => loadTable(appParams, loadValue));
         this.accounts = loadTable(config?.accounts, accountDef => {
             return {
