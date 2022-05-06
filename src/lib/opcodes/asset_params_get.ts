@@ -16,8 +16,8 @@ export class AssetParamsGet extends Opcode {
 
     async execute(context: IExecutionContext) {
 
-        const appId = this.popInt(context).toString();
-        const value = await context.requestValue(`assetParams.${appId}.${this.fieldName}`);
+        const assetId = this.popInt(context).toString();
+        const value = await context.requestValue(`assetParams.${assetId}.${this.fieldName}`);
         if (value === undefined) {
             // Asset not found.
             this.pushInt(context, BigInt(0));
