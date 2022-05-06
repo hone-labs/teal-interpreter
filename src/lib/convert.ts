@@ -57,6 +57,9 @@ export function loadValue(valueDef: ValueDef): ITypedValue {
     else if (typeof valueDef === "number") {
         return makeBigInt(BigInt(valueDef), valueDef);
     }
+    else if (valueDef.constructor === Uint8Array) {
+        return makeBytes(valueDef as Uint8Array);
+    }
     else if (Array.isArray(valueDef)) {
         return makeBytes(new Uint8Array(valueDef));
     }

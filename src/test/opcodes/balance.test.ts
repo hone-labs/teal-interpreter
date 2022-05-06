@@ -1,4 +1,4 @@
-import { makeBigInt, makeBytes } from "../../lib/context";
+import { makeBytes } from "../../lib/context";
 import { encodeAddress } from "../../lib/convert";
 import { opcodeDefs } from "../../lib/opcodes";
 import { Balance } from "../../lib/opcodes/balance";

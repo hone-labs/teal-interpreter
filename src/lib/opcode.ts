@@ -280,7 +280,7 @@ export abstract class Opcode implements IOpcode {
     //
     // Raises an error relating to this instruction.
     //
-    protected raiseError(msg: string): void {
+    protected raiseError(msg: string): never {
         throw new InterpreterError(msg, this.token);
     }
 }
