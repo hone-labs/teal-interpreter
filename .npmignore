@@ -16,3 +16,5 @@ jest.config.js
 tsconfig.tsbuildinfo
 examples/
 .github/
+stamp-version.js
+docs/
