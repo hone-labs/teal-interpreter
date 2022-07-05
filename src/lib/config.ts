@@ -12,7 +12,7 @@ export interface ITable<T> {
 //
 // Extended value definition.
 //
-export type ValueDef = bigint | number | string | number[];
+export type ValueDef = bigint | number | string | number[] | Uint8Array;
 
 //
 // Defines an account in the configuration.
