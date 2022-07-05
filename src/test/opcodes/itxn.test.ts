@@ -16,9 +16,11 @@ describe("itxn opcode", () => {
 
         const context: any = {
             stack: [],
-            lastItxn: {
-                Something: makeBigInt(BigInt(42)),
-            },
+            submittedItxns: [
+                {
+                    Something: makeBigInt(BigInt(42)),
+                },
+            ],
         };
 
         opcode.execute(context);
@@ -54,9 +56,11 @@ describe("itxn opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            lastItxn: {
-                // No fields.
-            },
+            submittedItxns: [
+                {
+                    // No fields.
+                },
+            ],
         };
      
         expect(() => opcode.execute(context)).toThrow();

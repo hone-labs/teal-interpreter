@@ -128,6 +128,7 @@ describe("context", () => {
         expect(serialized).toEqual( {
             appGlobals: {},
             assetParams: {},
+            accountParams: {},
             appParams: {},
             accounts: {},
             args: {},

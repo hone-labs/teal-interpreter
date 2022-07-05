@@ -16,11 +16,11 @@ export class Itxn extends Opcode {
     
     execute(context: IExecutionContext): void {
 
-        if (context.lastItxn === undefined) {
+        if (context.submittedItxns === undefined || context.submittedItxns.length === 0) {
             throw new Error(`No inner transaction has been submited.`);
         }
         
-        const value = context.lastItxn[this.fieldName];
+        const value = context.submittedItxns[context.submittedItxns.length-1][this.fieldName];
         if (value === undefined) {
             throw new Error(`Field "${this.fieldName}" not found in the last innner transaction..`)
         }

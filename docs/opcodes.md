@@ -109,7 +109,7 @@ This documents the list of opcodes supported by the TEAL interpreter.
 | asset_holding_get f | ✔️ | 2 |
 | asset_params_get f | ✔️ | 2 |
 | app_params_get f | ✔️ | 5 |
-| acct_params_get f | ❌ | 6 |
+| acct_params_get f | ✔️ | 6 |
 | min_balance | ✔️ | 3 |
 | pushbytes byte | ✔️ | 3 |
 | pushint uint | ✔️ | 3 |
@@ -145,7 +145,7 @@ This documents the list of opcodes supported by the TEAL interpreter.
 | itxn_submit | ✔️ | 5 |
 | itxn f | ✔️ | 5 |
 | itxna f i | ✔️ | 5 |
-| itxn_next | ✔️ | 5 |
+| itxn_next | ✔️ | 6 |
 | gitxn t f | ❌ | 6 |
 | gitxna t f i | ❌ | 6 |
 | txnas f | ✔️ | 5 |

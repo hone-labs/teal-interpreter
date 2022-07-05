@@ -16,13 +16,15 @@ describe("itxna opcode", () => {
 
         const context: any = {
             stack: [],
-            lastItxn: {
-                Something: [
-                    makeBigInt(BigInt(1)),
-                    makeBigInt(BigInt(2)),
-                    makeBigInt(BigInt(3)),
-                ],
-            },
+            submittedItxns: [
+                {
+                    Something: [
+                        makeBigInt(BigInt(1)),
+                        makeBigInt(BigInt(2)),
+                        makeBigInt(BigInt(3)),
+                    ],
+                },
+            ],
         };
         opcode.validateOperand();
         opcode.execute(context);
@@ -61,11 +63,11 @@ describe("itxna opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            lastIxtn: {
-                Something: [
-                    // No values.
-                ],
-            },
+            submittedItxns: [
+                {
+                    // No fields.
+                },
+            ],
         };
      
         expect(() => opcode.execute(context)).toThrow();
@@ -83,9 +85,11 @@ describe("itxna opcode", () => {
         opcode.validateOperand();
 
         const context: any = {
-            lastIxtn: {
-                // No fields.
-            },
+            submittedItxns: [
+                {
+                    // No fields.
+                },
+            ],
         };
      
         expect(() => opcode.execute(context)).toThrow();

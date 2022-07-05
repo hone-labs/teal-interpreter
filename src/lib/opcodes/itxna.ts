@@ -22,11 +22,11 @@ export class Itxna extends Opcode {
     
     execute(context: IExecutionContext): void {
 
-        if (context.lastItxn === undefined) {
+        if (context.submittedItxns === undefined || context.submittedItxns.length === 0) {
             throw new Error(`No inner transaction has been submited.`);
         }
-
-        const value = context.lastItxn[this.fieldName];
+        
+        const value = context.submittedItxns[context.submittedItxns.length-1][this.fieldName];
         if (value === undefined) {
             throw new Error(`Array field "${this.fieldName}" not found under "lastItxn.${this.fieldArrayIndex}".`)
         }

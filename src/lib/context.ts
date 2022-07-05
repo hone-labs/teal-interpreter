@@ -192,6 +192,11 @@ export interface IExecutionContext {
     assetParams: ITable<ITable<ITypedValue>>;
 
     //
+    // Account params that can be accessed from TEAL code.
+    //
+    accountParams: ITable<ITable<ITypedValue>>;
+
+    //
     // App params tath can be accessed from TEAL code.
     //
     appParams: ITable<ITable<ITypedValue>>;
@@ -242,9 +247,9 @@ export interface IExecutionContext {
     itxn?: ITable<ITypedValue | ITypedValue[]>;
 
     //
-    // The previously submitted inner transaciotn.
+    // Submitted inner transacitions.
     //
-    lastItxn?: ITable<ITypedValue | ITypedValue[]>;
+    submittedItxns?: ITable<ITypedValue | ITypedValue[]>[];
 
     //
     // Scratch space corresponding to transactions in a group.
@@ -334,6 +339,11 @@ export class ExecutionContext implements IExecutionContext {
     // Asset params that can be accessed from TEAL code.
     //
     assetParams: ITable<ITable<ITypedValue>>;
+
+    //
+    // Account params that can be accessed from TEAL code.
+    //
+    accountParams: ITable<ITable<ITypedValue>>;
 
     //
     // App params tath can be accessed from TEAL code.
@@ -435,6 +445,7 @@ export class ExecutionContext implements IExecutionContext {
         this.curInstructionIndex = 0;
         this.appGlobals = loadTable(config?.appGlobals, appGlobals => loadTable(appGlobals, loadValue));
         this.assetParams = loadTable(config?.assetParams, assetParams => loadTable(assetParams, loadValue));
+        this.accountParams = loadTable(config?.accountParams, accountParams => loadTable(accountParams, loadValue));
         this.appParams = loadTable(config?.appParams, appParams => loadTable(appParams, loadValue));
         this.accounts = loadTable(config?.accounts, accountDef => {
             return {
