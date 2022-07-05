@@ -79,7 +79,7 @@ export function loadValue(valueDef: ValueDef): ITypedValue {
         }
     }
 
-    throw new Error(`Unexpected value "${valueDef}"".`);
+    throw new Error(`Unexpected value "${JSON.stringify(valueDef, null, 4)}".`);
 }
 
 //
